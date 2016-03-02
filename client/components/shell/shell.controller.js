@@ -1,8 +1,24 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .controller('ShellCtrl', function ($mdSidenav, $mdDialog, $scope, $location) {
+  .controller('ShellCtrl', function ($mdSidenav, $mdDialog, $mdMedia, $scope, $location) {
 
+
+    $scope.showSettingsPane = function(ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+      $mdDialog.show({
+        controller: 'SettingsDialogController',
+        templateUrl: 'components/shell/settings-dialog/dialog.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+    };
+
+
+
+//////// OLD STUFF
 
 
     $scope.isActive = function(route) {

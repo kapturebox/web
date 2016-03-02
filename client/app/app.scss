@@ -13,7 +13,13 @@
    }
  }
 
+ .md-dialog-settings {
+   padding: 15px;
+ }
+
 // Component styles are injected through grunt
 // injector
+@import 'get/get.scss';
 @import 'main/main.scss';
+@import 'watch/watch.scss';
 // endinjector

@@ -30,7 +30,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ui-view=""></div>
+    <div flex layout-fill  ui-view=""></div>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -56,9 +56,13 @@
 
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="app/get/get.controller.js"></script>
+          <script src="app/get/get.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
-          <script src="components/shell/dialog/dialog.controller.js"></script>
+          <script src="app/watch/watch.controller.js"></script>
+          <script src="app/watch/watch.js"></script>
+          <script src="components/shell/settings-dialog/dialog.controller.js"></script>
           <script src="components/shell/shell.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
