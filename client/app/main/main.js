@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('slurpApp')
+angular.module('kaptureApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('main', {

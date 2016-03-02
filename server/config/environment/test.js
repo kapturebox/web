@@ -5,6 +5,6 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/slurp-test'
+    uri: 'mongodb://localhost/kapture-test'
   }
 };

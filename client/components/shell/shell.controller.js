@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('slurpApp')
+angular.module('kaptureApp')
   .controller('ShellCtrl', function ($mdSidenav, $mdDialog, $scope, $location) {
 
-    
+
 
     $scope.isActive = function(route) {
       return route === $location.path();

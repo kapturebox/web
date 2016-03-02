@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('slurpApp', [
+angular.module('kaptureApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
