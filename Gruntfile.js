@@ -168,9 +168,9 @@ module.exports = function (grunt) {
             '!<%= yeoman.dist %>/Procfile'
           ]
         }],
-        options: {
-          force: true
-        }
+      },
+      options: {
+        force: true
       },
       server: '.tmp'
     },
