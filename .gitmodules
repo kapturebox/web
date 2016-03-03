@@ -1,0 +1,3 @@
+[submodule "bpi-autorss"]
+	path = ansible
+	url = https://github.com/gaieges/bpi-autorss.git

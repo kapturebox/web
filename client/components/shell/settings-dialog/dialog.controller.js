@@ -7,16 +7,20 @@ angular.module('kaptureApp')
     $mdDialog.hide();
   };
 
-  $scope.settings = {
-    systemname: "kapturebox"
-  }
+  $http({
+    method: 'GET',
+    url:    '/api/settings'
+  }).then(function(results) {
+    $scope.settings = results.data;
+  });
 
   $scope.submitSettings = function(  ) {
     if( $scope.settingsForm.$valid ) {
       $http({
         method:    'POST',
         url:       '/api/settings',
-        data:      $scope.settings
+        data:      $scope.settings,
+        headers:   { 'Content-Type': 'application/json' }
       }).then(function(response) {
         //TODO: show loading dialog while ansible runs
         $scope.close();

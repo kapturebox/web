@@ -1,4 +1,4 @@
-<md-dialog aria-label="Settings dialog">
+<md-dialog aria-label="Settings dialog" flex="60">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>Settings</h2>
@@ -10,7 +10,7 @@
   </md-toolbar>
 
   <md-dialog-content>
-    <div class="md-dialog-settings" flex="100">
+    <div class="md-dialog-settings disabled">
       <form name="settingsForm" ng-submit="submitSettings()">
         <md-input-container layout-fill>
           <label>System Name</label>
@@ -26,6 +26,14 @@
           <div ng-messages="settingsForm.email.$error">
             <div ng-message="email">Invalid email.</div>
             <div ng-message="md-maxlength">The name has to be less than 300 characters long.</div>
+          </div>
+        </md-input-container>
+        <md-input-container layout-fill>
+          <label>Time in minutes to check for content updates</label>
+          <input type="number" required min="1" max="60" ng-model="settings.check_frequency" name="check_frequency" />
+          <div ng-messages="settingsForm.check_frequency.$error">
+            <div ng-message="min">Frequency needs to be more than 1 minute.</div>
+            <div ng-message="max">Frequency needs to be less than 60 minutes.</div>
           </div>
         </md-input-container>
       </form>
