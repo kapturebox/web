@@ -1,0 +1,11 @@
+---
+# handlers file for roles/kapture
+
+- name: restart netatalk
+  service: name=netatalk state=restarted
+
+- name: restart plex
+  service: name=plexmediaserver state=restarted
+
+- name: restart transmission
+  service: name=transmission-daemon state=restarted

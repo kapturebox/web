@@ -1,0 +1,9 @@
+tasks:
+  tv-shows-task:
+    rss: '{{ rss_feed }}'
+    all_series: yes
+    transmission:
+      host: localhost
+      port: 9091
+      username: {{ transmission_user }}
+      password: {{ transmission_pass }}

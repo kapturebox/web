@@ -1,0 +1,87 @@
+---
+# tasks file for roles/kapture
+
+#######################
+### PLEX STUFF
+#######################
+- name: setup plex repo key
+  apt_key: url='https://dev2day.de/pms/dev2day-pms.gpg.key' state=present
+
+- name: setup plex repo
+  apt_repository: repo='deb https://dev2day.de/pms/ jessie main' state=present update_cache=yes
+
+- name: setup plex server
+  apt: pkg={{ item }} state=present
+  with_items:
+    - libc6
+    - libav-tools
+    - plexmediaserver
+
+- name: install conversion script (convert-avi-to-x264.sh) for if plex cant convert on the fly
+  file:
+    src: convert-avi-to-x264.sh
+    dest: /usr/local/bin/convert-avi-to-x264.sh
+    mode: 0755
+
+
+#######################
+### TRANSMISSION STUFF
+#######################
+- name: setup transmission-daemon
+  apt: pkg=transmission-daemon state=present
+
+- name: stop transmission
+  service: name=transmission-daemon state=stopped
+
+- name: drop in transmission-daemon config file
+  template:
+    src: settings.json.j2
+    dest: /etc/transmission-daemon/settings.json
+    mode: 0644
+
+- name: start transmission
+  service: name=transmission-daemon state=started
+
+
+
+
+#######################
+### NETATALK STUFF
+#######################
+- name: install netatalk
+  apt: pkg=netatalk state=present
+
+- name: config netatalk
+  template:
+    src: AppleVolumes.default.j2
+    dest: /etc/netatalk/AppleVolumes.default
+    mode: 0644
+  notify: restart netatalk
+
+
+
+
+#######################
+### FLEXGET STUFF
+#######################
+
+# should already have pip from initial setup
+- name: install flexget and deps
+  pip: name={{ item }}
+  with_items:
+    - flexget
+    - transmissionrpc
+  notify: restart transmission
+
+- name: flexget config file
+  template:
+    src: flexget-config.yml.j2
+    dest: ~pi/config.yml
+    mode: 0644
+
+- name: flexget cron job
+  cron:
+    name: flexget
+    user: pi
+    minute: "*/{{ flexget_check_frequency }}"
+    job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute"

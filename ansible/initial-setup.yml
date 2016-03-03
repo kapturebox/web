@@ -1,0 +1,39 @@
+---
+##############################################
+### SETUP BANANAPI (meant to be remote)
+##############################################
+
+- hosts: all
+  tasks:
+    - name: ensure system is up to date
+      apt: upgrade=dist
+      register: system_upgraded
+
+    - name: restart machine
+      command: shutdown -r now "Ansible updates triggered"
+      async: 0
+      poll: 0
+      ignore_errors: true
+      when: system_upgraded.changed
+
+    - name: waiting for server to come back
+      local_action: wait_for host={{ inventory_hostname }} state=started
+      become: false
+      when: system_upgraded.changed
+
+    - name: disable lightdm on boot
+      shell: echo manual > /etc/init/lightdm.override
+
+    - name: setup initial needed packages
+      apt: pkg={{ item }} state=present
+      with_items:
+        - python-pip
+        - python2.7-dev
+        - nodejs
+
+    - name: install ansible for running locally
+      pip: name=ansible
+
+
+  roles:
+    - kapture
