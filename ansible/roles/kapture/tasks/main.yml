@@ -1,27 +1,69 @@
 ---
 # tasks file for roles/kapture
 
+
+#######################
+### System STUFF
+#######################
+
+- name: set hostname
+  hostname: name="{{ systemname }}"
+
+- name: ensure kapture group is setup correctly
+  group: name=kapture system=yes state=present
+
+- name: ensure {{ kapture_user }} user is setup correctly
+  user:
+    groups: sudo,kapture
+    name: "{{ kapture_user }}"
+    createhome: yes
+    home: /var/lib/kapture
+    state: present
+
+- name: disable lightdm on boot
+  shell: echo manual > /etc/init/lightdm.override
+
+- name: setup initial needed packages
+  apt: pkg="{{ item }}" state=present
+  with_items:
+    - python-pip
+    - python2.7-dev
+    - nodejs
+
+- name: install ansible for running locally
+  pip: name=ansible
+
 #######################
 ### PLEX STUFF
 #######################
-- name: setup plex repo key
-  apt_key: url='https://dev2day.de/pms/dev2day-pms.gpg.key' state=present
 
-- name: setup plex repo
-  apt_repository: repo='deb https://dev2day.de/pms/ jessie main' state=present update_cache=yes
+- name: setup plex repo key [arm]
+  apt_key: url='https://dev2day.de/pms/dev2day-pms.gpg.key' state=present
+  when: ansible_architecture == 'armv7l'
+
+- name: setup plex repo [arm]
+  apt_repository: repo='deb https://dev2day.de/pms/ jessie main' state=present
+  when: ansible_architecture == 'armv7l'
+
+- name: setup plex repo [x86_64]
+  apt_repository: repo='deb http://ubuntu.azuras.net/ trusty main' state=present
+  when: ansible_architecture == 'x86_64'
+
 
 - name: setup plex server
-  apt: pkg={{ item }} state=present
+  apt: pkg={{ item }} state=present update_cache=yes force=yes
   with_items:
     - libc6
     - libav-tools
     - plexmediaserver
 
 - name: install conversion script (convert-avi-to-x264.sh) for if plex cant convert on the fly
-  file:
+  copy:
     src: convert-avi-to-x264.sh
     dest: /usr/local/bin/convert-avi-to-x264.sh
     mode: 0755
+    owner: root
+    group: root
 
 
 #######################
@@ -67,7 +109,7 @@
 
 # should already have pip from initial setup
 - name: install flexget and deps
-  pip: name={{ item }}
+  pip: name="{{ item }}"
   with_items:
     - flexget
     - transmissionrpc
@@ -76,12 +118,12 @@
 - name: flexget config file
   template:
     src: flexget-config.yml.j2
-    dest: ~pi/config.yml
+    dest: "~{{ kapture_user }}/flexget-config.yml"
     mode: 0644
 
 - name: flexget cron job
   cron:
     name: flexget
-    user: pi
+    user: "{{ kapture_user }}"
     minute: "*/{{ flexget_check_frequency }}"
     job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute"

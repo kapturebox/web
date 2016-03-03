@@ -1,6 +1,9 @@
 ---
 # defaults file for roles/kapture
 
+systemname: kapture
+kapture_user: kapture
+
 storage: /media/usb-storage
 transmission_user: admin
 transmission_pass: password

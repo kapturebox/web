@@ -1,5 +1,41 @@
 <div ng-include="'components/shell/shell.html'"></div>
 
-<div layout-fill class="get">
-  <iframe class="media-iframe" layout-fill src="http://bananapi.local:9091"></iframe>
+<div class="get-page" layout layout-align="center center">
+  <!-- <div layout-fill>
+    <iframe class="media-iframe" layout-fill src="http://bananapi.local:9091"></iframe>
+  </div> -->
+
+
+  <div class="get-container md-whiteframe-z1"  flex="80">
+
+    <md-toolbar class="get-toolbar">
+      <h2 class="md-toolbar-tools">Get Media</h2>
+    </md-toolbar>
+
+    <div ng-cloak>
+      <md-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+          <md-tab label="Downloaded">
+            <md-content class="md-padding">
+              <h1 class="md-display-2">Currently downloading</h1>
+              <p>Stuff here</p>
+            </md-content>
+          </md-tab>
+          <md-tab label="Completed">
+            <md-content class="md-padding">
+              <h1 class="md-display-2">Recently finished</h1>
+              <p>Stuff here</p>
+            </md-content>
+          </md-tab>
+          <md-tab label="Automatic sources">
+            <md-content class="md-padding">
+              <h1 class="md-display-2">Current automatic sources</h1>
+              <p>Stuff here</p>
+            </md-content>
+          </md-tab>
+        </md-tabs>
+      </md-content>
+    </div>
+
+  </div>
 </div>
