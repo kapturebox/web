@@ -7,7 +7,8 @@ angular.module('kaptureApp', [
   'ngAnimate',
   'ngMessages',
   'ui.router',
-  'ngMaterial'
+  'ngMaterial',
+  'angularMoment'
 ])
   .config(function($mdIconProvider) {
     $mdIconProvider

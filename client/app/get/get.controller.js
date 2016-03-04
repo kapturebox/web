@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .controller('GetCtrl', function ($scope) {
-    $scope.addUrl = function( url ) {
-      console.log( url );
+  .controller('GetCtrl', function ( $scope, $mdDialog, $mdMedia, $http ) {
+    $scope.deleteSource = function( ev ) {
+      console.log( 'in delete source' );
+      console.log( ev );
     };
 
     $scope.downloadSources = [
@@ -11,18 +12,39 @@ angular.module('kaptureApp')
       {type: 'rss', name: 'gaieges showrss feeds', url: 'http://showrss.info/rss.php?user_id=13749&hd=1&proper=1&'},
     ];
 
-    $scope.addRssFeed = function( feed ) {
-      $scope.downloadSources.push({
-        type: 'rss',
-        name: 'newly added src',
-        url: feed
+    $scope.showAddUrlDialog = function(ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+      $mdDialog.show({
+        controller: 'AddUrlDialogController',
+        templateUrl: 'components/addurl/addurl.dialog.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+    };
+
+    $scope.getSourceEntries = function( url ) {
+      $http({
+        method: 'GET',
+        url:    '/api/sources/list-entries',
+        params:  { url: url }
+      })
+      .then(function(results){
+        $scope.sourceEntries = results.data.items;
       });
+    }
 
-      $scope.rssSourceFormIsOpen = false;
+    $scope.selectSourceItem = function( index, item ) {
+      if( $scope.selectedSourceIndex === index ) {
+        $scope.selectedSourceIndex = undefined;
+      } else {
+        $scope.selectedSourceIndex = index;
+        $scope.sourceEntries = $scope.getSourceEntries(item.url);
+      }
+    }
+
+    $scope.parseDate = function( date ) {
+      return new Date(date);
     };
-
-    $scope.deleteSource = function( ev ) {
-      console.log(ev);
-    };
-
   });
