@@ -22,4 +22,12 @@
   .source-items {
     height: 15em;
   }
+
+  md-progress-linear .md-container {
+    height: 15px;
+  }
+
+  md-progress-linear .md-container .md-bar {
+    height: 15px;
+  }
 }

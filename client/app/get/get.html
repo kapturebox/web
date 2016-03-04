@@ -26,7 +26,7 @@
           <md-tab label="Automatic sources">
 
             <md-content class="md-padding download-sources-table">
-              <div flex="80" class="md-whiteframe-z2">
+              <div class="md-whiteframe-z2">
 
                 <md-toolbar class="rounded-toolbar">
                   <h2 class="md-toolbar-tools">Active sources</h2>
@@ -80,14 +80,24 @@
             </md-content>
           </md-tab>
 
-          <md-tab label="In progress">
-            <md-content class="md-padding">
-              <p>Stuff here</p>
-            </md-content>
-          </md-tab>
-          <md-tab label="Completed">
-            <md-content class="md-padding">
-              <p>Stuff here</p>
+          <md-tab label="Downloads">
+            <md-content class="md-padding" ng-repeat="(statusName, elements) in downloads | groupBy: 'status'">
+              <md-subheader>
+                <span ng-switch="statusName">
+                  <span ng-switch-when="active">Downloading</span>
+                  <span ng-switch-when="complete">Completed</span>
+                </span>
+              </md-subheader>
+              <md-list>
+                <md-list-item ng-repeat="item in elements" layout="column" layout-align="center start">
+                  <h4>{{ item.name }}</h4>
+                  <div layout="row" layout-fill>
+                    <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.progress }}"></md-progress-linear>
+                    <span>{{ item.progress }}%</span>
+                  </div>
+                  <md-divider></md-divider>
+                </md-list-item>
+              </md-list>
             </md-content>
           </md-tab>
         </md-tabs>
