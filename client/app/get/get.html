@@ -1,35 +1,114 @@
 <div ng-include="'components/shell/shell.html'"></div>
 
-<div class="get-page" layout layout-align="center center">
+<div class="get-page" layout layout-align="center center" ng-cloak>
   <!-- <div layout-fill>
     <iframe class="media-iframe" layout-fill src="http://bananapi.local:9091"></iframe>
   </div> -->
 
 
-  <div class="get-container md-whiteframe-z1"  flex="80">
+  <div class="get-container md-whiteframe-z1" flex="80">
 
-    <md-toolbar class="get-toolbar">
-      <h2 class="md-toolbar-tools">Get Media</h2>
+    <md-toolbar class="rounded-toolbar">
+      <div class="md-toolbar-tools">
+        <h2>Get Media</h2>
+      </div>
     </md-toolbar>
 
-    <div ng-cloak>
+    <div>
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab label="Downloaded">
+          <md-tab label="Download Url">
+            <form ng-submit="addUrl(addUrlForm.url)" name="addUrlForm">
+              <md-content class="md-padding" layout="column">
+                <md-input-container>
+                  <label>Url to download..</label>
+                  <input type="url" required name="url" ng-model="downloadUrl" />
+                  <div ng-messages="addUrlForm.url.$error">
+                    <div ng-message="url">Invalid url format.</div>
+                  </div>
+                </md-input-container>
+                <md-input-container>
+                  <md-button  type="submit"
+                              class="md-raised md-primary"
+                              ng-disabled="addUrlForm.$invalid">Start</md-button>
+                </md-input-container>
+              </md-content>
+            </form>
+          </md-tab>
+          <md-tab label="Automatic sources">
+            <md-content class="md-padding" flex>
+
+              <div layout="column" layout-gt-sm="row">
+
+                <md-fab-speed-dial md-open="addSourceButtonIsOpen"
+                                   md-direction="right"
+                                   class="md-fling md-hover-full">
+                  <md-fab-trigger>
+                    <md-button aria-label="menu" class="md-fab md-warn">
+                      <md-icon md-svg-src="content:add"></md-icon>
+                    </md-button>
+                  </md-fab-trigger>
+                  <md-fab-actions>
+                    <md-button aria-label="RSS Feed" class="md-fab md-raised md-mini" ng-click="rssSourceFormIsOpen=true">
+                      <md-tooltip md-direction="bottom" md-visible="tooltipVisible"
+                                  md-autohide="false">RSS Feed</md-tooltip>
+                      <!-- <md-icon md-svg-src="communication:rss_feed" aria-label="RSS feed"></md-icon> -->
+                      <i class="fa fa-rss fa-2x"></i>
+                    </md-button>
+                  </md-fab-actions>
+                </md-fab-speed-dial>
+
+                <div class="rss-form-container" layout-fill ng-show="rssSourceFormIsOpen">
+
+                  <form ng-submit="addRssFeed(rssFeedUrl)" name="rssSourceForm">
+                    <md-input-container flex>
+                      <label>Feed URL</label>
+                      <input type="url" required name="rssFeedUrl" ng-model="rssFeedUrl" />
+                    </md-input-container>
+                    <md-input-container flex>
+                      <md-button type="submit" class="md-raised md-primary" ng-disabled="rssSourceForm.$invalid" aria-label="Add RSS Source">Add</md-button>
+                    </md-input-container>
+                  </form>
+                </div>
+
+              </div>
+
+              <md-content class="download-sources-table rounded-toolbar md-whiteframe-z1" flex="50">
+                <md-toolbar>
+                  <h2 class="md-toolbar-tools">Active sources</h2>
+                </md-toolbar>
+                <md-list class="download-source">
+                  <md-list-item class="md-2-line" ng-repeat="source in downloadSources" layout-align="center center">
+                    <i class="fa fa-rss fa-2x"></i>
+
+                    <div class="md-list-item-text" layout="column">
+                      <h3 class="source-name">{{ source.name }}</h3>
+                      <p class="source-url">{{ source.url }}</p>
+                    </div>
+
+                    <div layout-align="center center">
+                      <md-button aria-label="Delete source {{ source.name }}" ng-click="deleteSource( source )">
+                        <md-tooltip md-direction="right">Delete this source permanently</md-tooltip>
+                        <md-icon md-svg-src="action:delete" class="delete-source"></md-icon>
+                      </md-button>
+                    </div>
+
+                    <md-divider></md-divider>
+
+                  </md-list-item>
+                </md-list>
+              </md-content>
+
+            </md-content>
+          </md-tab>
+
+          <md-tab label="In progress">
             <md-content class="md-padding">
-              <h1 class="md-display-2">Currently downloading</h1>
               <p>Stuff here</p>
             </md-content>
           </md-tab>
           <md-tab label="Completed">
             <md-content class="md-padding">
-              <h1 class="md-display-2">Recently finished</h1>
-              <p>Stuff here</p>
-            </md-content>
-          </md-tab>
-          <md-tab label="Automatic sources">
-            <md-content class="md-padding">
-              <h1 class="md-display-2">Current automatic sources</h1>
               <p>Stuff here</p>
             </md-content>
           </md-tab>

@@ -18,8 +18,8 @@ exports.postSettings = function(req, res) {
       return;
     }
 
-    var child = exec( './apply-system-settings.sh', function(exitCode, stdout, stderr) {
-      if( exitCode == 0 ) {
+    var child = exec( './apply-system-settings.sh', function( exitCode, stdout, stderr ) {
+      if( exitCode === null ) {
         res.status(200).send({ output: stdout });
       } else {
         console.error( "stderr: %s \n\nstdout: %s", stderr, stdout );

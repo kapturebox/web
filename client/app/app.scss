@@ -2,26 +2,36 @@
  * App-wide Styles
  */
 
- .main-shell {
-   .title {
-     font-weight: 500;
-     font-size: 1.5em;
-     color: #fff;
-   }
+.main-shell {
+  .title {
+    font-weight: 500;
+    font-size: 1.5em;
+    color: #fff;
+  }
 
-   .profile-container {
-     height: 100%;
-     font-size: 14px;
+  .profile-container {
+    height: 100%;
+    font-size: 14px;
 
-     .profile-name {
-       font-weight: 500;
-     }
-   }
- }
+    .profile-name {
+      font-weight: 500;
+    }
+  }
+}
 
- .md-dialog-settings {
-   padding: 15px;
- }
+.settings {
+  .md-dialog-settings {
+    padding: 15px;
+  }
+  .applying-settings-text {
+    color: red;
+    font-size: 0.8em;
+    font-weight: bolder;
+  }
+}
+body {
+  background-color: #eee;
+}
 
 // Component styles are injected through grunt
 // injector

@@ -1,50 +1,58 @@
-<md-dialog aria-label="Settings dialog" flex="60">
+<md-dialog aria-label="Settings dialog" flex="40" class="settings">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2>Settings</h2>
       <span flex></span>
-      <md-button class="md-icon-button" ng-click="close()">
+      <md-button class="md-icon-button" ng-click="close()" ng-disabled="applyingSettings">
         <md-icon md-svg-icon="content:clear" aria-label="Close dialog"></md-icon>
       </md-button>
     </div>
   </md-toolbar>
 
-  <md-dialog-content>
-    <div class="md-dialog-settings disabled">
-      <form name="settingsForm" ng-submit="submitSettings()">
-        <md-input-container layout-fill>
-          <label>System Name</label>
-          <input ng-maxlength="20" required ng-model="settings.systemname" name="systemname" />
-          <div ng-messages="settingsForm.systemname.$error">
-            <div ng-message="required">This cannot be blank.</div>
-            <div ng-message="md-maxlength">The name has to be less than 20 characters long.</div>
-          </div>
-        </md-input-container>
-        <md-input-container layout-fill>
-          <label>Your email address</label>
-          <input ng-maxlength="300" type="email" ng-model="settings.email" name="email" />
-          <div ng-messages="settingsForm.email.$error">
-            <div ng-message="email">Invalid email.</div>
-            <div ng-message="md-maxlength">The name has to be less than 300 characters long.</div>
-          </div>
-        </md-input-container>
-        <md-input-container layout-fill>
-          <label>Time in minutes to check for content updates</label>
-          <input type="number" required min="1" max="60" ng-model="settings.check_frequency" name="check_frequency" />
-          <div ng-messages="settingsForm.check_frequency.$error">
-            <div ng-message="min">Frequency needs to be more than 1 minute.</div>
-            <div ng-message="max">Frequency needs to be less than 60 minutes.</div>
-          </div>
-        </md-input-container>
-      </form>
-    </div>
+  <form name="settingsForm" ng-submit="submitSettings()">
+    <md-dialog-content>
+      <div class="md-dialog-settings disabled">
+          <md-input-container layout-fill>
+            <label>System Name</label>
+            <input ng-maxlength="20" required ng-model="settings.systemname" name="systemname" />
+            <div ng-messages="settingsForm.systemname.$error">
+              <div ng-message="required">This cannot be blank.</div>
+              <div ng-message="md-maxlength">The name has to be less than 20 characters long.</div>
+            </div>
+          </md-input-container>
+          <md-input-container layout-fill>
+            <label>Your email address</label>
+            <input ng-maxlength="300" type="email" ng-model="settings.email" name="email" />
+            <div ng-messages="settingsForm.email.$error">
+              <div ng-message="email">Invalid email.</div>
+              <div ng-message="md-maxlength">The name has to be less than 300 characters long.</div>
+            </div>
+          </md-input-container>
+          <md-input-container layout-fill>
+            <label>Time in minutes to check for content updates</label>
+            <input type="number" required min="1" max="60" ng-model="settings.check_frequency" name="check_frequency" />
+            <div ng-messages="settingsForm.check_frequency.$error">
+              <div ng-message="min">Frequency needs to be more than 1 minute.</div>
+              <div ng-message="max">Frequency needs to be less than 60 minutes.</div>
+            </div>
+          </md-input-container>
+      </div>
+    </md-dialog-content>
 
-  <div class="md-actions">
-    <md-button ng-click="close()" class="md-primary">
-      Cancel
-    </md-button>
-    <md-button ng-click="submitSettings()" ng-disabled="settingsForm.$invalid" class="md-raised md-primary">
-      Save
-    </md-button>
-  </div>
+    <md-dialog-actions layout="row">
+      <span class="applying-settings-text" ng-show="applyingSettings">Applying settings to system, please wait..</span>
+      <span flex></span>
+      <md-button ng-click="close()" ng-disabled="applyingSettings" class="md-primary">
+        Cancel
+      </md-button>
+      <md-button  type="submit"
+                  ng-disabled="settingsForm.$invalid || applyingSettings"
+                  name="submitButton"
+                  class="md-raised md-primary"
+                  layout layout-align="center center">
+        <span ng-hide="applyingSettings">Save</span>
+        <md-progress-circular md-mode="indeterminate" ng-show="applyingSettings" />
+      </md-button>
+    </md-dialog-actions>
+  </form>
 </md-dialog>

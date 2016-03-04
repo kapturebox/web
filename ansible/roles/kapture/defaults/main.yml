@@ -7,6 +7,6 @@ kapture_user: kapture
 storage: /media/usb-storage
 transmission_user: admin
 transmission_pass: password
-rss_feed: 'http://showrss.info/rss.php?user_id=13749&hd=1&proper=1&'
+rss_feed: http://showrss.info/rss.php?user_id=13749&hd=1&proper=1&
 
 flexget_check_frequency: 15   # minutes

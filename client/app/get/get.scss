@@ -7,7 +7,11 @@
     margin-top: 1em;
   }
 
-  .get-toolbar {
+  .rounded-toolbar {
     border-radius: 3px 3px 0 0;
+  }
+
+  .delete-source {
+    color: red;
   }
 }

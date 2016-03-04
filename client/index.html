@@ -9,7 +9,7 @@
     <base href="/">
     <title></title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, user-scalable=false, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1.0">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
@@ -30,7 +30,14 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div layout-fill ui-view=""></div>
+    <div layout-fill class="app-background">
+      <ui-view>
+        <div layout-align="center center">
+          <md-progress-circular md-mode="indeterminate" />
+          <span>Loading...</span>
+        </div>
+      </ui-view>
+    </div>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>

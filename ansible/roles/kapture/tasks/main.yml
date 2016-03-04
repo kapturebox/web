@@ -118,7 +118,7 @@
 - name: flexget config file
   template:
     src: flexget-config.yml.j2
-    dest: "~{{ kapture_user }}/flexget-config.yml"
+    dest: "~{{ kapture_user }}/.flexget/config.yml"
     mode: 0644
 
 - name: flexget cron job
@@ -126,4 +126,4 @@
     name: flexget
     user: "{{ kapture_user }}"
     minute: "*/{{ flexget_check_frequency }}"
-    job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute"
+    job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute "

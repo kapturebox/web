@@ -14,7 +14,10 @@ angular.module('kaptureApp')
     $scope.settings = results.data;
   });
 
+  $scope.applyingSettings = false;
+
   $scope.submitSettings = function(  ) {
+    $scope.applyingSettings = true;
     if( $scope.settingsForm.$valid ) {
       $http({
         method:    'POST',
@@ -22,14 +25,16 @@ angular.module('kaptureApp')
         data:      $scope.settings,
         headers:   { 'Content-Type': 'application/json' }
       }).then(function(response) {
-        //TODO: show loading dialog while ansible runs
+        $scope.applyingSettings = false;
         $scope.close();
+
         $mdToast.show(
           $mdToast.simple()
             .textContent( 'Settings saved successfully!' )
             .hideDelay( 2000 )
         );
       }).catch(function(err) {
+        $scope.applyingSettings = false;
         $mdToast.show(
           $mdToast.simple()
             .textContent( 'Unable to save settings' )
