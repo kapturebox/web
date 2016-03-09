@@ -9,7 +9,8 @@ angular.module('kaptureApp', [
   'ui.router',
   'ngMaterial',
   'angularMoment',
-  'angular.filter'
+  'angular.filter',
+  'angular-humanize'
 ])
   .config(function($mdIconProvider) {
     $mdIconProvider

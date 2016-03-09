@@ -21,10 +21,91 @@
       </div>
     </md-toolbar>
 
-    <div>
-        <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab label="Automatic sources">
 
+    <div>
+        <md-tabs md-dynamic-height md-border-bottom layout="column">
+
+          <md-tab label="Search">
+            <form ng-submit="mediaSearch()" name="mediaSearchForm">
+              <div class="search-form-container md-padding" flex
+                   layout="column" layout-gt-xs="row" layout-align="center center">
+                <md-input-container flex>
+                  <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
+                  <div ng-messages="mediaSearchForm.searchElem.$error">
+                    <div ng-message="min">Please enter a search</div>
+                  </div>
+                </md-input-container>
+                <md-input-container>
+                  <md-button type="submit" ng-disabled="mediaSearchForm.$invalid" class="md-raised md-primary">Search</md-button>
+                </md-input-container>
+              </div>
+            </form>
+
+            <div class="search-pane" layout="column" layout-align="center center">
+              <div class="search-loading" ng-show="searchLoading">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+              </div>
+
+              <div class="search-results md-padding md-whiteframe-z1" ng-show="searchResults" layout-fill>
+                <md-toolbar class="rounded-toolbar">
+                  <div class="md-toolbar-tools">
+                    <h2>Results</h2>
+                  </div>
+                </md-toolbar>
+                <md-list>
+                  <md-list-item ng-repeat="item in searchResults" layout="column">
+                    <div class="result-item md-padding" layout="row" layout-fill>
+
+                      <div class="icon md-padding" layout layout-align="center center" flex="10">
+                        <div ng-switch="item.mediaType">
+                          <div ng-switch-when="video">
+                            <md-icon md-svg-src="av:videocam"></md-icon>
+                          </div>
+                          <div ng-switch-when="audio">
+                            <md-icon md-svg-src="image:music_note"></md-icon>
+                          </div>
+                          <div ng-switch-when="photo">
+                            <md-icon md-svg-src="image:photo"></md-icon>
+                          </div>
+                          <div ng-switch-default>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="title" layout="column" layout-align="center start" flex="grow">
+                        <span style="font-weight: bold;">{{ item.title }}</span>
+                        <span class="md-subhead">{{ item.category }}</span>
+                      </div>
+
+
+                      <div class="details" layout="column" layout-align="center start" flex="40">
+                        <span class="size">{{ item.size | humanizeFilesize }}</span>
+                        <time ng-if="item.uploaded" am-time-ago="item.uploaded"></time>
+                      </div>
+
+                      <div class="actions" flex="30" layout="row" layout-align="end center">
+                        <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
+                          <md-tooltip>Click here to enable katpure to automatically download new entries when they come out</md-tooltip>
+                          <md-icon md-svg-src="action:autorenew"></md-icon>
+                        </md-button>
+                        <md-button class="md-button md-warn md-small" aria-label="Download">
+                          <md-tooltip>Click to download this file</md-tooltip>
+                          <md-icon md-svg-src="file:file_download"></md-icon>
+                        </md-button>
+                      </div>
+                    </div>
+
+                    <md-divider ng-if="!$last"></md-divider>
+                  </md-list-item>
+                </md-list>
+              </div>
+            </div>
+
+          </md-tab>
+
+
+          <md-tab label="Automatic sources">
             <md-content class="md-padding download-sources-table">
               <div class="md-whiteframe-z2">
 
@@ -84,7 +165,7 @@
             <md-content class="md-padding" ng-repeat="(statusName, elements) in downloads | groupBy: 'status'">
               <md-subheader>
                 <span ng-switch="statusName">
-                  <span ng-switch-when="active">Downloading</span>
+                  <span ng-switch-when="active">Downloading (2)</span>
                   <span ng-switch-when="complete">Completed</span>
                 </span>
               </md-subheader>

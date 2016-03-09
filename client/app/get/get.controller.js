@@ -75,4 +75,31 @@ angular.module('kaptureApp')
       {status: 'complete', name: 'South Park', progress: '100'},
     ]
 
+
+
+
+
+
+
+
+    ///////////////////
+    // Search tab
+    ///////////////////
+
+    $scope.searchResults  = $scope.tempSearchResults = [
+      {source: 'showrss', title: 'Always Sunny in Philledelphia', uploaded: Date.now(), mediaType: 'video', series: true},
+      {source: 'piratebay', title: 'South Park', uploaded: Date.now(), mediaType: 'video', size: 1203767178},
+      {source: 'kickass', title: 'Family guy', mediaType: 'video', category: 'Comedy'},
+      {source: 'kickass', title: 'Jay-Z Black Album', uploaded: new Date('2014-09-20Z12:31:10+0000'), mediaType: 'audio'},
+      {title: 'Jay-Z Black Album', uploaded: new Date('2014-09-20Z12:31:10+0000'), mediaType: 'audio'},
+    ];
+
+    $scope.mediaSearch = function() {
+      $scope.searchLoading = true;
+      $timeout( function() {
+        $scope.searchLoading = false;
+        $scope.searchResults = $scope.tempSearchResults;
+      }, 2000);
+    }
+
   });
