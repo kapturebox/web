@@ -27,7 +27,7 @@
 
           <md-tab label="Search">
             <form ng-submit="mediaSearch()" name="mediaSearchForm">
-              <div class="search-form-container md-padding" flex
+              <md-content class="search-form-container md-padding" flex
                    layout="column" layout-gt-xs="row" layout-align="center center">
                 <md-input-container flex>
                   <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
@@ -38,20 +38,15 @@
                 <md-input-container>
                   <md-button type="submit" ng-disabled="mediaSearchForm.$invalid" class="md-raised md-primary">Search</md-button>
                 </md-input-container>
-              </div>
+              </md-content>
             </form>
 
-            <div class="search-pane" layout="column" layout-align="center center">
+            <md-content class="search-pane" layout="column" layout-align="center center">
               <div class="search-loading" ng-show="searchLoading">
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
               </div>
 
               <div class="search-results md-padding md-whiteframe-z1" ng-show="searchResults" layout-fill>
-                <md-toolbar class="rounded-toolbar">
-                  <div class="md-toolbar-tools">
-                    <h2>Results</h2>
-                  </div>
-                </md-toolbar>
                 <md-list>
                   <md-list-item ng-repeat="item in searchResults" layout="column">
                     <div class="result-item md-padding" layout="row" layout-fill>
@@ -68,7 +63,7 @@
                             <md-icon md-svg-src="image:photo"></md-icon>
                           </div>
                           <div ng-switch-default>
-
+                            <md-icon md-svg-src="content:add"></md-icon>
                           </div>
                         </div>
                       </div>
@@ -86,7 +81,7 @@
 
                       <div class="actions" flex="30" layout="row" layout-align="end center">
                         <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
-                          <md-tooltip>Click here to enable katpure to automatically download new entries when they come out</md-tooltip>
+                          <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
                           <md-icon md-svg-src="action:autorenew"></md-icon>
                         </md-button>
                         <md-button class="md-button md-warn md-small" aria-label="Download">
@@ -100,7 +95,7 @@
                   </md-list-item>
                 </md-list>
               </div>
-            </div>
+            </md-content>
 
           </md-tab>
 

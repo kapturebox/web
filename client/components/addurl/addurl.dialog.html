@@ -13,7 +13,7 @@
     <div class="addurl-form-container md-padding">
       <form ng-submit="addUrl(url, urlIsAutomaticSource)" name="addUrlForm">
         <md-input-container class="md-block">
-          <label>Feed URL</label>
+          <label>Enter a URL..</label>
           <input type="url" required name="url" ng-model="url" />
           <div ng-messages="addUrlForm.url.$error">
             <div ng-message="url">Invalid URL.</div>
