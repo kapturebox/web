@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Lucas do Amaral Saboya
+  description: Role to install and configure CIFS shares using Samba
+  company: iFactory
+  license: license (BSD)
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+   - networking
+   - packaging
+   - system
+dependencies: []

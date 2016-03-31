@@ -97,6 +97,7 @@ angular.module('kaptureApp')
     $scope.mediaSearch = function() {
       delete $scope.searchResults;
       $scope.searchLoading = true;
+      
       $timeout( function() {
         $scope.searchLoading = false;
         $scope.searchResults = $scope.tempSearchResults;

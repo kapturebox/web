@@ -4,6 +4,52 @@
   apt: upgrade=dist
   register: system_upgraded
 
+- name: expand root partition
+  command: raspi-config --expand-rootfs
+
+- name: disable lightdm on boot
+  template:
+    src: lightdm.override.j2
+    dest: /etc/init/lightdm.override
+    mode: 0644
+    owner: root
+    group: root
+
+- name: setup initial needed packages
+  apt: pkg="{{ item }}" state=present force=yes
+  with_items:
+    - python2.7-dev
+    - python-setuptools
+    - nodejs
+    - apt-transport-https
+    - usbmount
+
+
+- name: ensure kapture group is setup correctly
+  group: name=kapture system=yes state=present
+
+- name: ensure kapture users are setup correctly
+  user:
+    groups: sudo,kapture
+    name: "{{ kapture_user }}"
+    createhome: yes
+    home: /var/lib/kapture
+    state: present
+
+
+# not the best way to check for this stuff, especially with multiple drives.
+# works in the meantime though
+# eventually i'd like to use lvm and you add a disk and it'll automatically be added to the lvm layer
+- name: get usb disk mount status
+  shell: "mountpoint -q {{ storage_path }}0"
+  ignore_errors: true
+  register: storage_mount_stat
+
+- name: setup disk if needed
+  include: setup-disk.yml
+  when: storage_mount_stat.rc != 0
+
+
 - name: restart machine
   command: shutdown -r now "Ansible updates triggered"
   async: 0

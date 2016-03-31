@@ -1,0 +1,24 @@
+[global]
+server string = CIFS Server set up via Ansible
+log file = /var/log/samba/samba.log
+log level = 1
+security = user
+map to guest = Bad User
+load printers = no
+printing = bsd
+printcap name = /dev/null
+disable spoolss = yes
+unix extensions = no
+
+[{{ share_name }}]
+comment = {{ share_comment }}
+path = {{ share_path }}
+guest ok = yes
+read only = yes
+browsable = yes
+follow symlinks = yes
+wide links = yes
+writeable = yes
+force user = root
+public = yes
+hide files = /lost+found/

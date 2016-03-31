@@ -1,0 +1,6 @@
+---
+# defaults file for lucazz.cifs_server
+share_name: OpenText
+share_comment: "This is a share created to allow access to OpentText's WEM logfiles"
+share_path: /opt/opentext/logs/
+usermap: svc_maddev

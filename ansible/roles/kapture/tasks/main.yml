@@ -20,18 +20,28 @@
     home: /var/lib/kapture
     state: present
 
-- name: disable lightdm on boot
-  shell: echo manual > /etc/init/lightdm.override
+- name: ensure pi user is in kapture group
+  user: name=pi groups=kapture,sudo
 
-- name: setup initial needed packages
-  apt: pkg="{{ item }}" state=present
-  with_items:
-    - python-pip
-    - python2.7-dev
-    - nodejs
+- name: set permissions on home directory
+  file:
+    recurse: yes
+    path: /var/lib/kapture
+    mode: 0775
+    group: kapture
+
+- name: install pip from apt-get if not Raspbian
+  apt: pkg=python-pip state=present
+  when: ansible_lsb.id != "Raspbian" and ansible_lsb.id != "Debian"
+
+- name: install pip using easy_install if Raspbian
+  easy_install: name=pip state=present
+  when: ansible_lsb.id == "Raspbian" or ansible_lsb.id == "Debian"
 
 - name: install ansible for running locally
   pip: name=ansible
+- name: install httplib2 for calling plex commands via ansible
+  pip: name=httplib2
 
 #######################
 ### PLEX STUFF
@@ -49,13 +59,42 @@
   apt_repository: repo='deb http://ubuntu.azuras.net/ trusty main' state=present
   when: ansible_architecture == 'x86_64'
 
-
 - name: setup plex server
   apt: pkg={{ item }} state=present update_cache=yes force=yes
   with_items:
     - libc6
     - libav-tools
     - plexmediaserver
+
+- name: check to see if plex folders is already setup
+  uri: url=http://localhost:32400/library/sections return_content=yes
+  register: plex_folder_response
+
+- name: setup folders on disk within plex
+  command: "curl -XPOST -s http://localhost:32400/library/sections?name={{item.name}}&type={{item.type}}&location={{item.location}}&agent={{item.agent}}&scanner={{item.scanner}}&language=en"
+  with_items:
+    - name: Movies
+      location: "{{ storage_path }}/movies"
+      type: movie
+      agent: com.plexapp.agents.imdb
+      scanner: Plex%20Movie%20Scanner
+    - name: TV%20Shows
+      location: "{{ storage_path }}/tvshows"
+      type: show
+      agent: com.plexapp.agents.thetvdb
+      scanner: Plex%20Series%20Scanner
+    - name: Music
+      location: "{{ storage_path }}/music"
+      type: artist
+      agent: com.plexapp.agents.lastfm
+      scanner: Plex%20Music%20Scanner
+    - name: Photos
+      location: "{{ storage_path }}/photos"
+      type: photo
+      agent: com.plexapp.agents.none
+      scanner: Plex%20Photo%20Scanner
+  when: item.location not in plex_folder_response.content
+
 
 - name: install conversion script (convert-avi-to-x264.sh) for if plex cant convert on the fly
   copy:
@@ -74,6 +113,9 @@
 
 - name: stop transmission
   service: name=transmission-daemon state=stopped
+
+- name: ensure that transmission user has proper group privileges
+  user: name=debian-transmission groups=kapture
 
 - name: drop in transmission-daemon config file
   template:
@@ -114,6 +156,12 @@
     - flexget
     - transmissionrpc
   notify: restart transmission
+
+- name: create flexget config dir
+  file:
+    dest: "~{{ kapture_user }}/.flexget"
+    state: directory
+    owner: "{{ kapture_user }}"
 
 - name: flexget config file
   template:

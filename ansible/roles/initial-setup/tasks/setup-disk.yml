@@ -1,0 +1,38 @@
+---
+# sets up a disk based on the defaults and ansible args
+
+- name: format partition
+  filesystem:
+    fstype: ext4
+    device: "{{ storage_block_device }}"
+    resizefs: yes
+    opts: -L media-storage
+
+- name: trigger automount process from udev / usbmount
+  command: udevadm trigger --action=add --sysname-match=sd*
+
+- name: set permissions on root
+  file:
+    path: "{{ storage_path }}0"
+    recurse: yes
+    owner: root
+    group: kapture
+    mode: 0775
+    state: directory
+
+- name: make directories
+  file:
+    state: directory
+    path: "{{ storage_path }}/{{ item }}"
+    owner: "{{ kapture_user }}"
+    group: kapture
+    mode: 0775
+  with_items:
+    - shows
+    - movies
+    - music
+    - photos
+
+
+
+# - name: additional disk spindown tweaks?
