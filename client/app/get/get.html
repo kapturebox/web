@@ -69,7 +69,7 @@
                       </div>
 
                       <div class="title" layout="column" layout-align="center start" flex="grow">
-                        <span style="font-weight: bold;">{{ item.title }}</span>
+                        <span style="font-weight: bold;">{{ unescape( item.title ) }}</span>
                         <span class="md-subhead">{{ item.category }}</span>
                       </div>
 
@@ -84,7 +84,8 @@
                           <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
                           <md-icon md-svg-src="action:autorenew"></md-icon>
                         </md-button>
-                        <md-button class="md-button md-warn md-small" aria-label="Download">
+                        <md-button class="md-button md-warn md-small" aria-label="Download"
+                                   ng-click="downloadLink( item )">
                           <md-tooltip>Click to download this file</md-tooltip>
                           <md-icon md-svg-src="file:file_download"></md-icon>
                         </md-button>
@@ -125,7 +126,7 @@
                           <md-tooltip md-direction="bottom">Show recent downloads..</md-tooltip>
                           <md-icon md-svg-src="image:remove_red_eye"></md-icon>
                         </md-button>
-                        <md-button  class="md-small" aria-label="Delete source {{ source.name }}" ng-click="deleteSource( source )">
+                        <md-button class="md-small" aria-label="Delete source {{ source.name }}" ng-click="deleteSource( source )">
                           <md-tooltip md-direction="bottom">Delete this source permanently</md-tooltip>
                           <md-icon md-svg-src="action:delete" class="delete-source"></md-icon>
                         </md-button>
@@ -157,19 +158,22 @@
           </md-tab>
 
           <md-tab label="Downloads">
-            <md-content class="md-padding" ng-repeat="(statusName, elements) in downloads | groupBy: 'status'">
+            <md-content class="md-padding" ng-repeat="(statusName, elements) in downloads | groupBy: 'isFinished'">
               <md-subheader>
                 <span ng-switch="statusName">
-                  <span ng-switch-when="active">Downloading (2)</span>
-                  <span ng-switch-when="complete">Completed</span>
+                  <span ng-switch-when="false">Downloading ({{ elements.length }})</span>
+                  <span ng-switch-when="true">Completed</span>
                 </span>
               </md-subheader>
               <md-list>
                 <md-list-item ng-repeat="item in elements" layout="column" layout-align="center start">
                   <h4>{{ item.name }}</h4>
                   <div layout="row" layout-fill>
-                    <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.progress }}"></md-progress-linear>
-                    <span>{{ item.progress }}%</span>
+                    <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.percentDone * 100 | number:2 }}"></md-progress-linear>
+                    <div layout="column" flex="20">
+                      <span>{{ item.percentDone * 100 | number:2 }}%</span>
+                      <span ng-if="item.isFinished == false">ETA: {{ item.eta }} seconds</span>
+                    </div>
                   </div>
                   <md-divider></md-divider>
                 </md-list-item>

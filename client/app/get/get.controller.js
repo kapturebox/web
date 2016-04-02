@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .controller('GetCtrl', function ( $scope, $mdDialog, $mdMedia, $http, $timeout ) {
+  .controller('GetCtrl', function ( $scope, $mdDialog, $mdToast, $mdMedia, $http, $timeout ) {
     /////////////////////////
     // Automated sources tab
     /////////////////////////
@@ -59,21 +59,17 @@ angular.module('kaptureApp')
     ///////////////////
     // Downloads tab
     ///////////////////
-    //
-    // $timeout(
-    //   $http({
-    //     method: 'GET',
-    //     url: '/api/downloads'
-    //   }).then(function( results ) {
-    //     $scope.downloads = results;
-    //   }), 2000);
-    //
 
-    $scope.downloads = [
-      {status: 'active', name: 'Workaholics', progress: '50'},
-      {status: 'active', name: 'Always sunny', progress: '10'},
-      {status: 'complete', name: 'South Park', progress: '100'},
-    ]
+    (function getDownloads() {
+      $http({
+        method: 'GET',
+        url: '/api/download'
+      }).then( function( resp ) {
+        $scope.downloads = resp.data;
+        $timeout( getDownloads, 3000 );
+      })
+    })();
+
 
 
 
@@ -86,22 +82,51 @@ angular.module('kaptureApp')
     // Search tab
     ///////////////////
 
-    $scope.tempSearchResults = [
-      {source: 'showrss', title: 'Always Sunny in Philledelphia', uploaded: Date.now(), mediaType: 'video', series: true},
-      {source: 'piratebay', title: 'South Park', uploaded: Date.now(), mediaType: 'video', size: 1203767178},
-      {source: 'kickass', title: 'Family guy', mediaType: 'video', category: 'Comedy'},
-      {source: 'kickass', title: 'Jay-Z Black Album', uploaded: new Date('2014-09-20Z12:31:10+0000'), mediaType: 'audio'},
-      {title: 'Puff Daddy - No Way Out', uploaded: new Date('2014-09-20Z12:31:10+0000'), mediaType: 'audio'},
-    ];
+    $scope.unescape = unescape;
 
     $scope.mediaSearch = function() {
-      delete $scope.searchResults;
+      $scope.searchResults = null;
       $scope.searchLoading = true;
-      
-      $timeout( function() {
+
+      $http({
+        url: '/api/search',
+        method: 'GET',
+        params: {
+          q: $scope.searchText
+        }
+      }).then( function( results ) {
         $scope.searchLoading = false;
-        $scope.searchResults = $scope.tempSearchResults;
-      }, 2000);
+        $scope.searchResults = results.data;
+      }, function( failed ) {
+        $scope.searchLoading = false;
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent( 'Query failed: ' + failed.status + ' ' + failed.statusText )
+            .hideDelay( 2000 )
+        );
+      });
+    }
+
+    $scope.downloadLink = function( obj ) {
+      $http({
+        url:    '/api/download',
+        method: 'PUT',
+        data:   {
+          item: obj
+        }
+      }).then( function( resp ) {
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent( 'Download started' )
+            .hideDelay( 2000 )
+        );
+      }, function( failed ) {
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent( 'Download failed: ' + failed.status + ' ' + failed.statusText )
+            .hideDelay( 2000 )
+        );
+      });
     }
 
   });
