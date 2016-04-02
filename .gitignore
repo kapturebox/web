@@ -9,4 +9,4 @@ dist
 npm-debug.log
 .vagrant
 .DS_Store
-.retry
+**/.retry
