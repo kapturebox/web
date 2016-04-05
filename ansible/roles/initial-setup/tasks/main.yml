@@ -6,6 +6,7 @@
 
 - name: expand root partition
   command: raspi-config --expand-rootfs
+  when: ansible_lsb.id == "Raspbian"
 
 - name: disable lightdm on boot
   template:
@@ -37,6 +38,10 @@
     state: present
 
 
+- name: change storage path if running via vagrant
+  set_fact: storage_block_device=/dev/sdb
+  when: ansible_lsb.id != "Raspbian"
+
 # not the best way to check for this stuff, especially with multiple drives.
 # works in the meantime though
 # eventually i'd like to use lvm and you add a disk and it'll automatically be added to the lvm layer
@@ -55,9 +60,9 @@
   async: 0
   poll: 0
   ignore_errors: true
-  when: system_upgraded.changed
+  when: system_upgraded.changed and ansible_lsb.id == "Raspbian"
 
 - name: waiting for server to come back
   local_action: wait_for host={{ inventory_hostname }} state=started timeout=600
   become: false
-  when: system_upgraded.changed
+  when: system_upgraded.changed and ansible_lsb.id == "Raspbian"

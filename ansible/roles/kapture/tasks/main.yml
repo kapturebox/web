@@ -32,11 +32,11 @@
 
 - name: install pip from apt-get if not Raspbian
   apt: pkg=python-pip state=present
-  when: ansible_lsb.id != "Raspbian" and ansible_lsb.id != "Debian"
+  when: ansible_lsb.id != "Raspbian"
 
 - name: install pip using easy_install if Raspbian
   easy_install: name=pip state=present
-  when: ansible_lsb.id == "Raspbian" or ansible_lsb.id == "Debian"
+  when: ansible_lsb.id == "Raspbian"
 
 - name: install ansible for running locally
   pip: name=ansible

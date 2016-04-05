@@ -7,6 +7,8 @@ storage_path: /media/usb  # should be mounted and handled automatically with usb
 storage_block_device: /dev/sda
 transmission_user: admin
 transmission_pass: password
-rss_feed: http://showrss.info/rss.php?user_id=13749&hd=1&proper=1&
+
+# Works but needs to be disabled so it doesnt go crazy on new install
+#rss_feed: http://showrss.info/rss.php?user_id=13749&hd=1&proper=1&
 
 flexget_check_frequency: 15   # minutes
