@@ -10,5 +10,5 @@ module.exports = {
 
   seedDB: true,
 
-  kaptureHost: 'kapture.local'
+  kaptureHost: '192.168.33.10'
 };
