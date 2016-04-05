@@ -55,8 +55,10 @@ function transformKatResults( jsonResults ) {
 
 function determineKatMediaType( elem ) {
   switch( elem.category ) {
-    case 'Movies':
     case 'TV':
+      return 'tvshow';
+      break;
+    case 'Movies':
     case 'Anime':
     case 'XXX':
       return 'video';

@@ -62,6 +62,9 @@
                           <div ng-switch-when="photo">
                             <md-icon md-svg-src="image:photo"></md-icon>
                           </div>
+                          <div ng-switch-when="tvshow">
+                            <md-icon md-svg-src="hardware:tv"></md-icon>
+                          </div>
                           <div ng-switch-default>
                             <md-icon md-svg-src="content:add"></md-icon>
                           </div>
@@ -69,7 +72,7 @@
                       </div>
 
                       <div class="title" layout="column" layout-align="center start" flex="grow">
-                        <span style="font-weight: bold;">{{ unescape( item.title ) }}</span>
+                        <span style="font-weight: bold;">{{ item.title | latinize }}</span>
                         <span class="md-subhead">{{ item.category }}</span>
                       </div>
 
@@ -158,13 +161,12 @@
           </md-tab>
 
           <md-tab label="Downloads">
-            <md-content class="md-padding" ng-repeat="(statusName, elements) in downloads | groupBy: 'isFinished'">
-              <md-subheader>
-                <span ng-switch="statusName">
-                  <span ng-switch-when="false">Downloading ({{ elements.length }})</span>
-                  <span ng-switch-when="true">Completed</span>
-                </span>
-              </md-subheader>
+            <md-content class="md-padding" ng-repeat="(isFinished, elements) in downloads | groupBy: 'isFinished' | reverse">
+              <!-- gah cant get this working -->
+              <!-- <h3>
+                <span ng-if="!!isFinished">Completed ({{ elements.length }})</span>
+                <span ng-if="!isFinished">Downloading ({{ elements.length }})</span>
+              </h3> -->
               <md-list>
                 <md-list-item ng-repeat="item in elements" layout="column" layout-align="center start">
                   <h4>{{ item.name }}</h4>
@@ -172,7 +174,7 @@
                     <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.percentDone * 100 | number:2 }}"></md-progress-linear>
                     <div layout="column" flex="20">
                       <span>{{ item.percentDone * 100 | number:2 }}%</span>
-                      <span ng-if="item.isFinished == false">ETA: {{ item.eta }} seconds</span>
+                      <span ng-if="item.isFinished == false">ETA: {{ item.eta | humanizeInt }} seconds</span>
                     </div>
                   </div>
                   <md-divider></md-divider>

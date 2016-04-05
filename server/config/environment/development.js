@@ -8,5 +8,7 @@ module.exports = {
     uri: 'mongodb://localhost/kapture-dev'
   },
 
-  seedDB: true
+  seedDB: true,
+
+  kaptureHost: 'kapture.local'
 };

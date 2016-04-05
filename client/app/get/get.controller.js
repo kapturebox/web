@@ -63,13 +63,14 @@ angular.module('kaptureApp')
     (function getDownloads() {
       $http({
         method: 'GET',
-        url: '/api/download'
+        url: '/api/download',
+        timeout: 30000  // in ms
       }).then( function( resp ) {
         $scope.downloads = resp.data;
+      }).finally( function() {
         $timeout( getDownloads, 3000 );
       })
     })();
-
 
 
 

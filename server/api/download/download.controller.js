@@ -3,11 +3,14 @@
 var _ = require('lodash');
 var request = require('request');
 var Promise = require('bluebird');
+var config = require('../../config/environment');
 
-var RPC_URL = 'http://bananapi.local:9091/transmission/rpc';
-var TRANSMISSION_USER = 'admin';
-var TRANSMISSION_PASS = 'password';
-var ROOT_DOWNLOAD_PATH = '/media/usb-storage';
+
+var RPC_URL = 'http://' + config.kaptureHost + ':' + config.transmissionPort + '/transmission/rpc';
+
+var TRANSMISSION_USER  = config.transmissonUser;
+var TRANSMISSION_PASS  = config.transmissionPass;
+var ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
 
 // starts a new download
 exports.addDownload = function( req, res ) {
@@ -39,7 +42,10 @@ exports.addDownload = function( req, res ) {
           res.status(200).json( resp );
         }
       });
-  });
+    })
+    .catch(function(err) {
+      console.log( 'error getting session id: ', err );
+    });
 };
 
 // Get list of downloads
@@ -69,25 +75,30 @@ exports.getDownloads = function( req, res ) {
           res.status(200).json( body.arguments.torrents );
         }
       });
+    })
+    .catch(function(err) {
+      console.log( 'error getting session id: ', err );
     });
 }
 
-// TODO: Needs some standardizing / config location
 function getDownloadPath( item ) {
   switch( item.mediaType ) {
     case 'video':
     case 'movie':
-      return ROOT_DOWNLOAD_PATH + '/movies';
+      return config.rootDownloadPath + config.moviesPath;
       break;
     case 'tvshow':
-      return ROOT_DOWNLOAD_PATH + '/tvshows';
+      return config.rootDownloadPath + config.showsPath;
       break;
     case 'audio':
     case 'music':
-      return ROOT_DOWNLOAD_PATH + '/music';
+      return config.rootDownloadPath + config.musicPath;
+      break;
+    case 'photos':
+      return config.rootDownloadPath + config.photosPath;
       break;
     default:
-      return ROOT_DOWNLOAD_PATH + '/downloads';
+      return config.rootDownloadPath + config.defaultMediaPath;
       break;
   }
 }
@@ -103,7 +114,11 @@ function getSessionID() {
         pass: TRANSMISSION_PASS
       }
     }, function( err, resp, body ) {
-      resolve( resp.headers['x-transmission-session-id'] );
+      if( !err && resp.statusCode != 200 ) {
+        resolve( resp.headers['x-transmission-session-id'] );
+      } else {
+        reject( new Error( err ) );
+      }
     });
   });
 }

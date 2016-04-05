@@ -37,4 +37,10 @@ angular.module('kaptureApp', [
       .otherwise('/');
 
     $locationProvider.html5Mode(true);
+  })
+  .filter('humanizeInt', function () {
+    return function ( input ) {
+      if ( parseInt(input) !== input ) { return input; }
+      return humanize.numberFormat(input, 0);
+    };
   });

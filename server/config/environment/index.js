@@ -44,6 +44,21 @@ var all = {
     }
   },
 
+  // where the system lives
+  kaptureHost: 'localhost',
+
+  // keep the trailing slash
+  rootDownloadPath : '/media/usb/',
+  moviesPath       : 'movies',
+  showsPath        : 'tvshows',
+  musicPath        : 'music',
+  photosPath       : 'photos',
+  defaultMediaPath : 'downloads',
+
+  transmissionPort  : 9091,
+  transmissonUser   : 'admin',
+  transmissionPass  : 'password',
+
 };
 
 // Export the config object based on the NODE_ENV

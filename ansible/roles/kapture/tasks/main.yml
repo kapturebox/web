@@ -66,6 +66,9 @@
     - libav-tools
     - plexmediaserver
 
+- name: wait for plex to be instanciated
+  wait_for: port=32400 host=localhost state=started
+
 - name: check to see if plex folders is already setup
   uri: url=http://localhost:32400/library/sections return_content=yes
   register: plex_folder_response
@@ -94,6 +97,16 @@
       agent: com.plexapp.agents.none
       scanner: Plex%20Photo%20Scanner
   when: item.location not in plex_folder_response.content
+
+- name: apply some plex settings
+  command: curl -XPUT http://localhost:32400/:/prefs?{{item.key}}={{item.value}}
+  with_items:
+    - {key: FSEventLibraryUpdatesEnabled, value: true}
+    - {key: FSEventLibraryPartialScanEnabled, value: true}
+    - {key: allowMediaDeletion, value: true}
+    - {key: EnableIPv6, value: true}
+    - {key: AcceptedEULA, value: true}
+
 
 
 - name: install conversion script (convert-avi-to-x264.sh) for if plex cant convert on the fly

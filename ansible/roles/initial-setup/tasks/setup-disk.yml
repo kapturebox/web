@@ -28,10 +28,13 @@
     group: kapture
     mode: 0775
   with_items:
-    - shows
+    - tvshows
     - movies
     - music
     - photos
+    - downloads
+    - watch
+    - tmp
 
 
 

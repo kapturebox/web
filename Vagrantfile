@@ -9,14 +9,14 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "1024"
+    vb.memory = "2048"
   end
 
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update -y
     sudo apt-get install python-pip -y
     sudo pip install ansible
-    
+
     export ANSIBLE_CONFIG=/vagrant/ansible/ansible.cfg
     sudo ansible-playbook -c local -i 'localhost,' /vagrant/ansible/local.yml
   SHELL

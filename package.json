@@ -1,6 +1,6 @@
 {
   "name": "kapture",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "server/app.js",
   "dependencies": {
     "body-parser": "~1.15.0",
@@ -73,7 +73,9 @@
     "karma": "~0.12.9",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "supertest": "~0.11.0",
-    "should": "~3.3.1"
+    "should": "~3.3.1",
+    "grunt-debian-package": "~0.1.11",
+    "grunt-git-revision": "0.0.1"
   },
   "engines": {
     "node": ">=0.10.0"
