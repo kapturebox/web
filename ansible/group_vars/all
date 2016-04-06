@@ -8,7 +8,7 @@ storage_block_device: /dev/sda
 transmission_user: admin
 transmission_pass: password
 
-# Works but needs to be disabled so it doesnt go crazy on new install
-#rss_feed: http://showrss.info/rss.php?user_id=13749&hd=1&proper=1&
+# empty feed.  for vagrant.
+rss_feed: http://showrss.info/rss.php?user_id=13749000&hd=1&proper=1&
 
 flexget_check_frequency: 15   # minutes
