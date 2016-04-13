@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-disk = '/tmp/tempdisk.vdi'
+disk = '/tmp/kapture-vagrant-storage.vdi'
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
+    vb.cpus = "2"
 
     unless File.exist?(disk)
       vb.customize ['createhd', '--filename', disk, '--size', 1 * 1024]
@@ -21,12 +22,15 @@ Vagrant.configure(2) do |config|
 
 
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
+    # get new version of nodejs
+    curl -sL https://deb.nodesource.com/setup_5.x | bash -
 
     # install some tools for development on vagrant box, and ansible
-    apt-get install -y python-pip devscripts debhelper nodejs npm ruby ruby-compass git
+    apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git
     pip install ansible
-    npm install -g grunt-cli
+    npm install -g grunt-cli npm bower
+
+    update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
     # setup code deps
     ( cd /vagrant && npm install && bower install )

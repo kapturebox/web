@@ -16,6 +16,9 @@
     owner: root
     group: root
 
+- name: setup new version of nodejs
+  shell: curl -sL https://deb.nodesource.com/setup_5.x |  bash -
+
 - name: setup initial needed packages
   apt: pkg="{{ item }}" state=present force=yes
   with_items:

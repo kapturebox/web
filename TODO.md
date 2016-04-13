@@ -10,6 +10,7 @@ Bugs
 - Fix issue where plex is unable to stream because of [this issue](http://www.htpcguides.com/fix-plex-server-is-not-powerful-enough-on-raspberry-pi-2/)
 - Get working with mobile browsers
 - Centralize client / backend / ansible config
+- [Get rid of dev deps in dist package](https://www.npmjs.com/package/grunt-package-modules)
 - Fix issue with 'downlads' tab not showing downloading / completed labels
 - Get working with safari (but fuck IE)
 

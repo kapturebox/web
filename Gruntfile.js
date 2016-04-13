@@ -121,6 +121,68 @@ module.exports = function (grunt) {
       }
     },
 
+    revision: {
+      options: {
+        property: 'meta.revision',
+        ref: 'HEAD',
+        short: true
+      }
+    },
+
+    packageModules: {
+      dist: {
+        src: 'package.json',
+        dest: 'dist/server'
+      },
+    },
+
+    debian_package: {
+      options: {
+        maintainer: {
+          name: "kapture",
+          email: "gaieges@gmail.com"
+        },
+        name: "kapture",
+        short_description: "kapture media and [re]consume",
+        long_description: "enables people to get content, store it and play it back without boundaries",
+        // build_number: grunt.config('meta.revision'),
+        // version: grunt.config('meta.revision'),
+        // build_number: "<%= meta.revision %>",
+        category: "media",
+        dependencies: "nodejs",
+        prerm: {
+          src: 'deb/prerm.sh'
+        },
+        postinst: {
+          src: 'deb/postinst.sh'
+        },
+        postrm: {
+          src: 'deb/postrm.sh'
+        }
+      },
+      debian: {
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: '**/*',
+          dest: '/var/kapture'   // destination path prefix
+        },{
+          expand: true,       // enable dynamic expansion
+          cwd: 'ansible',
+          src:  '**/*',
+          dest: '/var/kapture/ansible'
+        },{
+          expand: true,       // enable dynamic expansion
+          cwd:  'node_modules',
+          src: '**/*',
+          dest: '/var/kapture/server/node_modules'
+        },{
+          src: 'deb/upstart.conf',
+          dest: '/etc/init/kapture.conf'
+        }]
+      }
+    },
+
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -165,7 +227,8 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/.openshift',
-            '!<%= yeoman.dist %>/Procfile'
+            '!<%= yeoman.dist %>/Procfile',
+            'tmp'
           ]
         }],
       },
@@ -676,6 +739,13 @@ module.exports = function (grunt) {
     'rev',
     'usemin'
   ]);
+
+  grunt.registerTask('package',[
+    'build:dist',
+    // this part doesnt quite work right .. doesnt take all the right deps
+    // 'packageModules:dist',
+    'debian_package'
+  ])
 
   grunt.registerTask('default', [
     'newer:jshint',
