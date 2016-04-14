@@ -33,10 +33,10 @@ Vagrant.configure(2) do |config|
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
     # setup code deps
-    ( cd /vagrant && npm install && bower install )
+    sudo su vagrant -c 'cd /vagrant && npm install && bower install'
 
     # get rest of machine setup for kapture
     export ANSIBLE_CONFIG=/vagrant/ansible/ansible.cfg
-    ansible-playbook -c local -i 'localhost,' /vagrant/ansible/initial-setup.yml
+    ansible-playbook -c local -i 'localhost,' /vagrant/ansible/initial-setup.yml -e systemname=vagrant-kapture
   SHELL
 end

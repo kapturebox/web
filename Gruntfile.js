@@ -123,7 +123,7 @@ module.exports = function (grunt) {
 
     revision: {
       options: {
-        property: 'meta.revision',
+        property: 'revision',
         ref: 'HEAD',
         short: true
       }
@@ -146,8 +146,8 @@ module.exports = function (grunt) {
         short_description: "kapture media and [re]consume",
         long_description: "enables people to get content, store it and play it back without boundaries",
         // build_number: grunt.config('meta.revision'),
-        // version: grunt.config('meta.revision'),
-        // build_number: "<%= meta.revision %>",
+        // version: '<%= revision %>',
+        // build_number: "<%= revision %>",
         category: "media",
         dependencies: "nodejs",
         prerm: {
