@@ -9,17 +9,18 @@ Bugs
 - Fix issue where Transmission dies randomly
 - Fix issue where plex is unable to stream because of [this issue](http://www.htpcguides.com/fix-plex-server-is-not-powerful-enough-on-raspberry-pi-2/)
 - Get working with mobile browsers
-- Centralize client / backend / ansible config
-- [Get rid of dev deps in dist package](https://www.npmjs.com/package/grunt-package-modules)
-- Fix issue with 'downlads' tab not showing downloading / completed labels
+- **[Chris]** Centralize client / backend / ansible config
+- **[Chris]** Fix issue with 'downloads' tab not showing downloading / completed labels
 - Get working with safari (but fuck IE)
 
 
 Features
 --------
 
+- **[Chris]** UI of site should be more mobile-like .. menu on left that slides out and each section [get,watch,active] is an equal grouping.  maybe some different colors and layout changes .. whatever is useful really.  goal is easy, rapid interface.
 - Remove / delete / stop / start buttons for downloads
-- Finish off grunt deb creation task (needs upstart script)
+- Deb package:
+  - [Get rid of dev deps in deb package](https://www.npmjs.com/package/grunt-package-modules)
    - Add in git revision to package identifier
 - Add 'automatic downloads' feature to search results (ie search showrss maybe?)
 - Add in ability to remotely download whatever you want (both automatically and one-off's)
