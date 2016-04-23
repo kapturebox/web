@@ -6,7 +6,7 @@ kapture
 Quickstart
 ---
 
-Start up whats intended to be a kapture box, including transmission, plex and the [kapture app](http://kapture.local):
+Start up whats intended to be a kapture box, including transmission, plex and the [kapture app](http://vagrant-kapture.local):
 
 ```
 vagrant up
