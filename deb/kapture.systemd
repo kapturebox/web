@@ -1,0 +1,15 @@
+[Unit]
+Description=Kapture frontend service
+After=network.target auditd.service
+
+[Service]
+User=kapture
+Environment="NODE_ENV=production"
+WorkingDirectory=/var/kapture/server
+ExecStart=/usr/bin/nodejs app.js
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

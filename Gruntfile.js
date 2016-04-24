@@ -147,7 +147,7 @@ module.exports = function (grunt) {
         long_description: "enables people to get content, store it and play it back without boundaries",
         // build_number: grunt.config('meta.revision'),
         // version: '<%= revision %>',
-        // build_number: "<%= revision %>",
+        build_number: process.env.BUILD_NUMBER,
         category: "media",
         dependencies: "nodejs",
         prerm: {
@@ -177,8 +177,11 @@ module.exports = function (grunt) {
           src: '**/*',
           dest: '/var/kapture/server/node_modules'
         },{
-          src: 'deb/upstart.conf',
+          src: 'deb/kapture.upstart',
           dest: '/etc/init/kapture.conf'
+        },{
+          src: 'deb/kapture.systemd',
+          dest: '/etc/systemd/system/kapture.service'
         }]
       }
     },
