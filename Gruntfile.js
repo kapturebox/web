@@ -147,7 +147,7 @@ module.exports = function (grunt) {
         long_description: "enables people to get content, store it and play it back without boundaries",
         // build_number: grunt.config('meta.revision'),
         // version: '<%= revision %>',
-        build_number: process.env.BUILD_NUMBER,
+        build_number: process.env.BUILD_NUMBER ? process.env.BUILD_NUMBER : '1',
         category: "media",
         dependencies: "nodejs",
         prerm: {
