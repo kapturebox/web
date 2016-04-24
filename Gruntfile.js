@@ -171,11 +171,11 @@ module.exports = function (grunt) {
           cwd: 'ansible',
           src:  '**/*',
           dest: '/var/kapture/ansible'
-        },{
-          expand: true,       // enable dynamic expansion
-          cwd:  'node_modules',
-          src: '**/*',
-          dest: '/var/kapture/server/node_modules'
+        // },{
+        //   expand: true,       // enable dynamic expansion
+        //   cwd:  'node_modules',
+        //   src: '**/*',
+        //   dest: '/var/kapture/server/node_modules'
         },{
           src: 'deb/kapture.upstart',
           dest: '/etc/init/kapture.conf'
@@ -746,7 +746,7 @@ module.exports = function (grunt) {
   grunt.registerTask('package',[
     'build:dist',
     // this part doesnt quite work right .. doesnt take all the right deps
-    // 'packageModules:dist',
+    'packageModules:dist',
     'debian_package'
   ])
 
