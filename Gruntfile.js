@@ -121,14 +121,6 @@ module.exports = function (grunt) {
       }
     },
 
-    revision: {
-      options: {
-        property: 'revision',
-        ref: 'HEAD',
-        short: true
-      }
-    },
-
     packageModules: {
       dist: {
         src: 'package.json',
@@ -145,11 +137,10 @@ module.exports = function (grunt) {
         name: "kapture",
         short_description: "kapture media and [re]consume",
         long_description: "enables people to get content, store it and play it back without boundaries",
-        // build_number: grunt.config('meta.revision'),
-        // version: '<%= revision %>',
+        // postfix: "-<%= meta.revision %>",
         build_number: process.env.BUILD_NUMBER ? process.env.BUILD_NUMBER : '1',
         category: "media",
-        dependencies: "nodejs",
+        dependencies: "nodejs,iptables-persistent",
         prerm: {
           src: 'deb/prerm.sh'
         },
@@ -158,7 +149,10 @@ module.exports = function (grunt) {
         },
         postrm: {
           src: 'deb/postrm.sh'
-        }
+        },
+        directories: [
+          '/etc/kapture'
+        ]
       },
       debian: {
         files: [{
@@ -171,11 +165,6 @@ module.exports = function (grunt) {
           cwd: 'ansible',
           src:  '**/*',
           dest: '/var/kapture/ansible'
-        // },{
-        //   expand: true,       // enable dynamic expansion
-        //   cwd:  'node_modules',
-        //   src: '**/*',
-        //   dest: '/var/kapture/server/node_modules'
         },{
           src: 'deb/kapture.upstart',
           dest: '/etc/init/kapture.conf'

@@ -19,6 +19,7 @@ Features
 
 - **[Chris]** UI of site should be more mobile-like .. menu on left that slides out and each section [get,watch,active] is an equal grouping.  maybe some different colors and layout changes .. whatever is useful really.  goal is easy, rapid interface.
 - Remove / delete / stop / start buttons for downloads
+- Auto-remove periodically .. or during big new downloads
 - Deb package:
   - [Get rid of dev deps in deb package](https://www.npmjs.com/package/grunt-package-modules)
    - Add in git revision to package identifier

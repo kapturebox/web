@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
     curl -sL https://deb.nodesource.com/setup_5.x | bash -
 
     # install some tools for development on vagrant box, and ansible
-    apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git
+    apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent
     pip install ansible
     npm install -g grunt-cli npm bower
 

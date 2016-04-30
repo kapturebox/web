@@ -101,11 +101,11 @@
 - name: apply some plex settings
   command: curl -XPUT http://localhost:32400/:/prefs?{{item.key}}={{item.value}}
   with_items:
-    - {key: FSEventLibraryUpdatesEnabled, value: true}
-    - {key: FSEventLibraryPartialScanEnabled, value: true}
-    - {key: allowMediaDeletion, value: true}
-    - {key: EnableIPv6, value: true}
-    - {key: AcceptedEULA, value: true}
+    - { key: FSEventLibraryUpdatesEnabled,     value: true }
+    - { key: FSEventLibraryPartialScanEnabled, value: true }
+    - { key: allowMediaDeletion,               value: true }
+    - { key: EnableIPv6,                       value: true }
+    - { key: AcceptedEULA,                     value: true }
 
 
 
@@ -175,16 +175,18 @@
     dest: "~{{ kapture_user }}/.flexget"
     state: directory
     owner: "{{ kapture_user }}"
+    recurse: yes
 
 - name: flexget config file
   template:
     src: flexget-config.yml.j2
     dest: "~{{ kapture_user }}/.flexget/config.yml"
     mode: 0644
+    owner: "{{ kapture_user }}"
 
 - name: flexget cron job
   cron:
     name: flexget
     user: "{{ kapture_user }}"
     minute: "*/{{ flexget_check_frequency }}"
-    job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute "
+    job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute --disable-tracking"
