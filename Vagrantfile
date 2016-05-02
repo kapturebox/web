@@ -23,11 +23,13 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     # get new version of nodejs
-    curl -sL https://deb.nodesource.com/setup_5.x | bash -
+    # curl -sL https://deb.nodesource.com/setup_5.x | bash -
 
     # install some tools for development on vagrant box, and ansible
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
     apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent
-    pip install ansible
+    pip install ansible markupsafe
     npm install -g grunt-cli npm bower
 
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000

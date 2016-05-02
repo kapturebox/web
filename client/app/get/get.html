@@ -48,7 +48,7 @@
 
               <div class="search-results md-padding md-whiteframe-z1" ng-show="searchResults" layout-fill>
                 <md-list>
-                  <md-list-item ng-repeat="item in searchResults" layout="column">
+                  <md-list-item ng-repeat="item in searchResults" layout="column" ng-class="{'series': item.source == 'showrss'}">
                     <div class="result-item md-padding" layout="row" layout-fill>
 
                       <div class="icon md-padding" layout layout-align="center center" flex="10">

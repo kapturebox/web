@@ -59,7 +59,7 @@
   apt_repository: repo='deb http://ubuntu.azuras.net/ trusty main' state=present
   when: ansible_architecture == 'x86_64'
 
-- name: setup plex server
+- name: install plex server and components
   apt: pkg={{ item }} state=present update_cache=yes force=yes
   with_items:
     - libc6
@@ -164,10 +164,10 @@
 
 # should already have pip from initial setup
 - name: install flexget and deps
-  pip: name="{{ item }}"
+  pip: name="{{ item.name }}" version="{{ item.version | default(omit) }}"
   with_items:
-    - flexget
-    - transmissionrpc
+    - {name: flexget, version: 2.0.8 }
+    - {name: transmissionrpc }
   notify: restart transmission
 
 - name: create flexget config dir

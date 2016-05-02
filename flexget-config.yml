@@ -8,20 +8,18 @@ tasks:
           from: 'showrss:showname'
 
     # for additional debug info
-    # {% raw %}
+    #
     # exec:
     #   on_filter:
     #      for_entries:
     #         - "echo -n {{title}} - {{series_name}}"
-    # {% endraw %}
-
 
     # pull series from here
-    include: /etc/kapture/user_series.yml
+    include: user_series.yml
 
     # output to transmission
     transmission:
       host: localhost
       port: 9091
-      username: {{ transmission_user }}
-      password: {{ transmission_pass }}
+      username: admin
+      password: password

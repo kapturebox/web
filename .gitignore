@@ -12,3 +12,4 @@ npm-debug.log
 **/.retry
 tmp
 *.retry
+user_series.yml

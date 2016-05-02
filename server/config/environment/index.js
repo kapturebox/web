@@ -59,6 +59,9 @@ var all = {
   transmissonUser   : 'admin',
   transmissionPass  : 'password',
 
+  // where to keep the series file for flexget to use
+  seriesFileStore   : 'user_series.yml'
+
 };
 
 // Export the config object based on the NODE_ENV

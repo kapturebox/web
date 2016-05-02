@@ -24,6 +24,6 @@ module.exports = {
   kaptureHost: 'localhost',
 
 
-
-
+  // where to keep the series file for flexget to use
+  seriesFileStore   : '/etc/kapture/user_series.yml'
 };
