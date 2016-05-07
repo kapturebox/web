@@ -30,7 +30,6 @@ Vagrant.configure(2) do |config|
     apt-get update
     apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent
     pip install ansible markupsafe
-    npm install -g grunt-cli npm bower
 
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
@@ -39,7 +38,8 @@ Vagrant.configure(2) do |config|
     ansible-playbook -c local -i 'localhost,' /vagrant/ansible/initial-setup.yml -e systemname=vagrant-kapture
 
     # get code deps setup, and install kapture package locally
-    sudo su vagrant -c 'cd /vagrant && npm install && bower install && grunt clean package'
-    dpkg -i /vagrant/tmp/*.deb
+    npm install -g grunt-cli npm bower
+    su vagrant -c 'cd /vagrant && npm install && bower install && grunt clean package'
+    if [ -x /vagrant/tmp/*.deb ]; then dpkg -i /vagrant/tmp/*.deb ; fi
   SHELL
 end

@@ -8,6 +8,13 @@
   command: raspi-config --expand-rootfs
   when: ansible_lsb.id == "Raspbian"
 
+- name: ensure that we have enough power for usb disks (max_usb_current)
+  lineinfile:
+    dest: /boot/config.txt
+    insertbefore: BOF
+    line: max_usb_current=1
+  when: ansible_lsb.id == "Raspbian"
+
 - name: disable lightdm on boot
   template:
     src: lightdm.override.j2

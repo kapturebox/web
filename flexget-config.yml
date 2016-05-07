@@ -23,3 +23,4 @@ tasks:
       port: 9091
       username: admin
       password: password
+      path: tvshows
