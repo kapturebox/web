@@ -2,7 +2,7 @@
 
 <div class="page get-page" layout layout-align="center center" ng-cloak>
 
-  <div class="get-container md-whiteframe-z1" flex="80">
+  <div class="get-container md-whiteframe-z1" flex-gt-sm="80" flex>
 
     <md-toolbar class="md-whiteframe-z1 rounded-toolbar">
       <div class="md-toolbar-tools">
@@ -12,83 +12,84 @@
     </md-toolbar>
 
 
-    <div>
-      <form ng-submit="mediaSearch()" name="mediaSearchForm">
-        <md-content class="search-form-container md-padding" flex
-             layout="column" layout-gt-xs="row" layout-align="center center">
-          <md-input-container flex>
-            <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
-            <div ng-messages="mediaSearchForm.searchElem.$error">
-              <div ng-message="min">Please enter a search</div>
-            </div>
-          </md-input-container>
-          <md-input-container>
-            <md-button type="submit" ng-disabled="mediaSearchForm.$invalid" class="md-raised md-primary">Search</md-button>
-          </md-input-container>
-        </md-content>
-      </form>
+    <form ng-submit="mediaSearch()" name="mediaSearchForm">
+      <md-content>
+        <div class="search-form-container md-padding"
+             layout="column" layout-align="center center"
+             layout-gt-xs="row">
+           <md-input-container flex>
+             <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
+             <div ng-messages="mediaSearchForm.searchElem.$error">
+               <div ng-message="min">Please enter a search</div>
+             </div>
+           </md-input-container>
+           <md-input-container>
+             <md-button type="submit" ng-disabled="mediaSearchForm.$invalid || searchLoading" class="md-raised md-primary" layout="column" layout-align="center center">
+               <span ng-hide="searchLoading">Search</span>
+               <md-progress-circular ng-show="searchLoading" md-mode="indeterminate"></md-progress-circular>
+             </md-button>
+           </md-input-container>
+         </div>
 
-      <md-content class="search-pane" layout="column" layout-align="center center">
-        <div class="search-loading" ng-show="searchLoading">
-          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-        </div>
 
-        <div class="search-results md-padding md-whiteframe-z1" ng-show="searchResults" layout-fill>
-          <md-list>
-            <md-list-item ng-repeat="item in searchResults" layout="column" ng-class="{'series': item.source == 'showrss'}">
-              <div class="result-item md-padding" layout="row" layout-fill>
+        <div class="results-pane" layout-align="center center">
+          <div class="search-results md-whiteframe-z1" ng-show="searchResults">
+            <md-list>
+              <md-list-item ng-repeat="item in searchResults" ng-class="{'series': item.source == 'showrss'}">
+                <div class="result-item md-padding" layout="row" flex>
 
-                <div class="icon md-padding" layout layout-align="center center" flex="10">
-                  <div ng-switch="item.mediaType">
-                    <div ng-switch-when="video">
-                      <md-icon md-svg-src="av:videocam"></md-icon>
+                  <div class="icon md-padding" layout layout-align="center center" flex="10">
+                    <div ng-switch="item.mediaType">
+                      <div ng-switch-when="video">
+                        <md-icon md-svg-src="av:videocam"></md-icon>
+                      </div>
+                      <div ng-switch-when="audio">
+                        <md-icon md-svg-src="image:music_note"></md-icon>
+                      </div>
+                      <div ng-switch-when="photo">
+                        <md-icon md-svg-src="image:photo"></md-icon>
+                      </div>
+                      <div ng-switch-when="tvshow">
+                        <md-icon md-svg-src="hardware:tv"></md-icon>
+                      </div>
+                      <div ng-switch-default>
+                        <md-icon md-svg-src="content:add"></md-icon>
+                      </div>
                     </div>
-                    <div ng-switch-when="audio">
-                      <md-icon md-svg-src="image:music_note"></md-icon>
-                    </div>
-                    <div ng-switch-when="photo">
-                      <md-icon md-svg-src="image:photo"></md-icon>
-                    </div>
-                    <div ng-switch-when="tvshow">
-                      <md-icon md-svg-src="hardware:tv"></md-icon>
-                    </div>
-                    <div ng-switch-default>
-                      <md-icon md-svg-src="content:add"></md-icon>
-                    </div>
+                  </div>
+
+                  <div class="title" layout="column" layout-align="center start" flex="grow">
+                    <span style="font-weight: bold;">{{ item.title | latinize }}</span>
+                    <span class="md-subhead">{{ item.category }}</span>
+                  </div>
+
+
+                  <div class="details" layout="column" layout-align="center start" flex="40">
+                    <span class="size">{{ item.size | humanizeFilesize }}</span>
+                    <time ng-if="item.uploaded" am-time-ago="item.uploaded"></time>
+                  </div>
+
+                  <div class="actions" flex="30" layout="row" layout-align="end center">
+                    <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
+                      <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
+                      <md-icon md-svg-src="action:autorenew"></md-icon>
+                    </md-button>
+                    <md-button class="md-button md-warn md-small" aria-label="Download"
+                               ng-click="downloadLink( item )">
+                      <md-tooltip>Click to download this file</md-tooltip>
+                      <md-icon md-svg-src="file:file_download"></md-icon>
+                    </md-button>
                   </div>
                 </div>
 
-                <div class="title" layout="column" layout-align="center start" flex="grow">
-                  <span style="font-weight: bold;">{{ item.title | latinize }}</span>
-                  <span class="md-subhead">{{ item.category }}</span>
-                </div>
-
-
-                <div class="details" layout="column" layout-align="center start" flex="40">
-                  <span class="size">{{ item.size | humanizeFilesize }}</span>
-                  <time ng-if="item.uploaded" am-time-ago="item.uploaded"></time>
-                </div>
-
-                <div class="actions" flex="30" layout="row" layout-align="end center">
-                  <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
-                    <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
-                    <md-icon md-svg-src="action:autorenew"></md-icon>
-                  </md-button>
-                  <md-button class="md-button md-warn md-small" aria-label="Download"
-                             ng-click="downloadLink( item )">
-                    <md-tooltip>Click to download this file</md-tooltip>
-                    <md-icon md-svg-src="file:file_download"></md-icon>
-                  </md-button>
-                </div>
-              </div>
-
-              <md-divider ng-if="!$last"></md-divider>
-            </md-list-item>
-          </md-list>
+                <md-divider ng-if="!$last"></md-divider>
+              </md-list-item>
+            </md-list>
+          </div>
         </div>
-      </md-content>
 
-    </div>
+      </md-content>
+    </form>
 
   </div>
 </div>
