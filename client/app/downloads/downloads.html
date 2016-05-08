@@ -1,0 +1,33 @@
+<div ng-include="'components/shell/shell.html'"></div>
+
+<div class="page downloads-page" layout-align="center center" layout>
+
+  <div class="downloads-container md-whiteframe-z1" flex="80">
+
+    <md-toolbar class="md-whiteframe-z1 rounded-toolbar">
+      <h2 class="md-toolbar-tools">Downloads</h2>
+    </md-toolbar>
+
+    <md-content class="md-padding" ng-repeat="(isFinished, elements) in downloads | groupBy: 'isFinished' | reverse">
+      <!-- gah cant get this working -->
+      <!-- <h3>
+        <span ng-if="!!isFinished">Completed ({{ elements.length }})</span>
+        <span ng-if="!isFinished">Downloading ({{ elements.length }})</span>
+      </h3> -->
+      <md-list>
+        <md-list-item ng-repeat="item in elements" layout="column" layout-align="center start">
+          <h4>{{ item.name }}</h4>
+          <div layout="row" layout-fill>
+            <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.percentDone * 100 | number:2 }}"></md-progress-linear>
+            <div layout="column" flex="20">
+              <span>{{ item.percentDone * 100 | number:2 }}%</span>
+              <span ng-if="item.isFinished == false">ETA: {{ item.eta | humanizeInt }} seconds</span>
+            </div>
+          </div>
+          <md-divider></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+
+  </div>
+</div>

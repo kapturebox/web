@@ -1,0 +1,51 @@
+.main-shell {
+  .title {
+    font-weight: 500;
+    font-size: 1.5em;
+    color: #fff;
+  }
+
+  .profile-container {
+    height: 100%;
+    font-size: 14px;
+
+    .profile-name {
+      font-weight: 500;
+    }
+  }
+}
+
+
+body {
+  background-color: #eee;
+}
+
+.menu-button-icon {
+  position: relative;
+  top: 3px;
+  left: 3px;
+}
+
+.menu-sidenav {
+  .menu-title h2 {
+    margin: 5px;
+  }
+
+  .menu-items {
+    .md-button {
+      text-transform: none;
+    }
+
+    .icon {
+      margin: 1em;
+    }
+
+    .link-title {
+      margin: 0px;
+    }
+
+    .activePage {
+      background-color: #eee;
+    }
+  }
+}

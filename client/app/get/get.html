@@ -1,188 +1,93 @@
 <div ng-include="'components/shell/shell.html'"></div>
 
-<div class="get-page" layout layout-align="center center" ng-cloak>
-
+<div class="page get-page" layout layout-align="center center" ng-cloak>
 
   <div class="get-container md-whiteframe-z1" flex="80">
 
-    <md-toolbar class="rounded-toolbar">
+    <md-toolbar class="md-whiteframe-z1 rounded-toolbar">
       <div class="md-toolbar-tools">
         <h2>Get Media</h2>
         <span flex></span>
-
-        <md-fab-speed-dial>
-          <md-fab-trigger>
-            <md-button aria-label="menu" class="md-fab md-warn" ng-click="showAddUrlDialog($event)">
-              <md-icon md-svg-src="content:add"></md-icon>
-            </md-button>
-          </md-fab-trigger>
-        </md-fab-speed-dial>
-
       </div>
     </md-toolbar>
 
 
     <div>
-        <md-tabs md-dynamic-height md-border-bottom layout="column">
+      <form ng-submit="mediaSearch()" name="mediaSearchForm">
+        <md-content class="search-form-container md-padding" flex
+             layout="column" layout-gt-xs="row" layout-align="center center">
+          <md-input-container flex>
+            <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
+            <div ng-messages="mediaSearchForm.searchElem.$error">
+              <div ng-message="min">Please enter a search</div>
+            </div>
+          </md-input-container>
+          <md-input-container>
+            <md-button type="submit" ng-disabled="mediaSearchForm.$invalid" class="md-raised md-primary">Search</md-button>
+          </md-input-container>
+        </md-content>
+      </form>
 
-          <md-tab label="Search">
-            <form ng-submit="mediaSearch()" name="mediaSearchForm">
-              <md-content class="search-form-container md-padding" flex
-                   layout="column" layout-gt-xs="row" layout-align="center center">
-                <md-input-container flex>
-                  <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
-                  <div ng-messages="mediaSearchForm.searchElem.$error">
-                    <div ng-message="min">Please enter a search</div>
-                  </div>
-                </md-input-container>
-                <md-input-container>
-                  <md-button type="submit" ng-disabled="mediaSearchForm.$invalid" class="md-raised md-primary">Search</md-button>
-                </md-input-container>
-              </md-content>
-            </form>
+      <md-content class="search-pane" layout="column" layout-align="center center">
+        <div class="search-loading" ng-show="searchLoading">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
 
-            <md-content class="search-pane" layout="column" layout-align="center center">
-              <div class="search-loading" ng-show="searchLoading">
-                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-              </div>
+        <div class="search-results md-padding md-whiteframe-z1" ng-show="searchResults" layout-fill>
+          <md-list>
+            <md-list-item ng-repeat="item in searchResults" layout="column" ng-class="{'series': item.source == 'showrss'}">
+              <div class="result-item md-padding" layout="row" layout-fill>
 
-              <div class="search-results md-padding md-whiteframe-z1" ng-show="searchResults" layout-fill>
-                <md-list>
-                  <md-list-item ng-repeat="item in searchResults" layout="column" ng-class="{'series': item.source == 'showrss'}">
-                    <div class="result-item md-padding" layout="row" layout-fill>
-
-                      <div class="icon md-padding" layout layout-align="center center" flex="10">
-                        <div ng-switch="item.mediaType">
-                          <div ng-switch-when="video">
-                            <md-icon md-svg-src="av:videocam"></md-icon>
-                          </div>
-                          <div ng-switch-when="audio">
-                            <md-icon md-svg-src="image:music_note"></md-icon>
-                          </div>
-                          <div ng-switch-when="photo">
-                            <md-icon md-svg-src="image:photo"></md-icon>
-                          </div>
-                          <div ng-switch-when="tvshow">
-                            <md-icon md-svg-src="hardware:tv"></md-icon>
-                          </div>
-                          <div ng-switch-default>
-                            <md-icon md-svg-src="content:add"></md-icon>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="title" layout="column" layout-align="center start" flex="grow">
-                        <span style="font-weight: bold;">{{ item.title | latinize }}</span>
-                        <span class="md-subhead">{{ item.category }}</span>
-                      </div>
-
-
-                      <div class="details" layout="column" layout-align="center start" flex="40">
-                        <span class="size">{{ item.size | humanizeFilesize }}</span>
-                        <time ng-if="item.uploaded" am-time-ago="item.uploaded"></time>
-                      </div>
-
-                      <div class="actions" flex="30" layout="row" layout-align="end center">
-                        <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
-                          <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
-                          <md-icon md-svg-src="action:autorenew"></md-icon>
-                        </md-button>
-                        <md-button class="md-button md-warn md-small" aria-label="Download"
-                                   ng-click="downloadLink( item )">
-                          <md-tooltip>Click to download this file</md-tooltip>
-                          <md-icon md-svg-src="file:file_download"></md-icon>
-                        </md-button>
-                      </div>
+                <div class="icon md-padding" layout layout-align="center center" flex="10">
+                  <div ng-switch="item.mediaType">
+                    <div ng-switch-when="video">
+                      <md-icon md-svg-src="av:videocam"></md-icon>
                     </div>
-
-                    <md-divider ng-if="!$last"></md-divider>
-                  </md-list-item>
-                </md-list>
-              </div>
-            </md-content>
-
-          </md-tab>
-
-
-          <md-tab label="Automatic sources">
-            <md-content class="md-padding download-sources-table">
-              <div class="md-whiteframe-z2">
-
-                <md-toolbar class="rounded-toolbar">
-                  <h2 class="md-toolbar-tools">Active sources</h2>
-                </md-toolbar>
-                <md-list class="download-source" >
-                  <md-list-item class="md-2-line" ng-repeat="source in downloadSources" layout="column">
-                    <div class="source-header" layout-fill layout="row">
-
-                      <div layout-align="center center">
-                        <i class="md-padding fa fa-rss fa-2x"></i>
-                      </div>
-
-                      <div class="md-list-item-text" layout="column" layout-fill layout-align="start">
-                        <h3 class="source-name">{{ source.name }}</h3>
-                        <p class="source-url">{{ source.url }}</p>
-                      </div>
-
-                      <div layout="row" layout-align="center center">
-                        <md-button class="md-small" ng-click="selectSourceItem($index, source)">
-                          <md-tooltip md-direction="bottom">Show recent downloads..</md-tooltip>
-                          <md-icon md-svg-src="image:remove_red_eye"></md-icon>
-                        </md-button>
-                        <md-button class="md-small" aria-label="Delete source {{ source.name }}" ng-click="deleteSource( source )">
-                          <md-tooltip md-direction="bottom">Delete this source permanently</md-tooltip>
-                          <md-icon md-svg-src="action:delete" class="delete-source"></md-icon>
-                        </md-button>
-                      </div>
+                    <div ng-switch-when="audio">
+                      <md-icon md-svg-src="image:music_note"></md-icon>
                     </div>
-                    <md-content class="source-items" ng-show="$index==selectedSourceIndex" layout-fill>
-                      <md-subheader>Media from this source</md-subheader>
-                      <md-list class="source-item-list md-2-line">
-                        <md-list-item ng-repeat="item in sourceEntries" class="md-padding" layout="row">
-                          <div>
-                            <md-icon md-svg-src="av:videocam"></md-icon>
-                          </div>
-                          <div class="source-item-text md-padding" layout="column">
-                              <b>{{ item.title[0] }}</b>
-                              <time am-time-ago="{{ parseDate(item.pubDate[0]) }}"></time>
-                          </div>
-                          <md-divider></md-divider>
-
-                        </md-list-item>
-                      </md-list>
-                    </md-content>
-
-                    <md-divider ng-if="!$last"></md-divider>
-
-                  </md-list-item>
-                </md-list>
-              </div>
-            </md-content>
-          </md-tab>
-
-          <md-tab label="Downloads">
-            <md-content class="md-padding" ng-repeat="(isFinished, elements) in downloads | groupBy: 'isFinished' | reverse">
-              <!-- gah cant get this working -->
-              <!-- <h3>
-                <span ng-if="!!isFinished">Completed ({{ elements.length }})</span>
-                <span ng-if="!isFinished">Downloading ({{ elements.length }})</span>
-              </h3> -->
-              <md-list>
-                <md-list-item ng-repeat="item in elements" layout="column" layout-align="center start">
-                  <h4>{{ item.name }}</h4>
-                  <div layout="row" layout-fill>
-                    <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.percentDone * 100 | number:2 }}"></md-progress-linear>
-                    <div layout="column" flex="20">
-                      <span>{{ item.percentDone * 100 | number:2 }}%</span>
-                      <span ng-if="item.isFinished == false">ETA: {{ item.eta | humanizeInt }} seconds</span>
+                    <div ng-switch-when="photo">
+                      <md-icon md-svg-src="image:photo"></md-icon>
+                    </div>
+                    <div ng-switch-when="tvshow">
+                      <md-icon md-svg-src="hardware:tv"></md-icon>
+                    </div>
+                    <div ng-switch-default>
+                      <md-icon md-svg-src="content:add"></md-icon>
                     </div>
                   </div>
-                  <md-divider></md-divider>
-                </md-list-item>
-              </md-list>
-            </md-content>
-          </md-tab>
-        </md-tabs>
+                </div>
+
+                <div class="title" layout="column" layout-align="center start" flex="grow">
+                  <span style="font-weight: bold;">{{ item.title | latinize }}</span>
+                  <span class="md-subhead">{{ item.category }}</span>
+                </div>
+
+
+                <div class="details" layout="column" layout-align="center start" flex="40">
+                  <span class="size">{{ item.size | humanizeFilesize }}</span>
+                  <time ng-if="item.uploaded" am-time-ago="item.uploaded"></time>
+                </div>
+
+                <div class="actions" flex="30" layout="row" layout-align="end center">
+                  <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
+                    <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
+                    <md-icon md-svg-src="action:autorenew"></md-icon>
+                  </md-button>
+                  <md-button class="md-button md-warn md-small" aria-label="Download"
+                             ng-click="downloadLink( item )">
+                    <md-tooltip>Click to download this file</md-tooltip>
+                    <md-icon md-svg-src="file:file_download"></md-icon>
+                  </md-button>
+                </div>
+              </div>
+
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+      </md-content>
+
     </div>
 
   </div>

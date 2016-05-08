@@ -60,7 +60,10 @@ var all = {
   transmissionPass  : 'password',
 
   // where to keep the series file for flexget to use
-  seriesFileStore   : 'user_series.yml'
+  seriesFileStore   : 'user_series.yml',
+
+  // settings that will be used by ansible here
+  settingsFileStore : 'system_settings.yml'
 
 };
 

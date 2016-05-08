@@ -3,12 +3,19 @@
 angular.module('kaptureApp')
   .controller('ShellCtrl', function ($mdSidenav, $mdDialog, $mdMedia, $scope, $location) {
 
+    $scope.menuItems = [
+      { href: '/watch',      title: 'Watch',       icon: 'notification:live_tv'},
+      { href: '/get',        title: 'Get',         icon: 'file:cloud_download'},
+      { href: '/autokapture',title: 'AutoKapture', icon: 'action:autorenew' },
+      { href: '/downloads',  title: 'Downloads',   icon: 'file:file_download' },
+      { href: '/settings',   title: 'Settings',    icon: 'action:settings' },
+    ];
 
-    $scope.showSettingsPane = function(ev) {
-      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $scope.showAddUrlDialog = function(ev) {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
       $mdDialog.show({
-        controller: 'SettingsDialogController',
-        templateUrl: 'components/shell/settings-dialog/dialog.html',
+        controller: 'AddUrlDialogController',
+        templateUrl: 'components/addurl/addurl.dialog.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: true,
@@ -16,54 +23,11 @@ angular.module('kaptureApp')
       })
     };
 
-
-
-//////// OLD STUFF
-
-
     $scope.isActive = function(route) {
       return route === $location.path();
     };
 
-    $scope.toggleLeft = function() {
-      $mdSidenav('left').toggle();
-    };
-
-    var originatorEv;
-    $scope.openMenu = function($mdOpenMenu, ev) {
-      originatorEv = ev;
-      $mdOpenMenu(ev);
-    };
-
-    $scope.notificationsEnabled = true;
-    $scope.toggleNotifications = function() {
-      $scope.notificationsEnabled = !$scope.notificationsEnabled;
-    };
-
-    $scope.redial = function() {
-      $mdDialog.show(
-        $mdDialog.alert()
-          .targetEvent(originatorEv)
-          .clickOutsideToClose(true)
-          .parent('body')
-          .title('Suddenly, a redial')
-          .content('You just called a friend; who told you the most amazing story. Have a cookie!')
-          .ok('That was easy')
-        );
-      originatorEv = null;
-    };
-
-    $scope.checkVoicemail = function() {
-      // This never happens.
-    };
-
-    $scope.showAddDialog = function($event) {
-      var parentEl = angular.element(document.body);
-      $mdDialog.show({
-        parent: parentEl,
-        targetEvent: $event,
-        templateUrl: 'components/shell/dialog/dialog.html',
-        controller: 'DialogController'
-      });
+    $scope.toggleMenu = function() {
+      $mdSidenav('menu').toggle();
     };
   });

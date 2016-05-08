@@ -13,3 +13,4 @@ npm-debug.log
 tmp
 *.retry
 user_series.yml
+system_settings.yml

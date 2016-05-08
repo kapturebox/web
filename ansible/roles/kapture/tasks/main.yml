@@ -103,6 +103,7 @@
   with_items:
     - { key: FSEventLibraryUpdatesEnabled,     value: true }
     - { key: FSEventLibraryPartialScanEnabled, value: true }
+    - { key: watchMusicSections,               value: true }
     - { key: allowMediaDeletion,               value: true }
     - { key: EnableIPv6,                       value: true }
     - { key: AcceptedEULA,                     value: true }

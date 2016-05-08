@@ -1,41 +1,21 @@
 /**
  * App-wide Styles
  */
+ .page {
+   margin-top: 1em;
+ }
 
-.main-shell {
-  .title {
-    font-weight: 500;
-    font-size: 1.5em;
-    color: #fff;
-  }
-
-  .profile-container {
-    height: 100%;
-    font-size: 14px;
-
-    .profile-name {
-      font-weight: 500;
-    }
-  }
-}
-
-.settings {
-  .md-dialog-settings {
-    padding: 15px;
-  }
-  .applying-settings-text {
-    color: red;
-    font-size: 0.8em;
-    font-weight: bolder;
-  }
-}
-body {
-  background-color: #eee;
-}
+ .rounded-toolbar {
+   border-radius: 3px 3px 0 0;
+ }
 
 // Component styles are injected through grunt
 // injector
+@import 'autokapture/autokapture.scss';
+@import 'downloads/downloads.scss';
 @import 'get/get.scss';
 @import 'main/main.scss';
+@import 'settings/settings.scss';
 @import 'watch/watch.scss';
+@import 'shell/shell.scss';
 // endinjector

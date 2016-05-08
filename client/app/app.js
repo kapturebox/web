@@ -43,4 +43,9 @@ angular.module('kaptureApp', [
       if ( parseInt(input) !== input ) { return input; }
       return humanize.numberFormat(input, 0);
     };
+  })
+  .config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('blue')
+      .accentPalette('amber');
   });

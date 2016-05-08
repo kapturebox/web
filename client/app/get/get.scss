@@ -1,41 +1,10 @@
 .get-page {
-  // .media-iframe {
-  //   border: 0px;
-  // }
-
-  .get-container {
-    margin-top: 1em;
-  }
-
-  .rounded-toolbar {
-    border-radius: 3px 3px 0 0;
-  }
-
   .series {
     background-color: #eee;
-  }
-
-  .delete-source {
-    color: red;
   }
 
   .md-button.md-small {
     min-width: 1%;
   }
 
-  .source-item-list {
-    background-color: #f5f5f5;
-  }
-
-  .source-items {
-    height: 15em;
-  }
-
-  md-progress-linear .md-container {
-    height: 15px;
-  }
-
-  md-progress-linear .md-container .md-bar {
-    height: 15px;
-  }
 }
