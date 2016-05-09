@@ -25,10 +25,10 @@
     <md-toolbar class="menu-title md-whiteframe-z2" layout="row" ng-click="toggleMenu()">
       <h2 class="md-padding">Menu</h2>
     </md-toolbar>
-    <md-content class="menu-items" flex layout="column">
+    <md-content class="menu-items" layout="column">
       <md-list>
-        <md-list-item ng-repeat="item in menuItems">
-          <md-button ng-class="{'activePage':isActive(item.href)}" ng-href="{{ item.href }}" ng-click="toggleMenu()" flex layout="row" layout-align="start center">
+        <md-list-item ng-repeat="item in menuItems" flex>
+          <md-button ng-class="{'activePage':isActive(item.href)}" ng-href="{{ item.href }}" ng-click="toggleMenu()" style="width:100%;" layout="row" layout-align="start center">
             <md-icon class="icon" ng-if="!!item.icon" md-svg-src="{{ item.icon }}"></md-icon>
             <span><h3 class="link-title">{{ item.title }}</h3></span>
           </md-button>

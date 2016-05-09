@@ -18,7 +18,8 @@
              layout="column" layout-align="center center"
              layout-gt-xs="row">
            <md-input-container flex>
-             <input type="text" name="searchElem" required ng-model="searchText" ng-min="1" placeholder="What are you looking for?" />
+             <input type="text" name="searchElem" required ng-model="searchText"
+                    ng-min="1" placeholder="What are you looking for?" />
              <div ng-messages="mediaSearchForm.searchElem.$error">
                <div ng-message="min">Please enter a search</div>
              </div>
@@ -34,57 +35,66 @@
 
         <div class="results-pane" layout-align="center center">
           <div class="search-results md-whiteframe-z1" ng-show="searchResults">
-            <md-list>
-              <md-list-item ng-repeat="item in searchResults" ng-class="{'series': item.source == 'showrss'}">
-                <div class="result-item md-padding" layout="row" flex>
 
-                  <div class="icon md-padding" layout layout-align="center center" flex="10">
-                    <div ng-switch="item.mediaType">
-                      <div ng-switch-when="video">
-                        <md-icon md-svg-src="av:videocam"></md-icon>
+            <md-table-container>
+              <table md-table md-row-select ng-model="selected">
+                <thead md-head md-order="selectOrder">
+                  <tr md-row>
+                    <th md-column md-order-by="mediaType" hide show-gt-xs></th>
+                    <th md-column md-order-by="title">Name</th>
+                    <th md-column md-order-by="category">Category</th>
+                    <th md-column md-order-by="source" hide show-gt-xs>Source</th>
+                    <th md-column md-order-by="size" md-numeric hide show-gt-xs>Size</th>
+                    <th md-column md-order-by="uploaded" md-numeric hide show-gt-xs>Uploaded</th>
+                    <th md-column>Download</th>
+                  </tr>
+                </thead>
+                <tbody md-body>
+                  <tr md-row md-select="searchResults" md-select-id="downloadUrl"
+                      ng-repeat="item in searchResults | orderBy: selectOrder">
+                    <td md-cell>
+                      <div ng-switch="item.mediaType">
+                        <div ng-switch-when="video">
+                          <md-icon md-svg-src="av:videocam"></md-icon>
+                        </div>
+                        <div ng-switch-when="audio">
+                          <md-icon md-svg-src="image:music_note"></md-icon>
+                        </div>
+                        <div ng-switch-when="photo">
+                          <md-icon md-svg-src="image:photo"></md-icon>
+                        </div>
+                        <div ng-switch-when="tvshow">
+                          <md-icon md-svg-src="hardware:tv"></md-icon>
+                        </div>
+                        <div ng-switch-default>
+                          <md-icon md-svg-src="content:add"></md-icon>
+                        </div>
                       </div>
-                      <div ng-switch-when="audio">
-                        <md-icon md-svg-src="image:music_note"></md-icon>
-                      </div>
-                      <div ng-switch-when="photo">
-                        <md-icon md-svg-src="image:photo"></md-icon>
-                      </div>
-                      <div ng-switch-when="tvshow">
-                        <md-icon md-svg-src="hardware:tv"></md-icon>
-                      </div>
-                      <div ng-switch-default>
-                        <md-icon md-svg-src="content:add"></md-icon>
-                      </div>
-                    </div>
-                  </div>
+                    </td>
+                    <td md-cell>{{ item.title }}</td>
+                    <td md-cell hide show-gt-xs>{{ item.category }}</td>
+                    <td md-cell hide show-gt-xs>{{ item.source }}</td>
+                    <td md-cell hide show-gt-xs>{{ item.size | humanizeFilesize }}</td>
+                    <td md-cell hide show-gt-xs>
+                      <time ng-if="item.uploaded" am-time-ago="{{getDate(item.uploaded)}}"></time>
+                    </td>
+                    <td md-cell>
+                      <md-button class="md-button md-warn md-small" aria-label="Download"
+                                 ng-click="downloadLink( item )" ng-hide="item.source=='showrss'">
+                        <md-tooltip>Click to download this file</md-tooltip>
+                        <md-icon md-svg-src="file:file_download"></md-icon>
+                      </md-button>
+                      <md-button class="md-button md-warn md-small" aria-label="AutoKapture"
+                                 ng-click="downloadLink( item )" ng-show="item.source=='showrss'">
+                        <md-tooltip>Click to kapture new episodes of this series in the future, automatically</md-tooltip>
+                        <md-icon md-svg-src="action:autorenew"></md-icon>
+                      </md-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container>
 
-                  <div class="title" layout="column" layout-align="center start" flex="grow">
-                    <span style="font-weight: bold;">{{ item.title | latinize }}</span>
-                    <span class="md-subhead">{{ item.category }}</span>
-                  </div>
-
-
-                  <div class="details" layout="column" layout-align="center start" flex="40">
-                    <span class="size">{{ item.size | humanizeFilesize }}</span>
-                    <time ng-if="item.uploaded" am-time-ago="item.uploaded"></time>
-                  </div>
-
-                  <div class="actions" flex="30" layout="row" layout-align="end center">
-                    <md-button class="md-button md-primary md-small" ng-if="item.series" aria-label="Auto download">
-                      <md-tooltip>Click here to enable kapture to automatically download new entries when they come out</md-tooltip>
-                      <md-icon md-svg-src="action:autorenew"></md-icon>
-                    </md-button>
-                    <md-button class="md-button md-warn md-small" aria-label="Download"
-                               ng-click="downloadLink( item )">
-                      <md-tooltip>Click to download this file</md-tooltip>
-                      <md-icon md-svg-src="file:file_download"></md-icon>
-                    </md-button>
-                  </div>
-                </div>
-
-                <md-divider ng-if="!$last"></md-divider>
-              </md-list-item>
-            </md-list>
           </div>
         </div>
 

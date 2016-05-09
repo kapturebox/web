@@ -15,6 +15,7 @@
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
       <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+      <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -30,14 +31,19 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div layout-fill class="app-background">
-      <ui-view>
-        <div layout-align="center center">
+    <div layout="column" layout-fill>
+      <ui-view flex="100" layout="column">
+        <div flex layout="column" layout-align="center center">
           <md-progress-circular md-mode="indeterminate" />
           <span>Loading...</span>
         </div>
       </ui-view>
+      <div flex="5" class="footer">
+        footer
+      </div>
     </div>
+
+
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -60,6 +66,7 @@
       <script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
       <script src="bower_components/humanize/humanize.js"></script>
       <script src="bower_components/angularjs-humanize/src/angular-humanize.js"></script>
+      <script src="bower_components/angular-material-data-table/dist/md-data-table.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 

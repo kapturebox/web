@@ -3,11 +3,16 @@
  */
  .page {
    margin-top: 1em;
+
+   .rounded-toolbar {
+     border-radius: 3px 3px 0 0;
+   }
  }
 
- .rounded-toolbar {
-   border-radius: 3px 3px 0 0;
- }
+
+body,html {
+  background-color: #eee;
+}
 
 // Component styles are injected through grunt
 // injector

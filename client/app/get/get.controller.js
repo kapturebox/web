@@ -5,6 +5,12 @@ angular.module('kaptureApp')
 
     $scope.unescape = unescape;
 
+    $scope.selected = [];
+
+    $scope.getDate = function(arg) {
+      return moment(new Date(arg));
+    }
+
     $scope.mediaSearch = function() {
       $scope.searchResults = null;
       $scope.searchLoading = true;

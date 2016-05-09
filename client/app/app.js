@@ -10,7 +10,8 @@ angular.module('kaptureApp', [
   'ngMaterial',
   'angularMoment',
   'angular.filter',
-  'angular-humanize'
+  'angular-humanize',
+  'md.data.table'
 ])
   .config(function($mdIconProvider) {
     $mdIconProvider

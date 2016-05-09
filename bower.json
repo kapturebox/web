@@ -15,7 +15,8 @@
     "font-awesome": "fontawesome#^4.5.0",
     "angular-moment": "^0.10.3",
     "angular-filter": "^0.5.8",
-    "angularjs-humanize": "^0.0.1"
+    "angularjs-humanize": "^0.0.1",
+    "angular-material-data-table": "^0.10.9"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
