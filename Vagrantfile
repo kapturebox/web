@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent python-dev
+    apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent python-dev libffi-dev
     pip install ansible markupsafe
 
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
