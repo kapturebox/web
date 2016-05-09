@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
     apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent python-dev libffi-dev
-    pip install ansible markupsafe
+    pip install ansible==2.0.0.2 markupsafe
 
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
