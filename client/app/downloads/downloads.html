@@ -9,7 +9,7 @@
     </md-toolbar>
 
     <md-content>
-      <section ng-repeat="(isFinished, entries) in downloads | groupBy: 'isFinished' | reverse" class="md-padding">
+      <section ng-repeat="(isFinished, entries) in getDownloads() | groupBy: 'isFinished' | reverse" class="md-padding">
         <h4>
           <span ng-if="!isFinished">Active [{{ entries.length }}]</span>
           <span ng-if="!!isFinished">Completed [{{ entries.length }}]</span>
