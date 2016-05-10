@@ -8,7 +8,7 @@
       <h2 class="md-toolbar-tools">Downloads</h2>
     </md-toolbar>
 
-    <md-content class="md-padding" ng-repeat="(isFinished, elements) in downloads | groupBy: 'isFinished' | reverse">
+    <md-content class="md-padding" ng-repeat="(isFinished, elements) in getDownloads() | groupBy: 'isFinished' | reverse">
       <!-- gah cant get this working -->
       <!-- <h3>
         <span ng-if="!!isFinished">Completed ({{ elements.length }})</span>
