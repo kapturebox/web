@@ -22,20 +22,17 @@ Vagrant.configure(2) do |config|
 
 
   config.vm.provision "shell", inline: <<-SHELL
-    # get new version of nodejs
-    # curl -sL https://deb.nodesource.com/setup_5.x | bash -
-
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y python-pip devscripts debhelper nodejs ruby ruby-compass git iptables-persistent python-dev libffi-dev
+    apt-get install -y python-pip devscripts debhelper ruby ruby-compass git iptables-persistent
     pip install ansible==2.0.0.2 markupsafe
-
-    update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
     # get rest of machine setup for kapture
     export ANSIBLE_CONFIG=/vagrant/ansible/ansible.cfg
     ansible-playbook -c local -i 'localhost,' /vagrant/ansible/initial-setup.yml -e systemname=vagrant-kapture
+
+    update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
     # get code deps setup, and install kapture package locally
     npm install -g grunt-cli npm bower

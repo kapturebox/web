@@ -34,6 +34,8 @@
     - nodejs
     - apt-transport-https
     - usbmount
+    - libffi-dev
+    - libssl-dev
 
 
 - name: ensure kapture group is setup correctly

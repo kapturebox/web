@@ -18,6 +18,8 @@ Features
 --------
 
 - **[Chris]** UI of site should be more mobile-like .. menu on left that slides out and each section [get,watch,active] is an equal grouping.  maybe some different colors and layout changes .. whatever is useful really.  goal is easy, rapid interface.
+- Add like a trending media section
+- Option to make sticky menu thing on the side
 - Remove / delete / stop / start buttons for downloads
 - Auto-remove periodically .. or during big new downloads
 - Deb package:
