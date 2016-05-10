@@ -1,0 +1,20 @@
+<div ng-switch="mediaType">
+  <div ng-switch-when="video">
+    <md-icon md-svg-src="av:videocam"></md-icon>
+  </div>
+  <div ng-switch-when="audio">
+    <md-icon md-svg-src="image:music_note"></md-icon>
+  </div>
+  <div ng-switch-when="music">
+    <md-icon md-svg-src="image:music_note"></md-icon>
+  </div>
+  <div ng-switch-when="photo">
+    <md-icon md-svg-src="image:photo"></md-icon>
+  </div>
+  <div ng-switch-when="tvshow">
+    <md-icon md-svg-src="hardware:tv"></md-icon>
+  </div>
+  <div ng-switch-default>
+    <md-icon md-svg-src="communication:live_help"></md-icon>
+  </div>
+</div>

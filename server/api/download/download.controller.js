@@ -111,7 +111,7 @@ exports.getDownloads = function( req, res ) {
         json: {
           method: 'torrent-get',
           arguments: {
-            fields: ['name','totalSize','eta','rateDownload','isFinished','isStalled','percentDone']
+            fields: ['name','totalSize','eta','rateDownload','isFinished','isStalled','percentDone','downloadDir']
           }
         },
         headers: {
@@ -121,7 +121,10 @@ exports.getDownloads = function( req, res ) {
         if(err || resp.statusCode !== 200 || body.result !== 'success' ) {
           res.status(500).json({ error: err, resp: resp });
         } else {
-          res.status(200).json( body.arguments.torrents );
+          var ret = body.arguments.torrents.map(function(obj) {
+            return _.extend( obj, {mediaType: getMediaTypeFromPath( obj['downloadDir'] )});
+          });
+          res.status(200).json( ret );
         }
       });
     })
@@ -131,28 +134,23 @@ exports.getDownloads = function( req, res ) {
 }
 
 
+var mediaTypePathMap = {
+  'movie'  : config.rootDownloadPath + config.moviesPath,
+  'video'  : config.rootDownloadPath + config.moviesPath,
+  'tvshow' : config.rootDownloadPath + config.showsPath,
+  'audio'  : config.rootDownloadPath + config.musicPath,
+  'music'  : config.rootDownloadPath + config.musicPath,
+  'photos' : config.rootDownloadPath + config.photosPath,
+  'other'  : config.rootDownloadPath + config.defaultMediaPath
+}
 
 
 function getDownloadPath( item ) {
-  switch( item.mediaType ) {
-    case 'video':
-    case 'movie':
-      return config.rootDownloadPath + config.moviesPath;
-      break;
-    case 'tvshow':
-      return config.rootDownloadPath + config.showsPath;
-      break;
-    case 'audio':
-    case 'music':
-      return config.rootDownloadPath + config.musicPath;
-      break;
-    case 'photos':
-      return config.rootDownloadPath + config.photosPath;
-      break;
-    default:
-      return config.rootDownloadPath + config.defaultMediaPath;
-      break;
-  }
+  return mediaTypePathMap[item.mediaType];
+}
+
+function getMediaTypeFromPath( path ) {
+  return _.invert(mediaTypePathMap)[path];
 }
 
 

@@ -8,26 +8,45 @@
       <h2 class="md-toolbar-tools">Downloads</h2>
     </md-toolbar>
 
-    <md-content class="md-padding" ng-repeat="(isFinished, elements) in downloads | groupBy: 'isFinished' | reverse">
-      <!-- gah cant get this working -->
-      <!-- <h3>
-        <span ng-if="!!isFinished">Completed ({{ elements.length }})</span>
-        <span ng-if="!isFinished">Downloading ({{ elements.length }})</span>
-      </h3> -->
-      <md-list>
-        <md-list-item ng-repeat="item in elements" layout="column" layout-align="center start">
-          <h4>{{ item.name }}</h4>
-          <div layout="row" layout-fill>
-            <md-progress-linear class="md-padding" md-mode="determinate" value="{{ item.percentDone * 100 | number:2 }}"></md-progress-linear>
-            <div layout="column" flex="20">
-              <span>{{ item.percentDone * 100 | number:2 }}%</span>
-              <span ng-if="item.isFinished == false">ETA: {{ item.eta | humanizeInt }} seconds</span>
+    <md-content>
+      <section ng-repeat="(isFinished, entries) in downloads | groupBy: 'isFinished' | reverse" class="md-padding">
+        <h4>
+          <span ng-if="!isFinished">Active [{{ entries.length }}]</span>
+          <span ng-if="!!isFinished">Completed [{{ entries.length }}]</span>
+        </h4>
+
+        <md-card ng-repeat="item in entries" layout="column" class="download-item md-whiteframe-z2">
+          <md-content layout="row">
+            <div class="md-padding" layout="column" layout-align="center center">
+              <kp-filetype-icon media-type="{{item.mediaType}}"></kp-filetype-icon>
             </div>
-          </div>
-          <md-divider></md-divider>
-        </md-list-item>
-      </md-list>
+            <md-divider></md-divider>
+            <div class="md-padding" layout="column" layout-align="center start" flex>
+              <h4>{{ item.name }}</h4>
+            </div>
+            <div class="stats" layout="column" layout-align="center start" class="md-padding" flex="20">
+              <span>{{ item.percentDone * 100 | number:2 }}%</span>
+              <span ng-if="item.isFinished == false">{{ item.eta | humanizeInt }} seconds</span>
+              <span ng-if="item.isFinished == false">{{ item.rateDownload | humanizeFilesize }}/s</span>
+            </div>
+            <md-divider></md-divider>
+            <div class="md-padding actions" layout="column">
+              <md-button class="md-small">
+                <md-tooltip>Remove entry</md-tooltip>
+                <md-icon md-svg-src="navigation:close" class="md-warn"></md-icon>
+              </md-button>
+              <md-button class="md-small">
+                <md-tooltip>View in plex</md-tooltip>
+                <md-icon md-svg-src="action:pageview"></md-icon>
+              </md-button>
+            </div>
+          </md-content>
+          <md-progress-linear md-mode="determinate" value="{{ item.percentDone * 100 | number:2 }}"></md-progress-linear>
+        </md-card>
+      </section>
+
     </md-content>
+
 
   </div>
 </div>

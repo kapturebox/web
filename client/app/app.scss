@@ -10,6 +10,11 @@
  }
 
 
+ .md-button.md-small {
+   min-width: 1%;
+ }
+
+
 body,html {
   background-color: #eee;
 }
@@ -19,6 +24,7 @@ body,html {
 @import 'autokapture/autokapture.scss';
 @import 'downloads/downloads.scss';
 @import 'get/get.scss';
+@import 'kp-filetype-icon/kp-filetype-icon.scss';
 @import 'main/main.scss';
 @import 'settings/settings.scss';
 @import 'watch/watch.scss';

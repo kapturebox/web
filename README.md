@@ -21,3 +21,9 @@ Start server in develop mode:
 vagrant ssh
 cd /vagrant ; grunt serve
 ```
+
+
+Docs
+----
+
+- [TransmissionRPC API spec](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt)
