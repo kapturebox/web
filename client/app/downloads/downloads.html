@@ -18,11 +18,12 @@
         <md-card ng-repeat="item in entries" layout="column" class="download-item md-whiteframe-z2">
           <md-content layout="row">
             <div class="md-padding" layout="column" layout-align="center center">
-              <kp-filetype-icon media-type="{{item.mediaType}}"></kp-filetype-icon>
+              <kp-filetype-icon media-type="{{ item.mediaType }}"></kp-filetype-icon>
             </div>
             <md-divider></md-divider>
             <div class="md-padding" layout="column" layout-align="center start" flex>
               <h4>{{ item.name }}</h4>
+              <span class="md-subtitle">{{ item.totalSize | humanizeFilesize }}</span>
             </div>
             <div class="stats" layout="column" layout-align="center start" class="md-padding" flex="20">
               <span>{{ item.percentDone * 100 | number:2 }}%</span>
