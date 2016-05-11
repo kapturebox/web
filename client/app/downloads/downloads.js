@@ -6,6 +6,11 @@ angular.module('kaptureApp')
       .state('downloads', {
         url: '/downloads',
         templateUrl: 'app/downloads/downloads.html',
-        controller: 'DownloadsCtrl'
+        controller: 'DownloadsCtrl',
+        resolve: {
+          stateDownloads: function(downloadService) {
+            return downloadService.getCurrentDownload;
+          }
+        }
       });
   });

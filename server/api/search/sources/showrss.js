@@ -18,10 +18,15 @@ module.exports = function ( query ) {
     request({
       url: SHOWS_URL
     }, function( err, resp, body ) {
-      if( err ) reject(err);
+      if( err ) return reject(err);
 
-      var doc = new dom({errorHandler: function(o) {}}).parseFromString( body );
-      var shownames_xml = xpath.select( SHOWS_XPATH, doc );
+      try {
+        var doc = new dom({errorHandler: function(o) {}}).parseFromString( body );
+        var shownames_xml = xpath.select( SHOWS_XPATH, doc );
+      } catch(err) {
+        console.log( body );
+        return reject( new Error('cant parse showrss xml', err) );
+      }
 
       // gives us all the elements
       var shownames = shownames_xml.map( function(e) {
@@ -39,6 +44,7 @@ module.exports = function ( query ) {
               && obj.title.toLowerCase().indexOf( query.toLowerCase() ) > -1;
       });
 
+      console.log( 'Results from showrss: ', shownames_filtered.length );
       resolve( shownames_filtered );
     })
   });

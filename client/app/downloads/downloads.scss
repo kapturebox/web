@@ -2,4 +2,13 @@
   .stats span {
     margin: .25em;
   }
+
+  .download-item {
+    .title {
+      font-weight: bold;
+    }
+    .stalled {
+      color: yellow;
+    }
+  }
 }

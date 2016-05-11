@@ -8,7 +8,7 @@ angular.module('kaptureApp')
       downloads: [],
       interval: null, //stop later?
       running: false
-      // getDownloads: 
+      // getDownloads:
     };
 
     this.state = stateData;
@@ -24,6 +24,7 @@ angular.module('kaptureApp')
       if (!stateData.interval){
         stateData.interval = $interval(getDownloads, 3000); // just runs in another 30s...
       }
+      getDownloads();
     }
 
     function getCurrentDownloads(){

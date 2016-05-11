@@ -111,7 +111,17 @@ exports.getDownloads = function( req, res ) {
         json: {
           method: 'torrent-get',
           arguments: {
-            fields: ['name','totalSize','eta','rateDownload','isFinished','isStalled','percentDone','downloadDir']
+            fields: [
+              'name',
+              'totalSize',
+              'eta',
+              'rateDownload',
+              'isFinished',
+              'isStalled',
+              'percentDone',
+              'downloadDir',
+              'hashString'
+            ]
           }
         },
         headers: {

@@ -19,6 +19,8 @@ module.exports = function ( query ) {
      function( err, resp, body ) {
       if (!err && resp.statusCode == 200) {
         resp = transformKatResults( body.list );
+
+        console.log( 'Results from kat: ', resp.length );
         resolve( resp );
       } else {
         reject( err );

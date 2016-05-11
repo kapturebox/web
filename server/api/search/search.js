@@ -12,9 +12,6 @@ module.exports = function( query ) {
     kat( query )
   ])
   .then(function( arr ){
-    console.log( 'Results from showrss: ', arr[0].length );
-    console.log( 'Results from kat: ', arr[1].length );
-
     return _.concat( arr[0], arr[1] );
   })
   .catch(function(err) {
