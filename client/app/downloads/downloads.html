@@ -32,7 +32,7 @@
                 </div>
                 <div class="stats" layout="column" layout-align="center start" class="md-padding" flex="10">
                   <span>{{ entry.percentDone * 100 | number:2 }}%</span>
-                  <span ng-if="entry.isFinished == false">{{ entry.eta | humanizeInt }} seconds</span>
+                  <span ng-if="entry.isFinished == false">{{ entry.eta | amDurationFormat: 'seconds' }}</span>
                   <span ng-if="entry.isFinished == false">{{ entry.rateDownload | humanizeFilesize }}/s</span>
                   <span ng-show="entry.isStalled" class="stalled">Stalled</span>
                 </div>
@@ -40,7 +40,7 @@
 
               <md-divider></md-divider>
               <div class="md-padding actions" layout="column">
-                <md-button class="md-small">
+                <md-button class="md-small" ng-click="remove(entry)">
                   <md-tooltip>Remove entry</md-tooltip>
                   <md-icon md-svg-src="navigation:close" class="md-warn"></md-icon>
                 </md-button>

@@ -15,6 +15,45 @@ var TRANSMISSION_USER  = config.transmissonUser;
 var TRANSMISSION_PASS  = config.transmissionPass;
 var ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
 
+// removes a given hashString
+exports.removeDownload = function( req, res ) {
+  var hash = req.params.hashString;
+
+  getSessionID()
+    .then(function( sessionid ) {
+      request({
+        url: RPC_URL,
+        method: 'POST',
+        auth: {
+          user: TRANSMISSION_USER,
+          pass: TRANSMISSION_PASS
+        },
+        json: {
+          method: 'torrent-remove',
+          arguments: {
+            'ids': hash,
+            'delete-local-data': true
+          }
+        },
+        headers: {
+          'X-Transmission-Session-Id': sessionid,
+        }
+      }, function( err, resp, body ) {
+        if( err ) {
+          console.log( err );
+          return res.status(500).json({ error: err });
+        }
+
+        console.log( 'successfully removed: ', hash );
+        return res.status(200).json( body );
+      });
+    }).catch(function( err ) {
+      return res.status(500).json({error: 'cant get session id'})
+    });
+
+}
+
+
 // starts a new download
 exports.addDownload = function( req, res ) {
   switch( req.body.item.source ) {

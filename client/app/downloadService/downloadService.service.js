@@ -14,6 +14,7 @@ angular.module('kaptureApp')
     this.state = stateData;
     this.handleDownloadData = handleDownloadData;
     this.getCurrentDownloads = getCurrentDownloads;
+    this.remove = removeDownload;
 
     init();
 
@@ -51,4 +52,18 @@ angular.module('kaptureApp')
         return stateData.downloads;
       });
     }
+
+
+    function removeDownload( item ) {
+      return $http({
+        method: 'DELETE',
+        url: '/api/download/' + item.hashString,
+        timeout: 30000 //ms
+      }).then(function( resp ) {
+        return resp.data;
+      }).catch(function( err ) {
+        console.log( 'error: ', err );
+      });
+    };
+
   });
