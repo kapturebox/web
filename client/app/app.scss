@@ -1,23 +1,24 @@
 /**
  * App-wide Styles
  */
- .page {
-   margin-top: 1em;
+.page {
+  margin-top: 1em;
 
-   .rounded-toolbar {
-     border-radius: 3px 3px 0 0;
-   }
- }
+  .rounded-toolbar {
+    border-radius: 3px 3px 0 0;
+  }
+}
 
 
- .md-button.md-small {
-   min-width: 1%;
- }
+.md-button.md-small {
+  min-width: 1%;
+}
 
 
 body,html {
   background-color: #eee;
 }
+
 
 // Component styles are injected through grunt
 // injector
