@@ -16,7 +16,7 @@ exports.index = function(req, res) {
   console.log( '[showrss] getting series' );
 
   try {
-    var seriesObj = YAML.load( config.seriesFileStore );
+    var seriesObj = YAML.load( config.seriesMetadataFileStore );
     res.status(200).json( seriesObj );
   } catch ( err ) {
     res.status(200).json([]);
@@ -46,6 +46,10 @@ exports.getSeriesInfo = function(req, res) {
       var ugly_items = xml2js.toJson( body, {object:true} ).rss.channel;
       var items      = ugly_items['item'];
 
+      if( ! items ) {
+        return res.status(200).json({});
+      }
+
       var filtered   = items.map( function(e) {
         return {
           title: e.title,
@@ -56,7 +60,7 @@ exports.getSeriesInfo = function(req, res) {
         };
       });
 
-      res.status(200).json( filtered );
+      return res.status(200).json( filtered );
     } catch(err) {
       return res.status(500).json({ error: 'cant parse showrss xml: ' + err });
     }
@@ -64,13 +68,13 @@ exports.getSeriesInfo = function(req, res) {
 }
 
 exports.addSeries = function( req, res ) {
-  var newSeries = req.body.item.title;
-  console.log( '[showrss] saving: ', newSeries );
+  var newSeries = req.body.item;
+  console.log( '[showrss] saving: ', newSeries.title );
 
   readSeriesMetaDataFile()
     .then(function( seriesMetadataObj ) {
       seriesMetadataObj.series.push( newSeries );
-      seriesMetadataObj.series = _.uniq( seriesMetadataObj.series );
+      seriesMetadataObj.series = _.uniqBy( seriesMetadataObj.series, 'showRssId' );
       return writeSeriesMetadataFile( seriesMetadataObj );
     })
     .then(function( seriesMetadataObj ) {
@@ -98,22 +102,30 @@ function readSeriesMetaDataFile() {
 
 function writeSeriesMetadataFile( seriesMetadataObj ) {
   return new Promise(function( resolve, reject ) {
-    var yamlStr = YAML.stringify( seriesMetadataObj );
-    fs.writeFileSync( config.seriesMetadataFileStore, yamlStr, function( err ) {
-      if( err ) return reject( new Error( 'string'+err ));
-      return resolve( seriesMetadataObj );
-    });
+    try {
+      var yamlStr = YAML.stringify( seriesMetadataObj );
+      fs.writeFile( config.seriesMetadataFileStore, yamlStr, function( err ) {
+        if( err ) return reject( new Error( err ));
+        return resolve( seriesMetadataObj );
+      });
+    } catch( err ) {
+      console.error( err );
+      return reject( err );
+    }
   });
 }
 
 function writeFlexGetSeriesFile( seriesMetadataObj ) {
   return new Promise(function( resolve, reject ) {
-    var seriesObj = _.pick( seriesMetadataObj.series, 'name' );
-    var yamlStr = YAML.stringify( seriesObj );
+    seriesMetadataObj.series = seriesMetadataObj.series.map( function(e) {
+      return e.title;
+    });
+    console.log(seriesMetadataObj);
+    var yamlStr = YAML.stringify( seriesMetadataObj );
 
-    fs.writeFileSync( config.seriesFileStore, yamlStr, function( err ) {
+    fs.writeFile( config.seriesFileStore, yamlStr, function( err ) {
       if( err ) return reject( new Error( err ));
-      return resolve( seriesObj );
+      return resolve( seriesMetadataObj );
     });
   });
 }

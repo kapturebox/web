@@ -7,6 +7,8 @@ angular.module('kaptureApp')
 
     $scope.getCurrentSeries = downloadService.getCurrentSeries;
 
+    $scope.getSeriesUpcomingEpisodes = downloadService.getSeriesUpcomingEpisodes;
+
 
     // $scope.deleteSource = function( s ) {
     //   $scope.downloadSources.splice($scope.downloadSources.indexOf(s),1);
@@ -23,14 +25,13 @@ angular.module('kaptureApp')
     //   });
     // }
     //
-    // $scope.selectSourceItem = function( index, item ) {
-    //   if( $scope.selectedSourceIndex === index ) {
-    //     $scope.selectedSourceIndex = undefined;
-    //   } else {
-    //     $scope.selectedSourceIndex = index;
-    //     $scope.sourceEntries = $scope.getSourceEntries(item.url);
-    //   }
-    // }
+    $scope.selectSourceItem = function( index, item ) {
+      if( $scope.selectedSourceIndex === index ) {
+        $scope.selectedSourceIndex = undefined;
+      } else {
+        $scope.selectedSourceIndex = index;
+      }
+    }
     //
     // $scope.parseDate = function( date ) {
     //   return new Date(date);

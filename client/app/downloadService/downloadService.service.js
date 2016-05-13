@@ -77,6 +77,20 @@ angular.module('kaptureApp')
       });
     }
 
+    function getSeriesUpcomingEpisodes( item ) {
+      if( ! item.showRssId ) {
+        return {};
+      }
+
+      return $http({
+        method: 'GET',
+        url: '/api/series/' + item.showRssId,
+        timeout: 30000  // in ms
+      }).then( function( resp ) {
+        return resp.data;
+      });
+    }
+
 
 
     function removeDownload( item ) {

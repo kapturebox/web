@@ -10,11 +10,11 @@
 
         <md-content class="md-padding download-sources-table">
           <md-list class="download-source" >
-            <md-list-item class="md-2-line" ng-repeat="item in getCurrentSeries()" layout="column">
+            <md-list-item class="md-2-line" ng-repeat="source in getCurrentSeries()" layout="column">
               <div class="source-header" layout-fill layout="row">
 
                 <div class="checkbox">
-                  <md-checkbox ng-selected="item.selected"></md-checkbox>
+                  <md-checkbox ng-selected="source.selected"></md-checkbox>
                 </div>
 
                 <div layout-align="center center">
@@ -22,13 +22,13 @@
                 </div>
 
                 <div class="md-list-item-text" layout="column" layout-fill layout-align="start">
-                  <h3 class="source-name">{{ item }}</h3>
-                  <p class="source-url">{{ item }}</p>
+                  <h3 class="source-name">{{ source.title }}</h3>
+                  <p class="source-url">{{ source.title }}</p>
                 </div>
 
                 <div layout="row" layout-align="center center">
-                  <md-button class="md-small" ng-click="selectSourceItem($index, source)">
-                    <md-tooltip md-direction="bottom">Show recent downloads..</md-tooltip>
+                  <md-button class="md-small" ng-click="selectSourceItem($index, item)">
+                    <md-tooltip md-direction="bottom">Show upcoming..</md-tooltip>
                     <md-icon md-svg-src="image:remove_red_eye"></md-icon>
                   </md-button>
                   <md-button class="md-small" aria-label="Delete source {{ source.name }}" ng-click="deleteSource( source )">
@@ -40,7 +40,7 @@
               <md-content class="source-items" ng-show="$index==selectedSourceIndex" layout-fill>
                 <md-subheader>Media from this source</md-subheader>
                 <md-list class="source-item-list md-2-line">
-                  <md-list-item ng-repeat="item in sourceEntries" class="md-padding" layout="row">
+                  <md-list-item ng-repeat="entry in getSeriesUpcomingEpisodes(source.showRssId)" class="md-padding" layout="row">
                     <div>
                       <md-icon md-svg-src="av:videocam"></md-icon>
                     </div>
