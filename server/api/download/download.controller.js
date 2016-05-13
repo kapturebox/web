@@ -56,44 +56,8 @@ exports.removeDownload = function( req, res ) {
 
 // starts a new download
 exports.addDownload = function( req, res ) {
-  switch( req.body.item.source ) {
-    case 'showrss':
-      addShowrssSource( req.body, res );
-      break;
-    default:
-      addTorrentSource( req.body, res );
-      break;
-  }
+  addTorrentSource( req.body, res );
 };
-
-function addShowrssSource( reqbody, res ) {
-  var newSeries = reqbody.item.title;
-  var seriesObj;
-
-  console.log( '[showrss] putting: ', newSeries );
-
-  try {
-    seriesObj = YAML.load( config.seriesFileStore );
-  } catch ( err ) {
-    seriesObj = fileSeriesTemplate();
-  }
-
-  seriesObj.series.push( newSeries );
-  seriesObj.series = _.uniq( seriesObj.series );
-
-  var yamlStr = YAML.stringify( seriesObj );
-  fs.writeFile( config.seriesFileStore, yamlStr, function( err ) {
-    if( err ) return res.status(500).json( err );
-    return res.status(200).send();
-  });
-}
-
-function fileSeriesTemplate() {
-  return {
-    series: []
-  };
-}
-
 
 
 function addTorrentSource( reqbody, res ) {

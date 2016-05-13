@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .factory('downloadService', function ($http, $interval) {
+  .factory('downloadService', function ($http, $interval, $mdToast) {
 
     //always use objects as top level... referenceable
     var stateData = {
       downloads: [],
+      series: [],
       interval: null, //stop later?
-      running: false
+      running: false,
       // getDownloads:
     };
 
@@ -15,6 +16,9 @@ angular.module('kaptureApp')
     this.handleDownloadData = handleDownloadData;
     this.getCurrentDownloads = getCurrentDownloads;
     this.remove = removeDownload;
+    this.addDownload = addDownload;
+    this.getCurrentSeries = getCurrentSeries;
+    this.getSeries = getSeries;
 
     init();
 
@@ -30,6 +34,11 @@ angular.module('kaptureApp')
 
     function getCurrentDownloads(){
       return stateData.downloads;
+    }
+
+    function getCurrentSeries(){
+      console.log('getting series');
+      return stateData.series;
     }
 
     //usually good to just throw in an intermediary
@@ -54,6 +63,22 @@ angular.module('kaptureApp')
     }
 
 
+    function getSeries() {
+      if (stateData.gettingSeries) return;
+      stateData.gettingSeries = true;
+      return $http({
+        method: 'GET',
+        url: '/api/series',
+        timeout: 30000  // in ms
+      }).then( function( resp ) {
+        stateData.series = resp.data.series;
+        stateData.gettingSeries = false;
+        return stateData.series;
+      });
+    }
+
+
+
     function removeDownload( item ) {
       return $http({
         method: 'DELETE',
@@ -66,4 +91,36 @@ angular.module('kaptureApp')
       });
     };
 
+
+
+    function addDownload( obj ) {
+      var endpoint = '/api/download';
+      var successMessage = 'Download started..';
+
+      if( obj.mediaType == 'series' ) {
+        endpoint = '/api/series';
+        successMessage = 'Series added!';
+      }
+
+      return $http({
+        url:    endpoint,
+        method: 'PUT',
+        data:   {
+          item: obj
+        }
+      }).then( function( resp ) {
+        return showToastMessage( successMessage );
+      }, function( failed ) {
+        return showToastMessage( 'Can\'t add: ' + failed.status + ' ' + failed.statusText );
+      });
+    }
+
+
+    function showToastMessage( msg ) {
+      return $mdToast.show(
+        $mdToast.simple()
+          .textContent( msg )
+          .hideDelay( 2000 )
+      );
+    }
   });

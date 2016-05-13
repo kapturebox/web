@@ -2,8 +2,8 @@ var Promise = require('bluebird');
 var request = require('request');
 var _       = require('lodash');
 
-var xpath = require('xpath')
-var dom   = require('xmldom').DOMParser
+var xpath = require('xpath');
+var dom   = require('xmldom').DOMParser;
 
 
 module.exports = function ( query ) {
@@ -32,7 +32,8 @@ module.exports = function ( query ) {
       var shownames = shownames_xml.map( function(e) {
         return e.firstChild ? {
           source: 'showrss',
-          mediaType: 'tvshow',
+          mediaType: 'series',
+          showRssId: e.getAttribute('value'),
           title: e.firstChild.data
         } : null;
       });

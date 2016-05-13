@@ -14,3 +14,5 @@ tmp
 *.retry
 user_series.yml
 system_settings.yml
+db-config.sqlite
+flexget.log

@@ -5,21 +5,25 @@
     <div class="autokapture-container md-whiteframe-z1" flex-gt-sm="80" flex>
 
         <md-toolbar class="md-whiteframe-z1 rounded-toolbar">
-          <h2 class="md-toolbar-tools">Active sources</h2>
+          <h2 class="md-toolbar-tools">AutoKaptured series</h2>
         </md-toolbar>
 
         <md-content class="md-padding download-sources-table">
           <md-list class="download-source" >
-            <md-list-item class="md-2-line" ng-repeat="source in downloadSources" layout="column">
+            <md-list-item class="md-2-line" ng-repeat="item in getCurrentSeries()" layout="column">
               <div class="source-header" layout-fill layout="row">
+
+                <div class="checkbox">
+                  <md-checkbox ng-selected="item.selected"></md-checkbox>
+                </div>
 
                 <div layout-align="center center">
                   <i class="md-padding fa fa-rss fa-2x"></i>
                 </div>
 
                 <div class="md-list-item-text" layout="column" layout-fill layout-align="start">
-                  <h3 class="source-name">{{ source.name }}</h3>
-                  <p class="source-url">{{ source.url }}</p>
+                  <h3 class="source-name">{{ item }}</h3>
+                  <p class="source-url">{{ item }}</p>
                 </div>
 
                 <div layout="row" layout-align="center center">

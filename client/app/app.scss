@@ -19,6 +19,13 @@ body,html {
   background-color: #eee;
 }
 
+.md-toolbar-tools {
+  font-weight: bold;
+}
+
+.md-button {
+  font-weight: bold;
+}
 
 // Component styles are injected through grunt
 // injector

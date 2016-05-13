@@ -24,10 +24,13 @@ module.exports = {
   kaptureHost: 'localhost',
 
 
-  // where to keep the series file for flexget to use
-  seriesFileStore   : '/etc/kapture/user_series.yml',
 
   // settings that will be used by ansible here
-  settingsFileStore : '/etc/kapture/system_settings.yml'
+  settingsFileStore : '/etc/kapture/system_settings.yml',
+
+
+  // where to keep the series file for flexget to use
+  seriesFileStore         : '/etc/kapture/user_series.yml',          //flexget
+  seriesMetadataFileStore : '/etc/kapture/user_series_metadata.yml'  //kapture
 
 };

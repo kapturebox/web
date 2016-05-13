@@ -40,7 +40,7 @@ function transformKatResults( jsonResults ) {
       mediaType: determineKatMediaType( d ),
       size: d.size,
       downloadUrl: d.torrentLink,
-      hash: d.hash,
+      hashString: d.hash,
       peers: d.peers,
       score: d.votes
     }

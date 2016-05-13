@@ -59,12 +59,12 @@ var all = {
   transmissonUser   : 'admin',
   transmissionPass  : 'password',
 
-  // where to keep the series file for flexget to use
-  seriesFileStore   : 'user_series.yml',
-
   // settings that will be used by ansible here
-  settingsFileStore : 'system_settings.yml'
+  settingsFileStore : 'system_settings.yml',
 
+  // where to keep the series files for flexget to use
+  seriesFileStore         : 'user_series.yml',          //flexget
+  seriesMetadataFileStore : 'user_series_metadata.yml'  //kapture
 };
 
 // Export the config object based on the NODE_ENV

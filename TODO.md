@@ -19,6 +19,7 @@ Features
 
 - **[Chris]** UI of site should be more mobile-like .. menu on left that slides out and each section [get,watch,active] is an equal grouping.  maybe some different colors and layout changes .. whatever is useful really.  goal is easy, rapid interface.
 - Add like a trending media section
+- Utilize [something like this](https://webtorrent.io/desktop) for an additional 'streaming button'
 - Add the ability to pull subtitles on download, use http://opensubtites.org/
 - Option to make sticky menu thing on the side
 - Remove / delete / stop / start buttons for downloads

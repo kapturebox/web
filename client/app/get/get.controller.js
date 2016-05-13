@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .controller('GetCtrl', function ( $scope, $mdToast, $http ) {
+  .controller('GetCtrl', function ( $scope, $mdToast, $http, downloadService ) {
 
     $scope.unescape = unescape;
 
@@ -34,26 +34,6 @@ angular.module('kaptureApp')
       });
     }
 
-    $scope.downloadLink = function( obj ) {
-      $http({
-        url:    '/api/download',
-        method: 'PUT',
-        data:   {
-          item: obj
-        }
-      }).then( function( resp ) {
-        $mdToast.show(
-          $mdToast.simple()
-            .textContent( 'Download started' )
-            .hideDelay( 2000 )
-        );
-      }, function( failed ) {
-        $mdToast.show(
-          $mdToast.simple()
-            .textContent( 'Download failed: ' + failed.status + ' ' + failed.statusText )
-            .hideDelay( 2000 )
-        );
-      });
-    }
+    $scope.downloadLink = downloadService.addDownload;
 
   });
