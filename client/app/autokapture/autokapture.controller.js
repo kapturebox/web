@@ -32,10 +32,10 @@ angular.module('kaptureApp')
         $scope.selectedSourceIndex = index;
       }
     }
-    //
-    // $scope.parseDate = function( date ) {
-    //   return new Date(date);
-    // };
+
+    $scope.parseDate = function( date ) {
+      return new Date(date);
+    };
 
 
   });
