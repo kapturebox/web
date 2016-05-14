@@ -13,15 +13,12 @@
     dest: /boot/config.txt
     insertbefore: BOF
     line: max_usb_current=1
-  when: ansible_lsb.id == "Raspbian"
+  when: pi is defined and pi
 
 - name: disable lightdm on boot
-  template:
-    src: lightdm.override.j2
-    dest: /etc/init/lightdm.override
-    mode: 0644
-    owner: root
-    group: root
+  service:
+    name: lightdm
+    enabled: no
 
 - name: setup new version of nodejs
   shell: curl -sL https://deb.nodesource.com/setup_5.x |  bash -
@@ -36,10 +33,19 @@
     - usbmount
     - libffi-dev
     - libssl-dev
+    - iptables-persistent
 
 
 - name: ensure kapture group is setup correctly
   group: name=kapture system=yes state=present
+
+- name: ensure sudo group doesnt require password sudo (if xenial)
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%sudo   ALL=(ALL:ALL) ALL$"
+    line:    "%sudo   ALL=(ALL:ALL) NOPASSWD: ALL"
+  when: ansible_lsb.codename == "xenial"
 
 - name: ensure kapture users are setup correctly
   user:
@@ -49,10 +55,17 @@
     home: /var/lib/kapture
     state: present
 
+- name: add public ssh keys
+  authorized_key:
+    user: "{{ ansible_ssh_user }}"
+    state: present
+    key: "{{ item }}"
+  with_items: "{{ ssh_authorized_keys }}"
+  when: pi is defined and pi
 
 - name: change storage path if running via vagrant
   set_fact: storage_block_device=/dev/sdb
-  when: ansible_lsb.id != "Raspbian"
+  when: vagrant is defined and vagrant
 
 # not the best way to check for this stuff, especially with multiple drives.
 # works in the meantime though
@@ -66,15 +79,14 @@
   include: setup-disk.yml
   when: storage_mount_stat.rc != 0
 
-
 - name: restart machine
   command: shutdown -r now "Ansible updates triggered"
   async: 0
   poll: 0
   ignore_errors: true
-  when: system_upgraded.changed and ansible_lsb.id == "Raspbian"
+  when: system_upgraded.changed and pi is defined and pi
 
 - name: waiting for server to come back
   local_action: wait_for host={{ inventory_hostname }} state=started timeout=600
   become: false
-  when: system_upgraded.changed and ansible_lsb.id == "Raspbian"
+  when: system_upgraded.changed and pi is defined and pi
