@@ -22,9 +22,14 @@ Vagrant.configure(2) do |config|
 
 
   config.vm.provision "shell", inline: <<-SHELL
+    # xenial has some more invasive apt cron jobs that start on boot ..
+    while ! apt-get update >/dev/null 2>&1; do
+      echo 'waiting for apt lock to clear, then performing apt-get update ..'
+      sleep 5
+    done;
+
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
-    apt-get update
     apt-get install -y python-pip devscripts debhelper ruby ruby-compass git iptables-persistent python-dev libffi-dev libssl-dev
     pip install ansible==2.0.0.2 markupsafe
 
