@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var request = require('request');
 var _       = require('lodash');
+var config  = require('../../../config/environment');
 
 var xpath = require('xpath');
 var dom   = require('xmldom').DOMParser;
@@ -46,7 +47,7 @@ module.exports = function ( query ) {
               && obj.title.toLowerCase().indexOf( query.toLowerCase() ) > -1;
       });
 
-      console.log( 'Results from showrss: ', shownames_filtered.length );
+      config.logger.info( 'Results from showrss: ', shownames_filtered.length );
       resolve( shownames_filtered );
     })
   });

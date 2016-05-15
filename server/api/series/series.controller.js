@@ -13,7 +13,7 @@ var xml2js  = require('xml2json-light');
 
 // Get list of seriess
 exports.index = function(req, res) {
-  console.log( '[showrss] getting series' );
+  config.logger.info( '[showrss] getting series' );
 
   try {
     var seriesObj = YAML.load( config.seriesMetadataFileStore );
@@ -23,14 +23,14 @@ exports.index = function(req, res) {
   }
 };
 
-exports.deleteSeries = function( req, res ) {
+exports.deleteSeries = function( req, res, next ) {
   var seriesToDelete = req.params.id;
 
   if( _.isEmpty( seriesToDelete ) ) {
-    return res.status(500).json({error: 'no show id provided' });
+    return next(new Error( 'no show id provided' ));
   }
 
-  console.log( '[showrss] saving: ', seriesToDelete );
+  config.logger.info( '[showrss] saving: ', seriesToDelete );
 
   readSeriesMetaDataFile()
     .then(function( seriesMetadataObj ) {
@@ -44,17 +44,17 @@ exports.deleteSeries = function( req, res ) {
       return res.status(200).send();
     })
     .catch( function( err ) {
-      return res.status(500).json( {error: err} );
+      return next(new Error( err ));
     });
 }
 
 
 
-exports.getSeriesInfo = function(req, res) {
+exports.getSeriesInfo = function( req, res, next ) {
   var seriesReq = req.params.id;
 
   if( _.isEmpty( seriesReq ) ) {
-    return res.status(500).json({error: 'no show id provided' });
+    return next(new Error( 'no show id provided' ));
   }
 
   // %d is the id # as stored by showrss
@@ -64,7 +64,7 @@ exports.getSeriesInfo = function(req, res) {
     url: util.format( SHOW_HISTORY_DATA_URL, seriesReq )
   }, function( err, resp, body ) {
     if( err ) {
-      return res.status(500).json({ error: err });
+      return next(new Error( err ));
     }
 
     try {
@@ -87,14 +87,14 @@ exports.getSeriesInfo = function(req, res) {
 
       return res.status(200).json( filtered );
     } catch(err) {
-      return res.status(500).json({ error: 'cant parse showrss xml: ' + err });
+      return next(new Error( {error: err, msg: 'cant parse showrss xml'} ));
     }
   });
 }
 
-exports.addSeries = function( req, res ) {
+exports.addSeries = function( req, res, next ) {
   var newSeries = req.body.item;
-  console.log( '[showrss] saving: ', newSeries.title );
+  config.logger.info( '[showrss] saving: ', newSeries.title );
 
   readSeriesMetaDataFile()
     .then(function( seriesMetadataObj ) {
@@ -109,7 +109,7 @@ exports.addSeries = function( req, res ) {
       return res.status(200).send();
     })
     .catch( function( err ) {
-      return res.status(500).json( {error: err} );
+      return next(new Error( err ));
     });
 }
 
@@ -144,7 +144,7 @@ function writeFlexGetSeriesFile( seriesMetadataObj ) {
     seriesMetadataObj.series = seriesMetadataObj.series.map( function(e) {
       return e.title;
     });
-    console.log(seriesMetadataObj);
+
     var yamlStr = YAML.stringify( seriesMetadataObj );
 
     fs.writeFile( config.seriesFileStore, yamlStr, function( err ) {

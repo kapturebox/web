@@ -2,18 +2,19 @@
 
 var _ = require('lodash');
 var search = require('./search');
+var config = require('../../config/environment')
 
 
 // Get list of searchs
-exports.search = function(req, res) {
+exports.search = function( req, res, next ) {
   var query = req.query.q;
-  console.log( 'Search query: %s', query );
+  config.logger.info( 'Search query: %s', query );
 
   search( query )
     .then(function( results ) {
-      res.status(200).json( results );
+      return res.status(200).json( results );
     })
     .catch(function( err ) {
-      res.status(500).json( err );
+      return next(new Error( err ));
     });
 };

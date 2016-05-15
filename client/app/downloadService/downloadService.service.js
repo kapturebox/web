@@ -151,7 +151,6 @@ angular.module('kaptureApp')
         method: 'DELETE',
         url: '/api/series/' + item.showRssId
       }).then( function( resp ) {
-        console.log(resp);
         return resp;
       });
     }

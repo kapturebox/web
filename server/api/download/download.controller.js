@@ -16,7 +16,7 @@ var TRANSMISSION_PASS  = config.transmissionPass;
 var ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
 
 // removes a given hashString
-exports.removeDownload = function( req, res ) {
+exports.removeDownload = function( req, res, next ) {
   var hash = req.params.hashString;
   var perm = req.body.delete ? true : false;
 
@@ -41,27 +41,26 @@ exports.removeDownload = function( req, res ) {
         }
       }, function( err, resp, body ) {
         if( err ) {
-          console.log( err );
-          return res.status(500).json({ error: err });
+          return next(new Error( err ));
         }
 
-        console.log( 'successfully removed: ', hash );
+        config.logger.info( 'successfully removed: ', hash );
         return res.status(200).json( body );
       });
     }).catch(function( err ) {
-      return res.status(500).json({error: 'cant get session id'})
+      return next(new Error( {error: err, msg: 'cant get session id'} ));
     });
 
 }
 
 
 // starts a new download
-exports.addDownload = function( req, res ) {
-  addTorrentSource( req.body, res );
+exports.addDownload = function( req, res, next ) {
+  addTorrentSource( req.body, res, next );
 };
 
 
-function addTorrentSource( reqbody, res ) {
+function addTorrentSource( reqbody, res, next ) {
   getSessionID()
     .then(function( sessionid ) {
       request({
@@ -83,16 +82,16 @@ function addTorrentSource( reqbody, res ) {
         }
       }, function( err, resp, body ) {
         if(err || resp.statusCode !== 200 || body.result !== 'success' ) {
-          res.status(500).json({ error: err, resp: resp });
+          return next(new Error( err ));
         } else {
           // TODO: Check to see if the hash from the response matches that
           // of the hash that came back from the source
-          res.status(200).json( resp );
+          return res.status(200).json( resp );
         }
       });
     })
     .catch(function( err ) {
-      console.log( 'error getting session id: ', err );
+      return next(new Error( err ));
     });
 }
 
@@ -102,7 +101,7 @@ function addTorrentSource( reqbody, res ) {
 
 
 // Get list of downloads
-exports.getDownloads = function( req, res ) {
+exports.getDownloads = function( req, res, next ) {
   getSessionID()
     .then(function( sessionid ) {
       request({
@@ -134,7 +133,7 @@ exports.getDownloads = function( req, res ) {
         }
       }, function( err, resp, body ) {
         if(err || resp.statusCode !== 200 || body.result !== 'success' ) {
-          res.status(500).json({ error: err, resp: resp });
+          return next(new Error( err ));
         } else {
           var ret = body.arguments.torrents.map(function(obj) {
             return _.extend( obj, {mediaType: getMediaTypeFromPath( obj['downloadDir'] )});
@@ -144,7 +143,7 @@ exports.getDownloads = function( req, res ) {
       });
     })
     .catch(function(err) {
-      console.log( 'error getting session id: ', err );
+      config.logger.error( 'error getting session id: ', err );
     });
 }
 

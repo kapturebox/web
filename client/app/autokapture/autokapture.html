@@ -10,6 +10,9 @@
 
         <div layout="column" layout-gt-xs="row" flex>
           <md-content class="download-series-table" flex="50">
+            <div ng-show="getEnabledSeries().length == 0" class="md-padding" layout="column" layout-align="center center">
+              No series set to auto kapture.  To add some <a ng-href="/get">search on the get page</a>
+            </div>
             <md-list class="download-series" layout="column">
               <md-list-item class="md-1-line" ng-repeat="series in getEnabledSeries()" ng-class="{'active':$index==selectedSeriesIndex}" flex>
                 <div class="md-padding series-entry" layout="column" flex>

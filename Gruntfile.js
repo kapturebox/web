@@ -129,7 +129,7 @@ module.exports = function (grunt) {
     debian_package: {
       options: {
         maintainer: {
-          name: "kapture",
+          name: "gaieges",
           email: "gaieges@gmail.com"
         },
         name: "kapture",

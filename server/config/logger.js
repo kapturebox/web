@@ -2,8 +2,7 @@
 
 var winston = require('winston');
 
-module.exports = function(config, prepend) {
-  prepend = prepend || '';
+module.exports = function() {
   return new (winston.Logger)({
     transports: [
       new (winston.transports.Console)({
@@ -11,8 +10,7 @@ module.exports = function(config, prepend) {
         prettyPrint: true,
         timestamp: true,
         stderrLevels: ['error'],
-        level: config.logger.loglevel || 'info',
-        label: prepend
+        level: process.env.NODE_ENV == 'production' ? 'info' : 'debug'
       })
     ]
   })

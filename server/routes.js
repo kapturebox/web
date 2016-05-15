@@ -13,7 +13,6 @@ module.exports = function(app) {
   app.use('/api/series', require('./api/series'));
   app.use('/api/download', require('./api/download'));
   app.use('/api/search', require('./api/search'));
-  app.use('/api/sources', require('./api/source'));
   app.use('/api/settings', require('./api/settings'));
   app.use('/api/things', require('./api/thing'));
 

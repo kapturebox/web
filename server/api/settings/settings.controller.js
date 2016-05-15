@@ -11,13 +11,12 @@ var settingsFile = config.settingsFileStore;
 
 
 // store settings for ansible
-exports.postSettings = function(req, res) {
+exports.postSettings = function( req, res, next ) {
   var yaml_str = YAML.stringify( req.body, 2 );
 
   fs.writeFile( settingsFile, yaml_str, function( err ) {
     if( err ) {
-      res.status(500).json({error: err});
-      return;
+      return next(new Error( err ));
     }
 
     if( process.env.NODE_ENV == 'production' ) {
@@ -26,7 +25,7 @@ exports.postSettings = function(req, res) {
           res.status(200).send({ output: stdout });
         } else {
           console.error( "stderr: %s \n\nstdout: %s", stderr, stdout );
-          res.status(500).json({ error: stderr });
+          return next(new Error( err ));
         }
       });
     } else {
@@ -44,7 +43,7 @@ function defaultSystemFile() {
 }
 
 // get settings from ansible
-exports.getSettings = function(req, res) {
+exports.getSettings = function( req, res, next ) {
   try {
     var json_obj = YAML.load( settingsFile );
     res.status(200).json( json_obj );

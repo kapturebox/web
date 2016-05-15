@@ -15,7 +15,7 @@
           No recent downloads
         </div>
 
-        <div ng-repeat="entry in getDownloads() | orderBy: ['isFinished','startDate'] track by entry.hashString"
+        <div ng-repeat="entry in getDownloads() | orderBy: ['isFinished','-startDate'] track by entry.hashString"
              ng-show="getDownloads()">
           <span flex-gt-sm></span>
 

@@ -1,6 +1,8 @@
 var Promise = require('bluebird');
 var request = require('request');
 var util = require('util');
+var config  = require('../../../config/environment');
+
 
 
 module.exports = function ( query ) {
@@ -20,7 +22,7 @@ module.exports = function ( query ) {
       if (!err && resp.statusCode == 200) {
         resp = transformKatResults( body.list );
 
-        console.log( 'Results from kat: ', resp.length );
+        config.logger.info( 'Results from kat: ', resp.length );
         resolve( resp );
       } else {
         reject( err );

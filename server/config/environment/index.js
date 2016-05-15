@@ -71,4 +71,5 @@ var all = {
 // ==============================================
 module.exports = _.merge(
   all,
+  { logger: require('../logger')() },
   require('./' + process.env.NODE_ENV + '.js') || {});
