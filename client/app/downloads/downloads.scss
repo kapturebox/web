@@ -5,13 +5,17 @@
 
   .download-item {
     .title-container {
-      overflow: scroll;      
+      overflow: hidden;
     }
     .title {
       font-weight: bold;
     }
     .stalled {
       color: yellow;
+    }
+
+    .actions button {
+      margin: 0px;
     }
   }
 }

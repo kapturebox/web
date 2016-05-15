@@ -1,8 +1,9 @@
 {
   "name": "kapture",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "server/app.js",
   "dependencies": {
+    "asap": "^2.0.3",
     "bluebird": "^3.3.4",
     "body-parser": "~1.15.0",
     "composable-middleware": "^0.3.0",
@@ -85,9 +86,8 @@
     "google-cdn-data": "~0.1.23"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=5.0.0"
   },
-  "cpu": ["arm","x86","x64"],
   "scripts": {
     "start": "node server/app.js",
     "test": "grunt test",

@@ -2,24 +2,24 @@
   "name": "kapture",
   "version": "0.0.0",
   "dependencies": {
-    "angular": ">=1.5.*",
-    "json3": "~3.3.1",
-    "es5-shim": "~3.0.1",
-    "angular-resource": ">=1.2.*",
-    "angular-cookies": ">=1.2.*",
-    "angular-messages": ">=1.2.*",
-    "angular-sanitize": ">=1.2.*",
-    "angular-material": "latest",
-    "lodash": "~2.4.1",
-    "angular-ui-router": "~0.2.15",
+    "angular": "^1.5.5",
+    "json3": "^3.3.2",
+    "es5-shim": "^4.5.8",
+    "angular-resource": "^1.5.5",
+    "angular-cookies": "^1.5.5",
+    "angular-messages": "^1.5.5",
+    "angular-sanitize": "^1.5.5",
+    "angular-material": "^1.0.8",
+    "lodash": "^4.12.0",
+    "angular-ui-router": "^0.2.18",
     "angular-moment": "^0.10.3",
     "angular-filter": "^0.5.8",
     "angularjs-humanize": "^0.0.1",
     "angular-material-data-table": "^0.10.9"
   },
   "devDependencies": {
-    "angular-mocks": ">=1.2.*",
-    "angular-scenario": ">=1.2.*"
+    "angular-mocks": "^1.5.5",
+    "angular-scenario": "^1.5.5"
   },
   "overrides": {
     "font-awesome": {
@@ -29,6 +29,8 @@
     }
   },
   "resolutions": {
-    "angular": ">=1.5.*"
+    "angular": "1.5.5",
+    "es5-shim": "^4.5.8",
+    "lodash": "^4.12.0"
   }
 }
