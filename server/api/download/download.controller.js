@@ -18,6 +18,7 @@ var ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
 // removes a given hashString
 exports.removeDownload = function( req, res ) {
   var hash = req.params.hashString;
+  var perm = req.body.delete ? true : false;
 
   getSessionID()
     .then(function( sessionid ) {
@@ -32,7 +33,7 @@ exports.removeDownload = function( req, res ) {
           method: 'torrent-remove',
           arguments: {
             'ids': hash,
-            'delete-local-data': true
+            'delete-local-data': perm
           }
         },
         headers: {
@@ -123,7 +124,8 @@ exports.getDownloads = function( req, res ) {
               'isStalled',
               'percentDone',
               'downloadDir',
-              'hashString'
+              'hashString',
+              'startDate'
             ]
           }
         },

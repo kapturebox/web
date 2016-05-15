@@ -1,13 +1,13 @@
 .autokapture-page {
-  .delete-source {
+  .delete-series {
     color: red;
   }
 
-  .source-item-list {
+  .series-item-list {
     background-color: #f5f5f5;
   }
 
-  .source-items {
+  .series-items {
     height: 15em;
   }
 
@@ -15,11 +15,7 @@
     min-width: 1%;
   }
 
-  // md-progress-linear .md-container {
-  //   height: 15px;
-  // }
-  //
-  // md-progress-linear .md-container .md-bar {
-  //   height: 15px;
-  // }
+  .checkbox md-checkbox {
+    margin-bottom: 0px;
+  }
 }

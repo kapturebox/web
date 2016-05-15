@@ -10,12 +10,13 @@
 
     <md-content>
       <section class="md-padding">
-        <!-- <h4>
-          <span ng-if="!isFinished">Active [{{ entries.length }}]</span>
-          <span ng-if="!!isFinished">Completed [{{ entries.length }}]</span>
-        </h4> -->
 
-        <div ng-repeat="entry in getDownloads() | orderBy: 'isFinished' track by entry.hashString">
+        <div ng-hide="getDownloads().length" layout="column" layout-align="center center" class="md-padding">
+          No recent downloads
+        </div>
+
+        <div ng-repeat="entry in getDownloads() | orderBy: ['isFinished','startDate'] track by entry.hashString"
+             ng-show="getDownloads()">
           <span flex-gt-sm></span>
 
           <md-card layout="column" class="download-item md-whiteframe-z2">
@@ -25,8 +26,8 @@
               </div>
               <md-divider></md-divider>
 
-              <div layout="column" layout-gt-sm="row" flex>
-                <div class="md-padding" layout="column" layout-align="center start" flex="70">
+              <div layout="column" layout-gt-xs="row" flex>
+                <div class="title-container md-padding" layout="column" layout-align="center start" flex="70">
                   <span class="title">{{ entry.name }}</span>
                   <span class="md-subhead">{{ entry.totalSize | humanizeFilesize }}</span>
                 </div>
@@ -41,8 +42,12 @@
               <md-divider></md-divider>
               <div class="md-padding actions" layout="column">
                 <md-button class="md-small" ng-click="remove(entry)">
-                  <md-tooltip>Remove entry</md-tooltip>
-                  <md-icon md-svg-src="navigation:close" class="md-warn"></md-icon>
+                  <md-tooltip>Stop and Remove download</md-tooltip>
+                  <md-icon md-svg-src="navigation:close"></md-icon>
+                </md-button>
+                <md-button class="md-small" ng-click="delete(entry)">
+                  <md-tooltip>Delete file from device</md-tooltip>
+                  <md-icon md-svg-src="action:delete" class="md-warn"></md-icon>
                 </md-button>
                 <md-button class="md-small">
                   <md-tooltip>View in plex</md-tooltip>

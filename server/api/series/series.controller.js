@@ -7,7 +7,7 @@ var fs      = require('fs');
 var request = require('request');
 var util    = require('util');
 var Promise = require('bluebird');
-var xml2js  = require('xml2json');
+var xml2js  = require('xml2json-light');
 
 
 
@@ -22,6 +22,31 @@ exports.index = function(req, res) {
     res.status(200).json([]);
   }
 };
+
+exports.deleteSeries = function( req, res ) {
+  var seriesToDelete = req.params.id;
+
+  if( _.isEmpty( seriesToDelete ) ) {
+    return res.status(500).json({error: 'no show id provided' });
+  }
+
+  console.log( '[showrss] saving: ', seriesToDelete );
+
+  readSeriesMetaDataFile()
+    .then(function( seriesMetadataObj ) {
+      seriesMetadataObj.series = _.reject( seriesMetadataObj.series, {showRssId: seriesToDelete} );
+      return writeSeriesMetadataFile( seriesMetadataObj );
+    })
+    .then(function( seriesMetadataObj ) {
+      return writeFlexGetSeriesFile( seriesMetadataObj );
+    })
+    .then( function() {
+      return res.status(200).send();
+    })
+    .catch( function( err ) {
+      return res.status(500).json( {error: err} );
+    });
+}
 
 
 
@@ -43,7 +68,7 @@ exports.getSeriesInfo = function(req, res) {
     }
 
     try {
-      var ugly_items = xml2js.toJson( body, {object:true} ).rss.channel;
+      var ugly_items = xml2js.xml2json( body ).rss.channel;
       var items      = ugly_items['item'];
 
       if( ! items ) {
@@ -78,7 +103,6 @@ exports.addSeries = function( req, res ) {
       return writeSeriesMetadataFile( seriesMetadataObj );
     })
     .then(function( seriesMetadataObj ) {
-      console.log( 'metadata file: ', seriesMetadataObj );
       return writeFlexGetSeriesFile( seriesMetadataObj );
     })
     .then( function() {

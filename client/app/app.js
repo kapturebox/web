@@ -47,6 +47,10 @@ angular.module('kaptureApp', [
   })
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('blue')
-      .accentPalette('amber');
+      .primaryPalette('deep-purple', {
+        'default': '600'
+      })
+      .accentPalette('grey', {
+        'default': '300'
+      });
   });

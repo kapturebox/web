@@ -43,7 +43,7 @@
                     <th md-column md-order-by="mediaType"></th>
                     <th md-column md-order-by="title">Name</th>
                     <th md-column md-order-by="category" hide show-gt-xs>Category</th>
-                    <th md-column md-order-by="source" hide show-gt-xs>Source</th>
+                    <th md-column md-order-by="source" hide show-gt-sm>Source</th>
                     <th md-column md-order-by="size" md-numeric hide show-gt-xs>Size</th>
                     <th md-column md-order-by="uploaded" md-numeric hide show-gt-xs>Uploaded</th>
                     <th md-column>Download</th>
@@ -57,20 +57,20 @@
                     </td>
                     <td md-cell>{{ item.title }}</td>
                     <td md-cell hide show-gt-xs>{{ item.category }}</td>
-                    <td md-cell hide show-gt-xs>{{ item.source }}</td>
+                    <td md-cell hide show-gt-sm>{{ item.source }}</td>
                     <td md-cell hide show-gt-xs>{{ item.size | humanizeFilesize }}</td>
                     <td md-cell hide show-gt-xs>
-                      <time ng-if="item.uploaded" am-time-ago="{{getDate(item.uploaded)}}"></time>
+                      <time ng-if="item.uploaded" am-time-ago="{{ getDate(item.uploaded) }}"></time>
                     </td>
                     <td md-cell>
                       <md-button class="md-button md-warn md-small" aria-label="Download"
                                  ng-click="downloadLink( item )" ng-hide="item.source=='showrss'">
-                        <md-tooltip>Click to download this file</md-tooltip>
+                        <md-tooltip md-direction="left">Click to download this file</md-tooltip>
                         <md-icon md-svg-src="file:file_download"></md-icon>
                       </md-button>
                       <md-button class="md-button md-warn md-small" aria-label="AutoKapture"
                                  ng-click="downloadLink( item )" ng-show="item.source=='showrss'">
-                        <md-tooltip>Click to kapture new episodes of this series in the future, automatically</md-tooltip>
+                        <md-tooltip md-direction="left">Click to AutoKapture new episodes of this series in the future, automatically</md-tooltip>
                         <md-icon md-svg-src="action:autorenew"></md-icon>
                       </md-button>
                     </td>

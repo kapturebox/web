@@ -9,16 +9,18 @@ angular.module('kaptureApp')
       series: [],
       interval: null, //stop later?
       running: false,
-      // getDownloads:
     };
 
-    this.state = stateData;
-    this.handleDownloadData = handleDownloadData;
     this.getCurrentDownloads = getCurrentDownloads;
-    this.remove = removeDownload;
-    this.addDownload = addDownload;
-    this.getCurrentSeries = getCurrentSeries;
-    this.getSeries = getSeries;
+    this.getEnabledSeries    = getEnabledSeries;
+    this.deleteSeries        = deleteSeries;
+
+    this.removeActive = removeActive;
+    this.deleteActive = deleteActive;
+    this.addDownload  = addDownload;
+
+    this.pullSeries                 = pullSeries;
+    this.pullSeriesUpcomingEpisodes = pullSeriesUpcomingEpisodes;
 
     init();
 
@@ -36,14 +38,13 @@ angular.module('kaptureApp')
       return stateData.downloads;
     }
 
-    function getCurrentSeries(){
-      console.log('getting series');
+    function getEnabledSeries(){
       return stateData.series;
     }
 
     //usually good to just throw in an intermediary
     //additional parsing... etc
-    function handleDownloadData(data){
+    function handleDownloadData( data ){
       stateData.downloads = data;
       return data;
     }
@@ -63,7 +64,7 @@ angular.module('kaptureApp')
     }
 
 
-    function getSeries() {
+    function pullSeries() {
       if (stateData.gettingSeries) return;
       stateData.gettingSeries = true;
       return $http({
@@ -77,8 +78,9 @@ angular.module('kaptureApp')
       });
     }
 
-    function getSeriesUpcomingEpisodes( item ) {
-      if( ! item.showRssId ) {
+
+    function pullSeriesUpcomingEpisodes( item ) {
+      if( ! item || ! item.showRssId ) {
         return {};
       }
 
@@ -93,10 +95,21 @@ angular.module('kaptureApp')
 
 
 
-    function removeDownload( item ) {
+    function removeActive( item, deleteFile ) {
+      var permDelete = false;
+      if( deleteFile ){
+        permDelete = true;
+      }
+
       return $http({
         method: 'DELETE',
         url: '/api/download/' + item.hashString,
+        data: {
+          delete: permDelete,
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         timeout: 30000 //ms
       }).then(function( resp ) {
         return resp.data;
@@ -105,13 +118,17 @@ angular.module('kaptureApp')
       });
     };
 
+    function deleteActive( item ) {
+      return removeActive( item, true );
+    }
 
 
-    function addDownload( obj ) {
+
+    function addDownload( item ) {
       var endpoint = '/api/download';
       var successMessage = 'Download started..';
 
-      if( obj.mediaType == 'series' ) {
+      if( item.mediaType == 'series' ) {
         endpoint = '/api/series';
         successMessage = 'Series added!';
       }
@@ -120,12 +137,22 @@ angular.module('kaptureApp')
         url:    endpoint,
         method: 'PUT',
         data:   {
-          item: obj
+          item: item
         }
       }).then( function( resp ) {
         return showToastMessage( successMessage );
       }, function( failed ) {
         return showToastMessage( 'Can\'t add: ' + failed.status + ' ' + failed.statusText );
+      });
+    }
+
+    function deleteSeries( item ) {
+      return $http({
+        method: 'DELETE',
+        url: '/api/series/' + item.showRssId
+      }).then( function( resp ) {
+        console.log(resp);
+        return resp;
       });
     }
 

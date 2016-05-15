@@ -4,6 +4,9 @@
   }
 
   .download-item {
+    .title-container {
+      overflow: scroll;      
+    }
     .title {
       font-weight: bold;
     }

@@ -5,6 +5,8 @@ var _       = require('lodash');
 var xpath = require('xpath');
 var dom   = require('xmldom').DOMParser;
 
+var xml2js = require('xml2json-light');
+
 
 module.exports = function ( query ) {
   var SHOWS_URL   = 'https://showrss.info/?cs=feeds';
@@ -24,7 +26,6 @@ module.exports = function ( query ) {
         var doc = new dom({errorHandler: function(o) {}}).parseFromString( body );
         var shownames_xml = xpath.select( SHOWS_XPATH, doc );
       } catch(err) {
-        console.log( body );
         return reject( new Error('cant parse showrss xml', err) );
       }
 

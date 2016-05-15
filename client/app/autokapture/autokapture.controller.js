@@ -3,39 +3,32 @@
 angular.module('kaptureApp')
   .controller('AutoKaptureCtrl', function ($scope, $http, downloadService) {
 
-    downloadService.getSeries();
+    downloadService.pullSeries();
+    $scope.getEnabledSeries = downloadService.getEnabledSeries;
 
-    $scope.getCurrentSeries = downloadService.getCurrentSeries;
+    $scope.deleteSeries = function( item ) {
+      downloadService.deleteSeries( item )
+        .then(function( resp ) {
+          downloadService.pullSeries();
+        });
+    };
 
-    $scope.getSeriesUpcomingEpisodes = downloadService.getSeriesUpcomingEpisodes;
-
-
-    // $scope.deleteSource = function( s ) {
-    //   $scope.downloadSources.splice($scope.downloadSources.indexOf(s),1);
-    // };
-    //
-    // $scope.getSourceEntries = function( url ) {
-    //   $http({
-    //     method: 'GET',
-    //     url:    '/api/sources/list-entries',
-    //     params:  { url: url }
-    //   })
-    //   .then(function(results){
-    //     $scope.sourceEntries = results.data.items;
-    //   });
-    // }
-    //
-    $scope.selectSourceItem = function( index, item ) {
-      if( $scope.selectedSourceIndex === index ) {
-        $scope.selectedSourceIndex = undefined;
+    $scope.selectSeries = function( index, item ) {
+      if( $scope.selectedSeriesIndex === index ) {
+        $scope.selectedSeriesIndex = undefined;
       } else {
-        $scope.selectedSourceIndex = index;
+        $scope.selectedSeriesEpisodes = [];
+        $scope.selectedSeriesIndex = index;
+
+        downloadService.pullSeriesUpcomingEpisodes( item )
+          .then(function(data) {
+            $scope.selectedSeriesEpisodes = data;
+          });
       }
     }
 
     $scope.parseDate = function( date ) {
       return new Date(date);
     };
-
 
   });
