@@ -12,7 +12,6 @@
     "angular-material": "latest",
     "lodash": "~2.4.1",
     "angular-ui-router": "~0.2.15",
-    "font-awesome": "fontawesome#^4.5.0",
     "angular-moment": "^0.10.3",
     "angular-filter": "^0.5.8",
     "angularjs-humanize": "^0.0.1",

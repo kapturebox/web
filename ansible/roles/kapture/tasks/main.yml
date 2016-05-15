@@ -20,8 +20,14 @@
     home: /var/lib/kapture
     state: present
 
-- name: ensure pi user is in kapture group
-  user: name=pi groups=kapture,sudo
+- name: ensure ubuntu user is in kapture group
+  user: name=ubuntu groups=kapture,sudo
+  when: pi is defined and pi
+
+- name: ensure vagrant user is in kapture group
+  user: name=vagrant groups=kapture,sudo
+  when: vagrant is defined and vagrant
+
 
 - name: set permissions on home directory
   file:
@@ -66,6 +72,9 @@
     - libav-tools
     - plexmediaserver
 
+- name: ensure plex user is in kapture group
+  user: name=plex groups=kapture
+
 - name: wait for plex to be instanciated
   wait_for: port=32400 host=localhost state=started
 
@@ -107,8 +116,6 @@
     - { key: allowMediaDeletion,               value: true }
     - { key: EnableIPv6,                       value: true }
     - { key: AcceptedEULA,                     value: true }
-
-
 
 - name: install conversion script (convert-avi-to-x264.sh) for if plex cant convert on the fly
   copy:
@@ -191,3 +198,24 @@
     user: "{{ kapture_user }}"
     minute: "*/{{ flexget_check_frequency }}"
     job: "/usr/bin/python2.7 /usr/local/bin/flexget --cron execute --disable-tracking"
+
+
+
+######################
+## KAPTURE APP
+######################
+
+- name: get kapture repo key
+  apt_key:
+    url: https://kapture-apt.s3.amazonaws.com/kapture-apt-s3.gpg
+    state: present
+
+- name: add kapture repo
+  apt_repository:
+    repo: deb https://kapture-apt.s3.amazonaws.com stable main
+    update_cache: yes
+
+- name: install kapture
+  apt:
+    name: kapture
+    state: present

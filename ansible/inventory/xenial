@@ -5,8 +5,5 @@
 ubuntu-minimal        ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
 ubuntu-mate           ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
 
-# inbetween?
-kapture               ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
-
 # mdns after provision
 kapture.local         ansible_ssh_user=ubuntu pi=true

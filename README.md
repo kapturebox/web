@@ -22,6 +22,15 @@ vagrant ssh
 cd /vagrant ; grunt serve
 ```
 
+Pulling updates material iconsets:
+
+```
+git clone https://github.com/nkoterba/material-design-iconsets.git /tmp
+cd /tmp/material-design-iconsets/
+npm install && npm run init
+npm build
+cp -r iconsets/* ICONSET_DIR
+```
 
 Docs
 ----

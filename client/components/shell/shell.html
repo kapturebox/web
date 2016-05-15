@@ -30,7 +30,9 @@
         <md-list-item ng-repeat="item in menuItems" flex>
           <md-button ng-class="{'activePage':isActive(item.href)}" ng-href="{{ item.href }}" ng-click="toggleMenu()" style="width:100%;" layout="row" layout-align="start center">
             <md-icon class="icon" ng-if="!!item.icon" md-svg-src="{{ item.icon }}"></md-icon>
-            <span><h3 class="link-title">{{ item.title }}</h3></span>
+            <span>
+              <h3 class="link-title">{{ item.title }}</h3>
+            </span>
           </md-button>
         </md-list-item>
       </md-list>
