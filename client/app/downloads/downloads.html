@@ -16,31 +16,33 @@
         </div>
 
         <div ng-repeat="entry in getDownloads() | orderBy: ['isFinished','-startDate'] track by entry.hashString"
-             ng-show="getDownloads()">
-          <span flex-gt-sm></span>
+             ng-show="getDownloads()" layout-align="center center" layout="row">
 
-          <md-card layout="column" class="download-item md-whiteframe-z2">
-            <md-content layout="row">
+          <md-card layout="column" class="download-item md-whiteframe-z2" flex-gt-xs="70">
+            <div layout="row">
               <div class="md-padding" layout="column" layout-align="center center">
                 <kp-filetype-icon media-type="{{ entry.mediaType }}"></kp-filetype-icon>
               </div>
               <md-divider></md-divider>
 
-              <div layout="column" layout-gt-xs="row" flex>
-                <div class="title-container md-padding" layout="column" layout-align="center start" flex="70">
-                  <span class="title">{{ entry.name }}</span>
-                  <span class="md-subhead">{{ entry.totalSize | humanizeFilesize }}</span>
+              <div layout="column" flex>
+                <div class="title-container" layout="column" layout-align="center start" flex="70">
+                  <span class="title md-padding">{{ entry.name }}</span>
                 </div>
-                <div class="stats" layout="column" layout-align="center start" class="md-padding" flex="10">
-                  <span>{{ entry.percentDone * 100 | number:2 }}%</span>
-                  <span ng-if="entry.isFinished == false">{{ entry.eta | amDurationFormat: 'seconds' }}</span>
-                  <span ng-if="entry.isFinished == false">{{ entry.rateDownload | humanizeFilesize }}/s</span>
-                  <span ng-show="entry.isStalled" class="stalled">Stalled</span>
-                </div>
+
+                <md-subheader class="stats" layout="column" layout-align="center start" class="md-padding" flex="10">
+                  <div class="md-primary">
+                    <span>{{ entry.percentDone * 100 | number:2 }}% of {{ entry.totalSize | humanizeFilesize }}</span>
+                  </div>
+                  <div class="md-primary">
+                    <span ng-if="entry.isFinished == false">{{ entry.eta | amDurationFormat: 'seconds' }} @ {{ entry.rateDownload | humanizeFilesize }}/s</span>
+                    <span ng-show="entry.isStalled" class="stalled">Stalled</span>
+                  </div>
+                </md-subheader>
               </div>
 
               <md-divider></md-divider>
-              <div class="actions" layout="column">
+              <div class="actions" layout="column" layout-align="center center">
                 <md-button class="md-small" ng-click="remove(entry)">
                   <md-tooltip>Stop and Remove download</md-tooltip>
                   <md-icon md-svg-src="navigation:close"></md-icon>
@@ -54,11 +56,9 @@
                   <md-icon md-svg-src="action:pageview"></md-icon>
                 </md-button>
               </div>
-            </md-content>
+            </div>
             <md-progress-linear md-mode="determinate" value="{{ entry.percentDone * 100 | number:2 }}"></md-progress-linear>
           </md-card>
-
-          <span flex-gt-sm></span>
         </div>
 
       </section>

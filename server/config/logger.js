@@ -6,7 +6,7 @@ module.exports = function() {
   return new (winston.Logger)({
     transports: [
       new (winston.transports.Console)({
-        colorize: true,
+        colorize: process.env.NODE_ENV == 'production' ? false : true,
         prettyPrint: true,
         timestamp: true,
         stderrLevels: ['error'],
