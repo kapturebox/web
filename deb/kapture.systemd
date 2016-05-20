@@ -1,6 +1,6 @@
 [Unit]
 Description=Kapture frontend service
-After=network.target auditd.service
+After=network.target
 
 [Service]
 User=kapture
@@ -13,3 +13,4 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=graphical.target
