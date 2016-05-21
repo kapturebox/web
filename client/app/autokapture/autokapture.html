@@ -9,11 +9,11 @@
         </md-toolbar>
 
         <md-content layout="column" layout-gt-xs="row" flex>
-          <div ng-show="getEnabledSeries().length == 0" class="md-padding" layout="column" layout-align="center center">
+          <div ng-show="getEnabledSeries().length === undefined" class="md-padding" layout="column" layout-align="center center" flex>
             No series set to auto kapture.  To add some <a ng-href="/get">search on the get page</a>
           </div>
 
-          <div class="download-series-table" flex-gt-xs="50">
+          <div ng-show="getEnabledSeries().length > 0" class="download-series-table" flex-gt-xs="50">
             <md-list class="download-series" layout="column">
               <md-list-item class="md-1-line" ng-repeat="series in getEnabledSeries()" ng-class="{'active':$index==selectedSeriesIndex}" flex>
                 <div class="md-padding series-entry" layout="column" flex>

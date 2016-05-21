@@ -49,7 +49,7 @@
 
 - name: ensure kapture users are setup correctly
   user:
-    groups: sudo,kapture
+    groups: sudo,kapture,debian-transmission
     name: "{{ kapture_user }}"
     createhome: yes
     home: /var/lib/kapture

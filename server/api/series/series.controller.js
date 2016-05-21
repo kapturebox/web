@@ -13,7 +13,7 @@ var xml2js  = require('xml2json-light');
 
 // Get list of seriess
 exports.index = function(req, res) {
-  config.logger.info( '[showrss] getting series' );
+  config.logger.info( '[showrss] listing series' );
 
   try {
     var seriesObj = YAML.load( config.seriesMetadataFileStore );

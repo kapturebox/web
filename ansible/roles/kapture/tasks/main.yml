@@ -73,7 +73,7 @@
     - plexmediaserver
 
 - name: ensure plex user is in kapture group
-  user: name=plex groups=kapture
+  user: name=plex groups=kapture,debian-transmission
 
 - name: wait for plex to be instanciated
   wait_for: port=32400 host=localhost state=started
