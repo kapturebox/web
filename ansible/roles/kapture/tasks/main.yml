@@ -8,6 +8,7 @@
 
 - name: set hostname
   hostname: name="{{ systemname }}"
+  notify: restart device
 
 - name: ensure kapture group is setup correctly
   group: name=kapture system=yes state=present

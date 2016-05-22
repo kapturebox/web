@@ -10,9 +10,10 @@ var path = require('path');
 module.exports = function(app) {
 
   // Insert routes below
-  app.use('/api/series', require('./api/series'));
+  app.use('/api/ansible',  require('./api/ansible'));
+  app.use('/api/series',   require('./api/series'));
   app.use('/api/download', require('./api/download'));
-  app.use('/api/search', require('./api/search'));
+  app.use('/api/search',   require('./api/search'));
   app.use('/api/settings', require('./api/settings'));
 
   // All undefined asset or api routes should return a 404
