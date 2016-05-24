@@ -37,6 +37,16 @@ If installed via package, can be configured via the following systemd file:
 
     /etc/systemd/system/kapture.service
 
+### Building production deb package
+
+```bash
+# create package
+grunt clean package
+
+# install on system
+sudo dpkg -i tmp/*.deb
+```
+
 
 ### Pulling updates material iconsets
 
