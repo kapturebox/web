@@ -5,6 +5,7 @@ After=network.target
 [Service]
 User=kapture
 Environment="NODE_ENV=production"
+Environment="LOG_LEVEL=info"
 WorkingDirectory=/var/kapture/server
 ExecStart=/usr/bin/nodejs app.js
 ExecReload=/bin/kill -HUP $MAINPID

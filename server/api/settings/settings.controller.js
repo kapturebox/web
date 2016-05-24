@@ -3,6 +3,7 @@
 var _       = require('lodash');
 var YAML    = require('yamljs');
 var fs      = require('fs');
+var os      = require('os');
 var exec    = require('child_process').exec;
 var config  = require('../../config/environment');
 var util    = require('util');
@@ -25,9 +26,9 @@ exports.postSettings = function( req, res, next ) {
     exec( command, function( exitCode, stdout, stderr ) {
       config.logger.debug( 'ran "%s": exitCode: %s, stdout: %s, stderr: %s', command, exitCode, stdout, stderr );
       if( exitCode === null ) {
-        res.status(200).send({ output: stdout });
+        return res.status(200).send({ stdout: stdout });
       } else {
-        return next(new Error( err ));
+        return next(new Error( {stdout: stdout, stderr: stderr} ));
       }
     });
   });
@@ -35,7 +36,7 @@ exports.postSettings = function( req, res, next ) {
 
 function defaultSystemFile() {
   return {
-    systemname: 'kapture',
+    systemname: os.hostname(),
     flexget_check_frequency: 15,
     email: null
   };

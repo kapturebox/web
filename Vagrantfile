@@ -41,6 +41,6 @@ Vagrant.configure(2) do |config|
 
     # get code deps setup, and install kapture package locally
     npm install -g grunt-cli npm bower
-    su vagrant -c 'cd /vagrant && npm install --no-bin-links || npm install --no-bin-links && bower install && grunt clean package'
+    su vagrant -c 'cd /vagrant && npm install --no-bin-links || npm install --no-bin-links && bower install'
   SHELL
 end
