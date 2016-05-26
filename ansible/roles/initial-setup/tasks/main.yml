@@ -4,6 +4,10 @@
   apt: upgrade=dist
   register: system_upgraded
 
+- name: rotate openssh host keys
+  shell: rm -rf /etc/ssh/ssh_host_* && dpkg-reconfigure openssh-server
+  when: pi is defined and pi
+
 - name: expand root partition
   command: raspi-config --expand-rootfs
   when: ansible_lsb.id == "Raspbian"
@@ -34,7 +38,7 @@
     - libffi-dev
     - libssl-dev
     - iptables-persistent
-
+    - acl
 
 - name: ensure kapture group is setup correctly
   group: name=kapture system=yes state=present
@@ -47,9 +51,9 @@
     line:    "%sudo   ALL=(ALL:ALL) NOPASSWD: ALL"
   when: ansible_lsb.codename == "xenial"
 
-- name: ensure kapture users are setup correctly
+- name: ensure kapture users is created
   user:
-    groups: sudo,kapture,debian-transmission
+    groups: kapture
     name: "{{ kapture_user }}"
     createhome: yes
     home: /var/lib/kapture
@@ -62,6 +66,13 @@
     key: "{{ item }}"
   with_items: "{{ ssh_authorized_keys }}"
   when: pi is defined and pi
+
+- name: modify admin user [{{ ansible_ssh_user }}] if xenial and pi
+  user:
+    user: "{{ ansible_ssh_user }}"
+    password: "{{ ubuntu_user_password }}"
+    state: present
+  when: pi is defined and pi and ansible_lsb.codename == "xenial"
 
 - name: change storage path if running via vagrant
   set_fact: storage_block_device=/dev/sdb
@@ -79,7 +90,41 @@
   include: setup-disk.yml
   when: storage_mount_stat.rc != 0
 
-- name: restart machine
+- name: set permissions on root
+  file:
+    path: "{{ storage_path }}0"
+    owner: root
+    group: kapture
+    mode: o+rwx,g+rwxs,o=rx
+    state: directory
+  tags:
+    - perms
+
+- name: make directories
+  file:
+    state: directory
+    path: "{{ storage_path }}/{{ item }}"
+    owner: "{{ kapture_user }}"
+    group: kapture
+    mode: o+rwx,g+rwxs,o=rx
+    recurse: yes
+  with_items: "{{ storage_directories }}"
+  tags:
+    - perms
+
+- name: setfacl on directories
+  acl:
+    default: yes
+    state: present
+    path: "{{ storage_path }}/{{ item }}"
+    entity: kapture
+    etype: group
+    permissions: rwx
+  with_items: "{{ storage_directories }}"
+  tags:
+    - perms
+
+- name: restart machine if system upgraded
   command: shutdown -r now "Ansible updates triggered"
   async: 0
   poll: 0

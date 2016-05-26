@@ -50,6 +50,31 @@
 - name: install httplib2 for calling plex commands via ansible
   pip: name=httplib2
 
+
+#######################
+### TRANSMISSION STUFF
+#######################
+- name: setup transmission-daemon
+  apt: pkg=transmission-daemon state=present
+
+- name: stop transmission
+  service: name=transmission-daemon state=stopped
+
+- name: ensure that transmission user has proper group privileges
+  user: name=debian-transmission groups=kapture
+
+- name: drop in transmission-daemon config file
+  template:
+    src: settings.json.j2
+    dest: /etc/transmission-daemon/settings.json
+    mode: 0644
+
+- name: start transmission
+  service: name=transmission-daemon state=started
+
+
+
+
 #######################
 ### PLEX STUFF
 #######################
@@ -67,7 +92,7 @@
   when: ansible_architecture == 'x86_64'
 
 - name: install plex server and components
-  apt: pkg={{ item }} state=present update_cache=yes force=yes
+  apt: pkg={{ item }} state=latest update_cache=yes force=yes
   with_items:
     - libc6
     - libav-tools
@@ -117,6 +142,10 @@
     - { key: allowMediaDeletion,               value: true }
     - { key: EnableIPv6,                       value: true }
     - { key: AcceptedEULA,                     value: true }
+    - { key: logDebug,                         value: true }
+    - { key: collectUsageData,                 value: false }
+    - { key: TranscoderQuality,                value: 1 }
+
 
 - name: install conversion script (convert-avi-to-x264.sh) for if plex cant convert on the fly
   copy:
@@ -125,28 +154,6 @@
     mode: 0755
     owner: root
     group: root
-
-
-#######################
-### TRANSMISSION STUFF
-#######################
-- name: setup transmission-daemon
-  apt: pkg=transmission-daemon state=present
-
-- name: stop transmission
-  service: name=transmission-daemon state=stopped
-
-- name: ensure that transmission user has proper group privileges
-  user: name=debian-transmission groups=kapture
-
-- name: drop in transmission-daemon config file
-  template:
-    src: settings.json.j2
-    dest: /etc/transmission-daemon/settings.json
-    mode: 0644
-
-- name: start transmission
-  service: name=transmission-daemon state=started
 
 
 
@@ -205,6 +212,12 @@
 ######################
 ## KAPTURE APP
 ######################
+
+- name: ensure kapture user is created and in right groups
+  user:
+    groups: sudo,kapture,debian-transmission
+    name: "{{ kapture_user }}"
+    state: present
 
 - name: get kapture repo key
   apt_key:

@@ -15,3 +15,6 @@ flexget_check_frequency: 15   # minutes
 
 ssh_authorized_keys:
   - "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA07uidLJnAxF7PR+NOAyg/6EwECE2SrBHOiwT73UdOHLAomFmG/z7dCk+WU8Wo68z0T0VT06xgfBWgmpZD2VS6F24cPzibJBFuEZndT9J0BcQmav3fMzKl9LYZ3lNulPS8MJygG/5EeyrfNvFHB4cDdvucogcFc8VUx4omJo407Ip8FAiwBocqqV7WfOeMBPoj16HvERJjEDMk6j1e4pp25w0Ss7qGJ+tT3iR1zkS71J2dgAWFou84FyuiRwOA9UQn7pdNn5x7SGPckh+smInSgXEBWmRlhR63cUFXggr1QnCu8msClFqoh6HlBts/J69i1d29N0Uzmz7XYA/sM2F4w== gaieges@typhoid.local"
+
+# python -c 'import crypt; print crypt.crypt("kapture is the bombest thing ever", "$Funky$Salt$5")'
+ubuntu_user_password: $FtAIyE4b.kHk

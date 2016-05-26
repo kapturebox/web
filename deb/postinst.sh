@@ -12,4 +12,5 @@ if [ -x /etc/init.d/iptables-persistent ]; then
   /usr/sbin/invoke-rc.d iptables-persistent save  > /dev/null 2>&1
 fi
 
+/bin/systemctl enable kapture > /dev/null 2>&1
 /usr/sbin/service kapture start

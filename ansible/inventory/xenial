@@ -2,8 +2,11 @@
 [all]
 
 # stock
-ubuntu-minimal        ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
 ubuntu-mate           ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
+
+# not recommended at the moment
+#ubuntu-minimal        ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
+#ubuntu-standard       ansible_ssh_user=ubuntu ansible_ssh_pass=ubuntu pi=true
 
 # mdns after provision
 kapture.local         ansible_ssh_user=ubuntu pi=true

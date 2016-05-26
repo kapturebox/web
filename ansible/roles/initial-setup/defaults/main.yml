@@ -1,0 +1,10 @@
+---
+
+storage_directories:
+  - tvshows
+  - movies
+  - music
+  - photos
+  - downloads
+  - watch
+  - tmp
