@@ -8,6 +8,11 @@
 
 - name: set hostname
   hostname: name="{{ systemname }}"
+  register: hostname_task
+
+- name: trigger restart handler if needed
+  command: /bin/true # noop
+  when: hostname_task.changed and pi is defined and pi
   notify: restart device
 
 - name: ensure kapture group is setup correctly

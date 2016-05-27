@@ -11,7 +11,8 @@ angular.module('kaptureApp', [
   'angularMoment',
   'angular.filter',
   'angular-humanize',
-  'md.data.table'
+  'md.data.table',
+  'yaru22.md'
 ])
   .config(function($mdIconProvider) {
     $mdIconProvider

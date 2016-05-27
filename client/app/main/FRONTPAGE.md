@@ -1,25 +1,22 @@
-Getting Started
-===============
-
 > This ultimately will be turned into a video or quick intro screen
 
-## You've made it to the kapture site!
+# You've made it to the kapture site!
 
 That's step one, good job.  Now you can download whatever you want using the links in the menu in the top right of kapture.
 
-## GET media
+# GET media
 
 Use the Get link to pull down whatever you want, to your hearts content (that you're licensed to, of course).  This will pull down and store locally on your kapture.
 
-## WATCH media (with Plex)
+# WATCH media (with Plex)
 
 Once your download has completed (you can see this by clicking on the downloads menu link), you'll be able to look at it in the 'watch' menu link.  You can do this in a number of different ways all though the PLEX app:
 
-#### In your browser
+### In your browser
 
 Simply click the watch button and enjoy!  You'll be able to navigate the Plex interface and play / view / listen to anything that's been downloaded to your kapture.
 
-#### On your smartphone or tablet (and/or Chromecast)
+### On your smartphone or tablet (and/or Chromecast)
 
 You'll need to get an app to do this:
 
@@ -35,15 +32,15 @@ You'll need to get an app to do this:
 
 Ensure that you're using the Chrome browser and you have the Chromecast extension installed, then click the "chromecast" link in the top right of the watch tab to specify that you want to cast Plex to your chromecast.
 
-#### On your smart TV
+### On your smart TV
 
 You'll first need to make sure that your TV is set up to be on the same network as your kapture
 
 If you smart TV supports DLNA networking and media (you'll see a logo on the box or TV saying this), you should be able to use your TV's menu to search the network and browse all media on kapture.
 
 
-Frequently asked questions (Beta users)
-========================================
+# Frequently asked questions (Beta users)
+
 
 ## Known issues
 
@@ -63,5 +60,3 @@ This will be fixed in a future version.
 ### Searching functionality limited
 
 This is still a prototype, so chill.  This will be improved in the future
-
-###
