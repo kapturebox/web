@@ -10,8 +10,8 @@ var xml2js = require('xml2json-light');
 
 
 module.exports = function ( query ) {
-  var SHOWS_URL   = 'https://showrss.info/?cs=feeds';
-  var SHOWS_XPATH = '//select[@class="chosen"]/option';
+  var SHOWS_URL   = 'http://showrss.info/browse';
+  var SHOWS_XPATH = '//*[@id="showselector"]/option';
 
   if( _.isEmpty( query ) ) {
     return new Promise.reject( new Error('no query string'));

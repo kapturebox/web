@@ -10,6 +10,10 @@ var Promise = require('bluebird');
 var xml2js  = require('xml2json-light');
 
 
+// %d is the id # as stored by showrss
+var SHOW_HISTORY_DATA_URL = 'https://showrss.info/show/%d.rss';
+var UPCOMING_EPISODES_URL = 'https://showrss.info/show/schedule/%d.rss';
+
 
 // Get list of seriess
 exports.index = function(req, res) {
@@ -56,9 +60,6 @@ exports.getSeriesInfo = function( req, res, next ) {
   if( _.isEmpty( seriesReq ) ) {
     return next(new Error( 'no show id provided' ));
   }
-
-  // %d is the id # as stored by showrss
-  var SHOW_HISTORY_DATA_URL = 'http://showrss.info/feeds/%d.rss';
 
   request({
     url: util.format( SHOW_HISTORY_DATA_URL, seriesReq )
