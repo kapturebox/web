@@ -44,6 +44,14 @@ If you smart TV supports DLNA networking and media (you'll see a logo on the box
 
 ## Known issues
 
+### Video gets choppy when playing media (specifically 1080p)
+
+This is a problem with the raspberry pi's limited power.  It should be resolved once we get better hardware in place.
+
+In the meantime, make sure when you download things, that you get it in 720p format, rather than 1080p.  
+
+Alternatively: you can use the "Optimize.." button on each piece of media (click the ... button on the media), and then select a format like "For TV", or "For Mobile".  After that you should have two copies of the file and be able to select between them.
+
 ### Plex unable to play this media
 
 No workaround at the moment.  
