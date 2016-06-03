@@ -423,6 +423,7 @@ module.exports = function (grunt) {
             'assets/fonts/**/*',
             'assets/icons/**/*',
             'assets/iconsets/**/*',
+            'assets/misc/**/*',
             'index.html'
           ]
         }, {
