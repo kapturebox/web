@@ -38,4 +38,9 @@ angular.module('kaptureApp')
         }
       }
 
+      $scope.sources = [
+        {name: 'ShowRSS', link: 'http://showrss.info', id: 'showrss', enabled: true,  description: 'Constantly updated TV shows'},
+        {name: 'Kickass',  link: 'https://kat.cr',     id: 'kat',     enabled: false, description: 'Broad array of content provided by users'}
+      ]
+
   });

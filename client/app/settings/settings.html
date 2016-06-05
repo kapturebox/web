@@ -10,38 +10,64 @@
       </div>
     </md-toolbar>
 
-    <md-content class="md-padding">
+    <md-content class="settings">
       <form name="settingsForm" ng-submit="submitSettings()">
-        <span style="margin: 2em"></span>
-        <div class="disabled" layout="column">
-          <md-input-container flex>
-            <label>System Name</label>
-            <input ng-maxlength="20" required ng-model="settings.systemname" name="systemname" />
-            <span class="notification" ng-if="settingsForm.systemname.$dirty">
-              Since you are changed the system name, you will need to go to the new URL: <a href="http://{{settings.systemname}}.local/">http://{{settings.systemname}}.local</a> after saving, and going forward.
-            </span>
-            <div ng-messages="settingsForm.systemname.$error">
-              <div ng-message="required">This cannot be blank.</div>
-              <div ng-message="md-maxlength">The name has to be less than 20 characters long.</div>
-            </div>
-          </md-input-container>
-          <md-input-container flex>
-            <label>Your email address</label>
-            <input ng-maxlength="300" type="email" ng-model="settings.email" name="email" />
-            <div ng-messages="settingsForm.email.$error">
-              <div ng-message="email">Invalid email.</div>
-              <div ng-message="md-maxlength">The name has to be less than 300 characters long.</div>
-            </div>
-          </md-input-container>
-          <md-input-container flex>
-            <label>Time in minutes to check for content updates</label>
-            <input type="number" required min="1" max="60" ng-model="settings.flexget_check_frequency" name="flexget_check_frequency" />
-            <div ng-messages="settingsForm.flexget_check_frequency.$error">
-              <div ng-message="min">Frequency needs to be more than 1 minute.</div>
-              <div ng-message="max">Frequency needs to be less than 60 minutes.</div>
-            </div>
-          </md-input-container>
-        </div>
+        <md-tabs class="md-primary md-hue-2" md-dynamic-height>
+
+          <md-tab>
+            <md-tab-label>
+              <span class="tab-heading">Download sources</span>
+            </md-tab-label>
+            <md-tab-body>
+              <div class="md-padding sources">
+                <span>The GET page will search these sources:</span>
+                <div ng-repeat="source in sources">
+                  <md-switch class="md-primary" md-no-ink ng-model="source.enabled">
+                    <a href="{{ source.link }}" ng-click="$event.stopPropagation();">{{ source.name }}</a>
+                    <span class="md-subheader description">{{ source.description }}</span>
+                  </md-switch>
+                </div>
+              </div>
+            </md-tab-body>
+          </md-tab>
+
+          <md-tab>
+            <md-tab-label>
+              <span class="tab-heading">System Settings</span>
+            </md-tab-label>
+            <md-tab-body>
+              <div class="md-padding" layout="row" layout-gt-xs="column">
+                <md-input-container flex>
+                  <label>System Name</label>
+                  <input ng-maxlength="20" required ng-model="settings.systemname" name="systemname" />
+                  <span class="notification" ng-if="settingsForm.systemname.$dirty">
+                    Since you are changed the system name, you will need to go to the new URL: <a href="http://{{settings.systemname}}.local/">http://{{settings.systemname}}.local</a> after saving, and going forward.
+                  </span>
+                  <div ng-messages="settingsForm.systemname.$error">
+                    <div ng-message="required">This cannot be blank.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 20 characters long.</div>
+                  </div>
+                </md-input-container>
+                <md-input-container flex>
+                  <label>Your email address</label>
+                  <input ng-maxlength="300" type="email" ng-model="settings.email" name="email" />
+                  <div ng-messages="settingsForm.email.$error">
+                    <div ng-message="email">Invalid email.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 300 characters long.</div>
+                  </div>
+                </md-input-container>
+                <md-input-container flex>
+                  <label>Time in minutes to check for content updates</label>
+                  <input type="number" required min="1" max="60" ng-model="settings.flexget_check_frequency" name="flexget_check_frequency" />
+                  <div ng-messages="settingsForm.flexget_check_frequency.$error">
+                    <div ng-message="min">Frequency needs to be more than 1 minute.</div>
+                    <div ng-message="max">Frequency needs to be less than 60 minutes.</div>
+                  </div>
+                </md-input-container>
+              </div>
+            </md-tab-body>
+          </md-tab>
+        </md-tabs>
 
         <div layout="column" layout-align="center center">
           <md-button  type="submit"
@@ -57,6 +83,7 @@
             Applying settings to system, please wait..
           </span>
         </div>
+
       </form>
     </md-content>
   </div>
