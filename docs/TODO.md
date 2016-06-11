@@ -7,6 +7,7 @@ Bugs
 ----
 
 - Fix issue where Transmission dies randomly
+- Auto refresh in plex not working out of the box .. can use transmission to kick off a job
 - Fix issue where plex is unable to stream because of [this issue](http://www.htpcguides.com/fix-plex-server-is-not-powerful-enough-on-raspberry-pi-2/)
   - May be able to be solved by:
 ```bash
@@ -14,6 +15,7 @@ find /usr/lib/plexmediaserver -name plex.js -exec sed -i -e "s/validateTranscode
 ```
 - Centralize client / backend / ansible config
 - Fix issues with media being deleted on filesystem but delete not being reflected in plex
+- Layout issue with search results - too long titles cause scrolling - make it wrap
 - Bug fix for the issue where plexmediaserver causes kernel exception when transcoding [more details here](https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=146072&p=981380):
 ```
 Alignment trap: not handling instruction f462ea6d at [<0092a108>]
