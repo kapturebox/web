@@ -1,0 +1,21 @@
+---
+# tasks file for roles/transmission
+
+
+#######################
+### TRANSMISSION STUFF
+#######################
+- name: setup transmission-daemon
+  apt: pkg=transmission-daemon state=present
+
+- name: stop transmission
+  service: name=transmission-daemon state=stopped
+
+- name: drop in transmission-daemon config file
+  template:
+    src: settings.json.j2
+    dest: /etc/transmission-daemon/settings.json
+    mode: 0644
+
+- name: start transmission
+  service: name=transmission-daemon state=started

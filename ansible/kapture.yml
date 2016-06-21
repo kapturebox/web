@@ -1,0 +1,11 @@
+---
+
+
+- hosts: all
+  become: yes
+  roles:
+    - plex
+    - transmission
+    - netatalk
+    - flexget
+    - kapture

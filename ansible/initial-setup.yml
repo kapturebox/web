@@ -7,4 +7,8 @@
   become: yes
   roles:
     - initial-setup
+    - plex
+    - transmission
+    - netatalk
+    - flexget
     - kapture

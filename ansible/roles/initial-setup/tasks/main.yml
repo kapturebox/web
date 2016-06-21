@@ -23,6 +23,7 @@
   service:
     name: lightdm
     enabled: no
+  when: ansible_lsb.codename == "xenial"
 
 - name: setup new version of nodejs
   shell: curl -sL https://deb.nodesource.com/setup_5.x |  bash -
@@ -39,6 +40,8 @@
     - libssl-dev
     - iptables-persistent
     - acl
+    - cpufreqd
+    - cpufrequtils
 
 - name: ensure kapture group is setup correctly
   group: name=kapture system=yes state=present
@@ -70,9 +73,9 @@
 - name: modify admin user [{{ ansible_ssh_user }}] if xenial and pi
   user:
     user: "{{ ansible_ssh_user }}"
-    password: "{{ ubuntu_user_password }}"
+    password: "{{ initial_user_password }}"
     state: present
-  when: pi is defined and pi and ansible_lsb.codename == "xenial"
+  when: pi is defined and pi
 
 - name: change storage path if running via vagrant
   set_fact: storage_block_device=/dev/sdb

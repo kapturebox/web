@@ -1,0 +1,24 @@
+---
+# tasks file for roles/netatalk
+
+
+
+#######################
+### NETATALK STUFF
+#######################
+- name: install netatalk
+  apt: pkg=netatalk state=present
+
+- name: config netatalk volumes
+  template:
+    src: AppleVolumes.default.j2
+    dest: /etc/netatalk/AppleVolumes.default
+    mode: 0644
+  notify: restart netatalk
+
+- name: config netatalk afpd.conf
+  template:
+    src: afpd.conf.j2
+    dest: /etc/netatalk/afpd.conf
+    mode: 0644
+  notify: restart netatalk

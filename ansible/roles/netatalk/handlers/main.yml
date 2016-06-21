@@ -1,0 +1,5 @@
+---
+# handlers file for roles/netatalk
+
+- name: restart netatalk
+  service: name=netatalk state=restarted
