@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  ansible-container:  # used to do the build + orchestration of other containers
+    command:
+      - main.yml
+
+  plex:
+    # image: timhaak/plex
+    image: debian:stable
+    ports:
+      - "32400:32400"
+    # restart: always
+
+
+  transmission:
+    # image: dperson/transmission
+    image: debian:stable
+    # restart: always
+
+
+  # kapture:
+  #   build: ..
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - /config
+  #   links:
+  #     - plex
+  #     - transmission
+  #   restart: always
