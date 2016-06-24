@@ -24,7 +24,8 @@
     "xml2json-light": "~1.0.4",
     "xmldom": "^0.1.22",
     "xpath": "0.0.23",
-    "yamljs": "^0.2.6"
+    "yamljs": "^0.2.6",
+    "youtube-dl": "^1.11.1"
   },
   "devDependencies": {
     "connect-livereload": "~0.5.4",

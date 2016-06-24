@@ -82,7 +82,7 @@ function addTorrentSource( reqbody, res, next ) {
         }
       }, function( err, resp, body ) {
         if(err || resp.statusCode !== 200 || body.result !== 'success' ) {
-          return next(new Error( err ));
+          return next(new Error( {error: err, resp: resp, body: body} ));
         } else {
           // TODO: Check to see if the hash from the response matches that
           // of the hash that came back from the source
