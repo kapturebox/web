@@ -1,7 +1,0 @@
----
-# handlers file for roles/kapture
-
-- name: restart device
-  shell: shutdown -r 1 "ansible reboot triggered"
-  async: 0
-  poll: 0

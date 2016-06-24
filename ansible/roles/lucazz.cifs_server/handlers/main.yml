@@ -1,4 +1,0 @@
----
-# handlers file for cifs_server
-- name: restart smb
-  service: name=smbd state=restarted

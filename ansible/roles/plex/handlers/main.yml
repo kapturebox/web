@@ -1,5 +1,0 @@
----
-# handlers file for roles/plex
-
-- name: restart plex
-  service: name=plexmediaserver state=restarted

@@ -1,5 +1,0 @@
----
-# handlers file for roles/transmission
-
-- name: restart transmission
-  service: name=transmission-daemon state=restarted

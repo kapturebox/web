@@ -1,6 +1,0 @@
----
-# vars file for roles/kapture
-
-share_name: storage
-share_comment: location where all kaptured media is stored
-share_path: "{{ storage_path }}"
