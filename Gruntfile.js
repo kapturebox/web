@@ -160,11 +160,6 @@ module.exports = function (grunt) {
           src: '**/*',
           dest: '/var/kapture'   // destination path prefix
         },{
-          expand: true,       // enable dynamic expansion
-          cwd: 'ansible',
-          src:  '**/*',
-          dest: '/var/kapture/ansible'
-        },{
           src: 'deb/kapture.upstart',
           dest: '/etc/init/kapture.conf'
         },{
