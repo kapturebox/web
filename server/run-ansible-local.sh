@@ -12,12 +12,23 @@ case "$ENV" in
   "production")
     # when on local machine
     ANSIBLE_CONFIG="/var/kapture/ansible/ansible.cfg"
-    flock $LOCKFILE ansible-playbook $ANSIBLE_OPTS -c local -i 'localhost,'  /var/kapture/ansible/local.yml
+    PLAYBOOOK_TO_RUN="/var/kapture/ansible/local.yml"
+
+    fail_if_file_not_present $PLAYBOOOK_TO_RUN
+    flock $LOCKFILE ansible-playbook $ANSIBLE_OPTS -c local -i 'localhost,'  $PLAYBOOOK_TO_RUN
   ;;
 
   "development")
     # when testing with vagrant
     ANSIBLE_CONFIG="ansible/ansible.cfg"
-    flock $LOCKFILE ansible-playbook $ANSIBLE_OPTS -i ansible/inventory/vagrant ansible/local.yml
+    PLAYBOOOK_TO_RUN="ansible/local.yml"
+
+    fail_if_file_not_present $PLAYBOOOK_TO_RUN
+    flock $LOCKFILE ansible-playbook $ANSIBLE_OPTS -i ansible/inventory/vagrant $PLAYBOOOK_TO_RUN
   ;;
 esac
+
+
+fail_if_file_not_present() {
+  test -f $1 || echo "error: can't find file $1" && exit 1
+}
