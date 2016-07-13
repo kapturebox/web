@@ -23,6 +23,9 @@ module.exports = {
 
   // where to keep the series file for flexget to use
   seriesFileStore         : '/etc/kapture/user_series.yml',          //flexget
-  seriesMetadataFileStore : '/etc/kapture/user_series_metadata.yml'  //kapture
+  seriesMetadataFileStore : '/etc/kapture/user_series_metadata.yml', //kapture
+
+  ngrokEnabled   : true,
+  ngrokAuthToken : '4zXtTSp3aErR86ukMNcsy_2ieJPJszU3pUW3irbHDRY'  // ngrok user: evin.callaha@gmail.com
 
 };

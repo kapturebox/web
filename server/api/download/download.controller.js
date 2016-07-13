@@ -133,6 +133,7 @@ exports.getDownloads = function( req, res, next ) {
         }
       }, function( err, resp, body ) {
         if(err || resp.statusCode !== 200 || body.result !== 'success' ) {
+          config.logger.error('cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, resp.body );
           return next(new Error( err ));
         } else {
           var ret = body.arguments.torrents.map(function(obj) {

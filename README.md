@@ -6,7 +6,7 @@ kapture
 Quickstart
 ----------
 
-Start up whats intended to be a kapture box, including transmission, plex and the [kapture app](http://vagrant-kapture.local):
+Start up whats intended to be a kapture box, including transmission, plex and the kapture app:
 
 ```
 vagrant up
@@ -14,7 +14,7 @@ vagrant up
 
 Will start up a new xenial instance locally, set up the machine via ansible scripts in the ```ansible``` path, and then clean and build the npm project located in /vagrant
 
-You can connect to the **packaged** instance that is in the apt repo on http://vagrant-kapture.local/
+You can connect to the **packaged** instance that is in the apt repo on http://kapture-vagrant.local/
 
 Devel
 -----

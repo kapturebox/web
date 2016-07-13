@@ -49,12 +49,18 @@ var all = {
 
   // where to keep the series files for flexget to use
   seriesFileStore         : 'user_series.yml',          //flexget
-  seriesMetadataFileStore : 'user_series_metadata.yml'  //kapture
+  seriesMetadataFileStore : 'user_series_metadata.yml', //kapture
+
+  // if ngrok enabled and installed, can hit the /api/remote url to spin up a ngrok tunnel
+  ngrokEnabled   : false,
+  ngrokAuthToken : null,
+  ngrokTimeout   : 30 * 60 * 1000,   // time in ms to keep ngrok alive
+
+  logger: require('../logger')()
 };
 
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
   all,
-  { logger: require('../logger')() },
   require('./' + process.env.NODE_ENV + '.js') || {});
