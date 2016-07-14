@@ -5,6 +5,9 @@ var Promise = require('bluebird');
 var ngrok = require('ngrok');
 var config = require('../../config/environment');
 
+var destHost = 'localhost';
+var destPort = 22;
+
 
 // run ngrok if enabled .. outputs url to connect to to client
 // only 4 tunnels can run at a time with the basic subscription
@@ -17,7 +20,7 @@ exports.index = function( req, res ) {
     .then(function( ng ) {
       ng.connect({
         proto: 'tcp',
-        addr: 22
+        addr: destHost + ':' + destPort
       }, function( err, url ) {
         if( err ) {
           return res.status(500).json({ error: err });
@@ -36,6 +39,7 @@ exports.index = function( req, res ) {
         process.on( 'exit', endNgrok );
 
         res.status(200).json({
+          dest: destHost + ':' + destPort,
           remoteUrl: url,
           timeoutMs: config.ngrokTimeout
         });

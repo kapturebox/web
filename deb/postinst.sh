@@ -13,7 +13,9 @@ if [ -x /etc/init.d/iptables-persistent ]; then
 fi
 
 # since this dep contains a binary that needs to be arch dependent, install it in the dir
-/usr/bin/nodejs /var/kapture/server/node_modules/ngrok/postinstall.js
+if [[ $(nodejs -e 'console.log(require("/var/kapture/server/config/environment/production").ngrokEnabled)') == 'true' ]]; then
+  /usr/bin/nodejs /var/kapture/server/node_modules/ngrok/postinstall.js
+fi
 
 /bin/systemctl enable kapture > /dev/null 2>&1
 /usr/sbin/service kapture start
