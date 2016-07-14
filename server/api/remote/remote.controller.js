@@ -37,7 +37,9 @@ exports.index = function( req, res ) {
         setTimeout( endNgrok, config.ngrokTimeout );
 
         // ensure ngrok is torn down when process dies
-        process.on( 'exit', endNgrok );
+        ['beforeExit','SIGINT','SIGTERM','uncaughtException'].map(function(e) {
+          process.on( e, endNgrok );
+        })
 
         res.status(200).json({
           dest: destHost + ':' + destPort,
