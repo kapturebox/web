@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var ngrok = require('ngrok');
 var config = require('../../config/environment');
+var spawn = require('child_process').spawn;
 
 var destHost = 'localhost';
 var destPort = 22;
@@ -52,14 +53,25 @@ exports.index = function( req, res ) {
 };
 
 // set auth token for ngrok package, return promise
+// shitty setup, but this is only temp and for Debugging
+// should really fix the ngrok node module to properly handle errors
+// instead of just looking at if there's stderr
+// also should detect if the bin is accurate
 function setAuthToken( ng ) {
   return new Promise(function(resolve,reject) {
-    ng.authtoken( config.ngrokAuthToken, function( err, token ) {
-      if( err ) {
-        return reject( err );
-      }
+    var cmd = spawn(
+      './ngrok',
+      ['authtoken',config.ngrokAuthToken],
+      {cwd: __dirname + '/../../node_modules/ngrok/bin'}
+    );
 
-      return resolve( ng );
+    cmd.on( 'stderr', config.logger.error.bind );
+    cmd.on( 'stdout', config.logger.info.bind );
+    cmd.on( 'close', function( code ) {
+      if( code != 0 ) {
+        return reject( code );
+      }
+      resolve( ng );
     });
-  })
+  });
 }
