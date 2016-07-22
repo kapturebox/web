@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('lodash');
+var _       = require('lodash');
 var Promise = require('bluebird');
-var ngrok = require('ngrok');
-var config = require('../../config/environment');
-var spawn = require('child_process').spawn;
+var ngrok   = require('ngrok');
+var config  = require('../../config/environment');
+var spawn   = require('child_process').spawn;
 
 var destHost = 'localhost';
 var destPort = 22;

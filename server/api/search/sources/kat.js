@@ -25,7 +25,8 @@ module.exports = function ( query ) {
         config.logger.info( 'Results from kat: ', resp.length );
         resolve( resp );
       } else {
-        reject( err );
+        config.logger.warn( '[kat] cant get results: ', err );
+        resolve( [] );
       }
     });
   });

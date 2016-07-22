@@ -47,7 +47,7 @@ module.exports = function ( query ) {
               && obj.title.toLowerCase().indexOf( query.toLowerCase() ) > -1;
       });
 
-      config.logger.info( 'Results from showrss: ', shownames_filtered.length );
+      config.logger.info( '[showrss] results: ', shownames_filtered.length );
       resolve( shownames_filtered );
     })
   });
