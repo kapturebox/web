@@ -139,7 +139,7 @@ module.exports = function (grunt) {
         // postfix: "-<%= meta.revision %>",
         build_number: process.env.BUILD_NUMBER ? process.env.BUILD_NUMBER : '1',
         category: "media",
-        dependencies: "nodejs,iptables-persistent,kapture-ansible",
+        dependencies: "nodejs (>= 6), iptables-persistent, kapture-ansible",
         prerm: {
           src: 'deb/prerm.sh'
         },

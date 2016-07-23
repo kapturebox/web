@@ -32,7 +32,7 @@ function transformResults( jsonResults ) {
   return jsonResults.map(function( d ) {
     // in the upload field there is some weird characters .. need to deal with that
     var date;
-    
+
     try {
       var dateString = removeWeirdCharacters( d.uploadDate )
           .replace( /([0-9]{2}-[0-9]{2})\s([0-9]{4})?/, function( match, g1, g2 ) {
@@ -109,6 +109,5 @@ SIZE_MULTIPLIERS.ZiB = ( SIZE_MULTIPLIERS.EiB * 1024 );
 
 function convertSize( sizeString ) {
   var split = removeWeirdCharacters( sizeString ).split( ' ' );
-  config.logger.debug( 'split:', split );
   return parseFloat( split[0] ) * SIZE_MULTIPLIERS[split[1]];
 }
