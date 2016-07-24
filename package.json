@@ -22,7 +22,7 @@
     "ngrok": "^2.2.1",
     "request": "^2.69.0",
     "serve-favicon": "~2.3.0",
-    "thepiratebay": "^1.1.11",
+    "thepiratebay": "^1.1.12",
     "winston": "^2.2.0",
     "xml2json-light": "~1.0.4",
     "xmldom": "^0.1.22",

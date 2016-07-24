@@ -30,7 +30,8 @@ function removeWeirdCharacters( str ) {
 
 function transformResults( jsonResults ) {
   return jsonResults.map(function( d ) {
-    // in the upload field there is some weird characters .. need to deal with that
+    // uploadDate field and size field needs some transforming
+    // uploadDate has some weird special tpb format
     var date;
 
     try {
@@ -52,20 +53,21 @@ function transformResults( jsonResults ) {
     }
 
     return {
+      source:        'TPB',
       tpbUploadDate: d.uploadDate,
-      tpbId: d.id,
-      source: 'TPB',
-      title: d.name,
-      uploaded: date,
-      category: d.subcategory.name,
-      mediaType: determineMediaType( d ),
-      size: convertSize( d.size ),
-      downloadUrl: d.magnetLink,
-      magnetLink: d.magnetLink,
-      hashString: d.magnetLink.match( /urn:btih:([a-z0-9]{40})/ )[1],
-      peers: parseInt( d.seeders) + parseInt( d.leechers ),
-      seeders: parseInt( d.seeders ),
-      leechers: parseInt( d.leechers )
+      tpbId:         d.id,
+      tpbCategory:   d.category.name + ':' + d.subcategory.name,
+      title:         d.name,
+      uploaded:      date,
+      category:      d.subcategory.name,
+      mediaType:     determineMediaType( d ),
+      size:          convertSize( d.size ),
+      downloadUrl:   d.magnetLink,
+      magnetLink:    d.magnetLink,
+      hashString:    d.magnetLink.match( /urn:btih:([a-z0-9]{40})/ )[1],
+      peers:         parseInt( d.seeders ) + parseInt( d.leechers ),
+      seeders:       parseInt( d.seeders ),
+      leechers:      parseInt( d.leechers )
     }
   });
 };
@@ -82,6 +84,10 @@ function determineMediaType( elem ) {
     case 'Video:':
     case 'Video:Anime':
     case 'Video:XXX':
+    case 'Porn:Movie clips':
+    case 'Porn:':
+    case 'Porn:Movies':
+    case 'Porn:HD - Movies':
       return 'video';
       break;
     case 'Music':
@@ -97,7 +103,7 @@ function determineMediaType( elem ) {
 var SIZE_MULTIPLIERS = {};
 
 SIZE_MULTIPLIERS.B = 1;
-SIZE_MULTIPLIERS.KiB = ( SIZE_MULTIPLIERS.B  * 1024 );
+SIZE_MULTIPLIERS.KiB = ( SIZE_MULTIPLIERS.B   * 1024 );
 SIZE_MULTIPLIERS.MiB = ( SIZE_MULTIPLIERS.KiB * 1024 );
 SIZE_MULTIPLIERS.GiB = ( SIZE_MULTIPLIERS.MiB * 1024 );
 SIZE_MULTIPLIERS.TiB = ( SIZE_MULTIPLIERS.GiB * 1024 );
@@ -109,5 +115,5 @@ SIZE_MULTIPLIERS.ZiB = ( SIZE_MULTIPLIERS.EiB * 1024 );
 
 function convertSize( sizeString ) {
   var split = removeWeirdCharacters( sizeString ).split( ' ' );
-  return parseFloat( split[0] ) * SIZE_MULTIPLIERS[split[1]];
+  return parseFloat( split[0] ) * SIZE_MULTIPLIERS[ split[1] ];
 }
