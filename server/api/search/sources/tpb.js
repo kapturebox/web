@@ -1,8 +1,8 @@
 var Promise = require('bluebird');
 var request = require('request');
-var util = require('util');
+var util    = require('util');
 var config  = require('../../../config/environment');
-var tpb = require('thepiratebay');
+var tpb     = require('thepiratebay');
 
 // do some funky date stuff .. extends Date
 require('datejs');

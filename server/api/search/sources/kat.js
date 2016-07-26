@@ -1,12 +1,15 @@
 var Promise = require('bluebird');
 var request = require('request');
-var util = require('util');
+var util    = require('util');
 var config  = require('../../../config/environment');
 
 
 
 module.exports = function ( query ) {
   var KAT_URL = 'https://kat.cr/json.php';
+
+  // KAT went down, return right away as to not slow down other searches
+  return new Promise.resolve([]);
 
   return new Promise( function( resolve, reject ) {
     request({
