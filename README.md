@@ -37,7 +37,19 @@ If installed via package, can be configured via the following systemd file:
 
     /etc/systemd/system/kapture.service
 
-### Building production deb package
+## Building
+
+### Docker image
+
+Running
+
+```
+grunt docker
+```
+
+Will give you a new docker image meant for an ARM system (needs to be built on an ARM system as well), for use by other tools and services
+
+### Building deb package
 
 ```bash
 # create package
@@ -47,6 +59,8 @@ grunt clean package
 sudo dpkg -i tmp/*.deb
 ```
 
+Misc
+----
 
 ### Pulling updates material iconsets
 

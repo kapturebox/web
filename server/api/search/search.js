@@ -10,20 +10,24 @@ var kat     = require('./sources/kat');
 var showrss = require('./sources/showrss');
 var tpb     = require('./sources/tpb');
 
+
+
+
 module.exports = function( query ) {
-  return Promise.all([
-    showrss( query ),
-    kat( query ),
-    tpb( query )
-  ])
+  var plugins = require('../../components/plugin_handler').getEnabledPlugins();
+
+  return Promise.all(
+    plugins.map(function( plugin ) {
+      return plugin.search( query );
+    }))
   .then(function( arr ) {
     config.logger.debug( 'results array: ', arr );
     // filter out failed sources
     return arr.reduce( function( prev, cur ) {
-      return _.concat( prev, _.reject( cur, _.isNull ));
-    });
+      return _.concat( prev, _.reject( cur, _.isEmpty ));
+    },[]);
   })
-  .catch(function(err) {
-    config.logger.error( 'cant get results: ', err.stack );
+  .catch(function( err ) {
+    config.logger.error( 'cant get results: ', err );
   });
 };

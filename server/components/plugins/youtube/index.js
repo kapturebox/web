@@ -46,7 +46,7 @@ YoutubeSource.prototype.urlMatches = function( url ) {
 };
 
 YoutubeSource.prototype.search = function( query ) {
-  return {};
+  return [];
 };
 
 YoutubeSource.prototype.download = function( url ) {

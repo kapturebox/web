@@ -1,19 +1,43 @@
+'use strict';
+
 var Promise = require('bluebird');
 var request = require('request');
 var util    = require('util');
 var config  = require('../../../config/environment');
 var tpb     = require('thepiratebay');
 
+var Plugin = require('../../plugin_handler/plugin_base');
+
 // do some funky date stuff .. extends Date
 require('datejs');
 
 
-module.exports = function ( query ) {
+var ThepiratebaySource = function( options ) {
+  this.metadata = {
+    pluginId: 'com.piratebay',               // Unique ID of plugin
+    pluginName: 'ThePirateBay',              // Display name of plugin
+    pluginType: 'source',                    // 'source', 'downloader', 'player'
+    sourceType: 'adhoc',                     // 'adhoc', 'continuous'
+    link: 'http://thepiratebay.se',          // Link to provider site
+    description: 'General torrent site'      // Description of plugin provider
+  };
+
+  return this;
+}
+
+ThepiratebaySource.prototype.url = function( url ) {
+  return false;
+};
+
+ThepiratebaySource.prototype.urlMatches = function( url ) {
+  return false;
+};
+
+ThepiratebaySource.prototype.search = function( query ) {
   return tpb.search( query, {
       orderBy: 'seeds'
     })
     .then(function( results ) {
-      // perhaps perform a map to normalize results?
       config.logger.info( '[tpb] results: ', results.length );
       return transformResults( results );
     })
@@ -22,6 +46,15 @@ module.exports = function ( query ) {
       return [];
     });
 };
+
+ThepiratebaySource.prototype.download = function( url ) {
+  return this.url( url );
+};
+
+
+
+
+// private functions
 
 function removeWeirdCharacters( str ) {
   return str.replace( '\xc2','' )
@@ -117,3 +150,8 @@ function convertSize( sizeString ) {
   var split = removeWeirdCharacters( sizeString ).split( ' ' );
   return parseFloat( split[0] ) * SIZE_MULTIPLIERS[ split[1] ];
 }
+
+
+
+
+module.exports = ThepiratebaySource;

@@ -14,22 +14,22 @@ var Plugin = function() {
 }
 
 Plugin.prototype.isEnabled = function() {
-  var settings = YAML.load( settingsFile );
-
-  return settings
-    && settings.plugins
-    && settings.plugins[this.pluginId]
-    && settings.plugins[this.pluginId].enabled;
+  try {
+    var settings = YAML.load( settingsFile );
+    return settings.plugins[this.metadata.pluginId].enabled || false;
+  } catch ( err ) {
+    return false;
+  }
 };
 
 Plugin.prototype.setEnabled = function( enabled ) {
   var settings = YAML.load( settingsFile );
-  settings.plugins[this.pluginId].enabled = enabled;
+  settings.plugins[this.metadata.pluginId].enabled = enabled;
   var yaml_str = YAML.stringify( settings );
 
   return fs.writeFile( settingsFile, yaml_str, function( err ) {
     if( err ) {
-      throw Error('[base.plugin] cant write settings file:', err );
+      throw Error( '[base.plugin] cant write settings file:', err );
     }
   });
 };
