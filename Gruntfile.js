@@ -127,6 +127,20 @@ module.exports = function (grunt) {
       },
     },
 
+    // docker stuff
+    dock: {
+      options: {
+        docker: {
+         socketPath: '/var/run/docker.sock' 
+        },
+        images: {
+          'kapture': {
+            dockerfile: '.'
+          }
+        }
+      }
+    },
+
     debian_package: {
       options: {
         maintainer: {
@@ -727,9 +741,14 @@ module.exports = function (grunt) {
 
   grunt.registerTask('package',[
     'build:dist',
-    // this part doesnt quite work right .. doesnt take all the right deps
     'packageModules:dist',
     'debian_package'
+  ])
+
+  grunt.registerTask('docker',[
+    'build:dist',
+    'packageModules:dist',
+    'dock:build'
   ])
 
   grunt.registerTask('default', [
