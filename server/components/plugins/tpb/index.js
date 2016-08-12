@@ -52,6 +52,9 @@ ThepiratebaySource.prototype.download = function( url ) {
 };
 
 
+ThepiratebaySource.prototype.getDownloadStatus = function() {
+  return [];
+}
 
 
 // private functions

@@ -2,6 +2,7 @@
 
 var fs      = require('fs');
 var YAML    = require('yamljs');
+var util    = require('util');
 var config  = require('../../config/environment');
 
 var settingsFile = config.settingsFileStore;
@@ -10,7 +11,21 @@ var Plugin = function() {
   this.metadata = {
     pluginId: 'base.plugin'    // should be overridden by plugin
   };
-  return this;
+}
+
+Plugin.prototype.get = function( key ) {
+  var userKey = 'plugins.' + this.metadata.pluginId + '.' + key;
+  return config.getUserSettings( userKey );
+}
+
+Plugin.prototype.set = function( key, value ) {
+  var userKey = 'plugins.' + this.metadata.pluginId + '.' + key;
+  return config.setUserSetting( userKey, value );
+}
+
+
+Plugin.prototype.toString = function() {
+  return util.format( '%s', this.metadata.pluginName );
 }
 
 Plugin.prototype.isEnabled = function() {

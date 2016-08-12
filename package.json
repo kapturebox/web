@@ -28,7 +28,8 @@
     "xmldom": "^0.1.22",
     "xpath": "0.0.23",
     "yamljs": "^0.2.6",
-    "youtube-dl": "^1.11.1"
+    "youtube-dl": "^1.11.1",
+    "youtube-search": "^1.0.6"
   },
   "devDependencies": {
     "connect-livereload": "~0.5.4",
@@ -37,6 +38,7 @@
     "grunt-angular-templates": "^1.0.3",
     "grunt-autoprefixer": "~3.0.4",
     "grunt-build-control": "~0.7.0",
+    "grunt-bump": "^0.8.0",
     "grunt-concurrent": "~2.3.0",
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-concat": "~1.0.1",

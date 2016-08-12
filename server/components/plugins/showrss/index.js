@@ -80,6 +80,10 @@ ShowRssSource.prototype.addItem = function( item ) {
 
 }
 
+ShowRssSource.prototype.getDownloadStatus = function() {
+  return [];
+}
+
 ShowRssSource.prototype.download = function( url ) {
   return this.url( url );
 };

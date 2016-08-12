@@ -6,10 +6,6 @@ var config  = require('../../config/environment');
 
 // all of these promises need to resolve, otherwise nothing will
 // if failure - ensure empty array is returned
-var kat     = require('./sources/kat');
-var showrss = require('./sources/showrss');
-var tpb     = require('./sources/tpb');
-
 
 
 

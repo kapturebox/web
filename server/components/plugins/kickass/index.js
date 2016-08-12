@@ -59,6 +59,9 @@ KickassSource.prototype.download = function( url ) {
   return this.url( url );
 };
 
+KickassSource.prototype.getDownloadStatus = function() {
+  return [];
+}
 
 
 module.exports = KickassSource;

@@ -31,7 +31,7 @@ module.exports = {
   },
 
   getPlugin: function( pluginId ) {
-    return _.filter( this.getAllPlugins(), {
+    return _.find( this.getAllPlugins(), {
       metadata: {
         pluginId: pluginId
       }

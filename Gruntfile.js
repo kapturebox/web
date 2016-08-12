@@ -141,6 +141,14 @@ module.exports = function (grunt) {
       }
     },
 
+    bump: {
+      options: {
+        commit: false,
+        push: false,
+        createTag: false
+      }
+    },
+
     debian_package: {
       options: {
         maintainer: {
