@@ -17,5 +17,7 @@ if [[ $(nodejs -e 'console.log(require("/var/kapture/server/config/environment/p
   /usr/bin/nodejs /var/kapture/server/node_modules/ngrok/postinstall.js
 fi
 
+/usr/bin/nodejs /var/kapture/server/node_modules/youtube-dl/postinstall.js
+
 /bin/systemctl enable kapture > /dev/null 2>&1
 /usr/sbin/service kapture start
