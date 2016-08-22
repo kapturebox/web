@@ -16,7 +16,7 @@ var ThepiratebaySource = function( options ) {
   this.metadata = {
     pluginId: 'com.piratebay',               // Unique ID of plugin
     pluginName: 'ThePirateBay',              // Display name of plugin
-    pluginType: 'source',                    // 'source', 'downloader', 'player'
+    pluginTypes: 'source',                    // 'source', 'downloader', 'player'
     sourceType: 'adhoc',                     // 'adhoc', 'continuous'
     link: 'http://thepiratebay.se',          // Link to provider site
     description: 'General torrent site'      // Description of plugin provider
@@ -89,21 +89,22 @@ function transformResults( jsonResults ) {
     }
 
     return {
-      source:        'TPB',
-      tpbUploadDate: d.uploadDate,
-      tpbId:         d.id,
-      tpbCategory:   d.category.name + ':' + d.subcategory.name,
-      title:         d.name,
-      uploaded:      date,
-      category:      d.subcategory.name,
-      mediaType:     determineMediaType( d ),
-      size:          convertSize( d.size ),
-      downloadUrl:   d.magnetLink,
-      magnetLink:    d.magnetLink,
-      hashString:    d.magnetLink.match( /urn:btih:([a-z0-9]{40})/ )[1],
-      peers:         parseInt( d.seeders ) + parseInt( d.leechers ),
-      seeders:       parseInt( d.seeders ),
-      leechers:      parseInt( d.leechers )
+      source:             'TPB',
+      tpbUploadDate:      d.uploadDate,
+      tpbId:              d.id,
+      tpbCategory:        d.category.name + ':' + d.subcategory.name,
+      title:              d.name,
+      uploaded:           date,
+      category:           d.subcategory.name,
+      mediaType:          determineMediaType( d ),
+      size:               convertSize( d.size ),
+      downloadUrl:        d.magnetLink,
+      magnetLink:         d.magnetLink,
+      hashString:         d.magnetLink.match( /urn:btih:([a-z0-9]{40})/ )[1],
+      peers:              parseInt( d.seeders ) + parseInt( d.leechers ),
+      seeders:            parseInt( d.seeders ),
+      leechers:           parseInt( d.leechers ),
+      downloadMechanism: 'torrent'
     }
   });
 };

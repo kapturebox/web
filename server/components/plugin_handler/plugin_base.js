@@ -14,12 +14,12 @@ var Plugin = function() {
 }
 
 Plugin.prototype.get = function( key ) {
-  var userKey = 'plugins.' + this.metadata.pluginId + '.' + key;
+  var userKey = 'plugins[\'' + this.metadata.pluginId + '\'].' + key;
   return config.getUserSettings( userKey );
 }
 
 Plugin.prototype.set = function( key, value ) {
-  var userKey = 'plugins.' + this.metadata.pluginId + '.' + key;
+  var userKey = 'plugins[\'' + this.metadata.pluginId + '\'].' + key;
   return config.setUserSetting( userKey, value );
 }
 
@@ -31,7 +31,7 @@ Plugin.prototype.toString = function() {
 Plugin.prototype.isEnabled = function() {
   try {
     var settings = YAML.load( settingsFile );
-    return settings.plugins[this.metadata.pluginId].enabled || false;
+    return Boolean( settings.plugins[this.metadata.pluginId].enabled ) || false;
   } catch ( err ) {
     return false;
   }

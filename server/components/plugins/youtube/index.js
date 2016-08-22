@@ -5,6 +5,8 @@ var youtubedl = require('youtube-dl');
 var youtubesearch = require('youtube-search');
 var request = require('request');
 var crypto = require('crypto');
+var fs = require('fs');
+var sanitize = require('sanitize-filename');
 
 var config  = require('../../../config/environment');
 
@@ -14,46 +16,81 @@ var youtubeSearchToken = 'AIzaSyAlhhTxfbaIjaCHi4qs5rl95PtpmcRTZTA';
 
 
 
-var YoutubeSource = function( options ) {
-  YoutubeSource.super_.call(this);
-
+function YoutubeSource( options ) {
   this.metadata = {
     pluginId: 'com.youtube',                  // Unique ID of plugin
     pluginName: 'Youtube',                    // Display name of plugin
-    pluginType: 'source',                     // 'source', 'downloader', 'player'
-    sourceType: 'adhoc',                      // 'adhoc', 'continuous'
+    pluginTypes: ['source','downloader'],     // 'source', 'downloader', 'player'
+    sourceTypes: 'adhoc',                     // 'adhoc', 'continuous'
     link: 'https://youtube.com',              // Link to provider site
+    downloadProviders: 'youtube-dl',          // if plugin can also download, what
+                                              // downloadMechanism can it download?
     description: 'You know what youtube is'   // Description of plugin provider
   };
+
+  return this;
 }
 
 
+YoutubeSource.prototype.download = function( item ) {
+  config.logger.info( '[Youtube] downloading: [%s] %s', item.youtubeId, item.title );
+  return this.url( item.downloadUrl );
+};
 
 
 YoutubeSource.prototype.url = function( url ) {
   return new Promise( function( resolve, reject ) {
-    config.logger.info( '[Youtube] downloading %s', url );
+    var info = {
+      size: null,
+      pos: 0
+    };
+
+    // get some metadata for use later
+    youtubedl.getInfo( url, function( err, retInfo ) {
+      if( !err ) {
+        info.title = retInfo.title;
+        info.id    = retInfo.id;
+        info.size  = retInfo.size;
+      }
+    });
+
     var video = youtubedl( url,
-      // Optional arguments passed to youtube-dl.
       ['--format=18'],
-      // Additional options can be given for calling `child_process.execFile()`.
       { cwd: __dirname }
     );
 
     // Will be called when the download starts.
-    video.on( 'info', function( info ) {
-      config.logger.info( '[Youtube] Download started: %s, (%s)', info._filename, info.size );
+    video.on( 'info', function( retInfo ) {
+      config.logger.info( '[Youtube] Download started: %s, (%s)', retInfo._filename, retInfo.size );
+
       video.pipe( fs.createWriteStream(
-        config.rootDownloadPath + config.defaultMediaPath + '/' + info._filename
+        config.rootDownloadPath + config.defaultMediaPath + '/' + sanitize( retInfo._filename )
       ));
+
+      resolve( retInfo );
     });
 
+    // track position in file for use later
+    video.on( 'data', function data( chunk ) {
+      info.pos += chunk.length;
+
+      // `size` should not be 0 here.
+      if( info.size ) {
+        var percent = (info.pos / info.size * 100).toFixed( 2 );
+        config.logger.info( percent + '%' );
+      }
+    });
+
+    // successful download
     video.on( 'end', function() {
-      config.logger.info( 'Download complete!' );
-      resolve();
+      config.logger.info( '[Youtube] Download complete: [%s] %s', info.id, info.title );
     });
 
-    video.on( 'error', reject );
+    // unsuccessful download
+    video.on( 'error', function(err) {
+      reject(new Error( err ));
+    });
+
   });
 };
 
@@ -90,7 +127,7 @@ YoutubeSource.prototype.search = function( query ) {
   });
 };
 
-YoutubeSource.prototype.getDownloadStatus = function() {
+YoutubeSource.prototype.status = function() {
   return [];
 }
 
@@ -123,9 +160,5 @@ YoutubeSource.prototype.transformResults = function( results ) {
 
 
 
-YoutubeSource.prototype.download = function( url ) {
-  config.logger.debug( 'in download' );
-  return this.url( url );
-};
 
 module.exports = YoutubeSource;

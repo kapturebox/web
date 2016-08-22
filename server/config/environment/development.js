@@ -3,12 +3,14 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/kapture-dev'
-  },
+  kaptureHost: '192.168.33.10',
 
-  seedDB: true,
+  rootDownloadPath: '/tmp/'
 
-  kaptureHost: '192.168.33.10'
+  // moviesPath       : '',
+  // showsPath        : '',
+  // musicPath        : '',
+  // photosPath       : '',
+  // defaultMediaPath : '',
+
 };

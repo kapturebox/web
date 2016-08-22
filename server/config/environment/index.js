@@ -6,75 +6,6 @@ var os    = require('os');
 var YAML  = require('yamljs');
 var fs    = require('fs');
 
-function requiredProcessEnv(name) {
-  if(!process.env[name]) {
-    throw new Error('You must set the ' + name + ' environment variable');
-  }
-  return process.env[name];
-}
-
-
-
-// some user setting stuff
-
-var userSettingDefaults = {
-  systemname: os.hostname(),
-  flexget_check_frequency: 15,
-  email: null,
-  plugins: {
-    'com.piratebay': {
-      enabled: true
-    },
-    'com.youtube': {
-      enabled: true
-    },
-    'info.showrss': {
-      enabled: true
-    }
-  }
-};
-
-function getUserSettings( key ) {
-  try {
-    var json_obj = YAML.load( this.settingsFileStore );
-    if( ! key ) {
-      return json_obj;
-    } else {
-      if( typeof( key ) == 'string' && _.has( json_obj, key ) ) {
-        return _.get( json_obj, key );
-      } else {
-        return null;
-      }
-    }
-  } catch( err ) {
-    this.logger.warn( 'cant get user setting: %s', key, err, this.settingsFileStore );
-    return userSettingDefaults;
-  }
-};
-
-function setUserSetting( key, value ) {
-  var orig = this.getUserSettings();
-  var toSave;
-
-  if( typeof( key ) == 'object' ) {
-    this.logger.debug( 'merging obj: ', key, orig );
-    toSave = _.merge( orig, key );
-  } else if( typeof( key ) == 'string' ) {
-    toSave = _.set( orig, key, value );
-  }
-
-  fs.writeFile( this.settingsFileStore, YAML.stringify( toSave, 4 ), function( err ) {
-    if( err ) {
-      this.logger.warn( 'cant save user settings file: ', err );
-      throw new Error( err );
-    }
-  });
-}
-
-
-
-
-
 // All configurations will extend these options
 // ============================================
 var all = {
@@ -126,6 +57,84 @@ var all = {
 
   logger: require('../logger')()
 };
+
+
+
+
+function requiredProcessEnv(name) {
+  if(!process.env[name]) {
+    throw new Error('You must set the ' + name + ' environment variable');
+  }
+  return process.env[name];
+}
+
+
+
+// some user setting stuff
+
+var userSettingDefaults = {
+  systemname: os.hostname(),
+  flexget_check_frequency: 15,
+  email: null,
+  plugins: {
+    'com.piratebay': {
+      enabled: true
+    },
+    'com.youtube': {
+      enabled: true
+    },
+    'info.showrss': {
+      enabled: true
+    },
+    'com.transmissionbt': {
+      enabled: true
+    }
+  }
+};
+
+function getUserSettings( key ) {
+  try {
+    var json_obj = YAML.load( this.settingsFileStore );
+    if( ! key ) {
+      return json_obj;
+    } else {
+      if( typeof( key ) == 'string' && _.has( json_obj, key ) ) {
+        return _.get( json_obj, key );
+      } else {
+        return null;
+      }
+    }
+  } catch( err ) {
+    this.logger.warn( 'cant get user setting: %s', key, err, this.settingsFileStore );
+    return userSettingDefaults;
+  }
+};
+
+function setUserSetting( key, value ) {
+  var orig = this.getUserSettings();
+  var toSave;
+
+  this.logger.debug( 'setting: %s = %s', key, value );
+  this.logger.debug( 'read file:', orig );
+
+  if( typeof( key ) === 'object' ) {
+    this.logger.debug( 'merging obj: ', key, orig );
+    toSave = _.merge( orig, key );
+  } else if( typeof( key ) === 'string' ) {
+    toSave = _.set( orig, key, value );
+  }
+
+  this.logger.debug( 'writing setting:', toSave );
+
+  fs.writeFile( this.settingsFileStore, YAML.stringify( toSave, 4 ), function( err ) {
+    if( err ) {
+      this.logger.warn( 'cant save user settings file: ', err );
+      throw new Error( err );
+    }
+  });
+}
+
+
 
 // Export the config object based on the NODE_ENV
 // ==============================================

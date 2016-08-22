@@ -15,7 +15,7 @@ var ShowRssSource = function( options ) {
   this.metadata = {
     pluginId: 'info.showrss',                 // Unique ID of plugin
     pluginName: 'ShowRss',                    // Display name of plugin
-    pluginType: 'source',                     // 'source', 'downloader', 'player'
+    pluginTypes: 'source',                     // 'source', 'downloader', 'player'
     sourceType: 'continuous',                 // 'adhoc', 'continuous'
     link: 'http://showrss.info/',             // Link to provider site
     description: 'Updated feed of TV shows'   // Description of plugin provider
@@ -37,7 +37,7 @@ ShowRssSource.prototype.search = function( query ) {
   var SHOWS_XPATH = '//*[@id="showselector"]/option';
 
   if( _.isEmpty( query ) ) {
-    return new Promise.reject( new Error('no query string'));
+    return Promise.reject( new Error('no query string'));
   }
 
   return new Promise( function( resolve, reject ) {
@@ -56,10 +56,10 @@ ShowRssSource.prototype.search = function( query ) {
       // gives us all the elements
       var shownames = shownames_xml.map( function(e) {
         return e.firstChild ? {
-          source: 'showrss',
-          mediaType: 'series',
-          showRssId: e.getAttribute('value'),
-          title: e.firstChild.data
+          sourceId:    this.metadata.sourceId,
+          mediaType:   'series',
+          showRssId:   e.getAttribute('value'),
+          title:       e.firstChild.data
         } : null;
       });
 
@@ -76,11 +76,7 @@ ShowRssSource.prototype.search = function( query ) {
   });
 };
 
-ShowRssSource.prototype.addItem = function( item ) {
-
-}
-
-ShowRssSource.prototype.getDownloadStatus = function() {
+ShowRssSource.prototype.status = function() {
   return [];
 }
 

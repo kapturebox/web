@@ -21,6 +21,7 @@
     "method-override": "~2.3.5",
     "ngrok": "^2.2.1",
     "request": "^2.69.0",
+    "sanitize-filename": "^1.6.0",
     "serve-favicon": "~2.3.0",
     "thepiratebay": "^1.1.12",
     "winston": "^2.2.0",

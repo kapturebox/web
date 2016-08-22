@@ -13,7 +13,6 @@ var PLUGIN_PREFIX = 'server/components/plugins';
 module.exports = {
   getEnabledPlugins: function() {
     return _.filter( this.getAllPlugins(), function(p) {
-      config.logger.info( '[Plugin:%s] enabled: %s', p.metadata.pluginName, p.isEnabled() );
       return p.isEnabled();
     });
   },
@@ -35,6 +34,26 @@ module.exports = {
       metadata: {
         pluginId: pluginId
       }
+    });
+  },
+
+  // gets first download provider that matches specific mechanism
+  getDownloadMechanismProvider: function( downloadMechanism ) {
+    return _.find( this.getEnabledPlugins(), function(p) {
+      return _.includes( p.metadata.pluginTypes, 'downloader' )
+          && _.includes( p.metadata.downloadProviders, downloadMechanism );
+    });
+  },
+
+  getEnabledDownloaders: function() {
+    return _.reject( this.getEnabledPlugins(), function( p ) {
+      return ! _.includes( p.metadata.pluginTypes, 'downloader' );
+    });
+  },
+
+  getEnabledSources: function() {
+    return _.find( this.getEnabledPlugins(), function(p) {
+      return _.includes( p.metadata.pluginTypes, 'source' );
     });
   }
 }

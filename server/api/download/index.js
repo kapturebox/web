@@ -7,6 +7,6 @@ var router = express.Router();
 
 router.put('/', controller.addDownload);
 router.get('/', controller.getDownloads);
-router.delete('/:hashString', controller.removeDownload);
+router.delete('/', controller.removeDownload);
 
 module.exports = router;

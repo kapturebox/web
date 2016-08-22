@@ -6,7 +6,7 @@ module.exports = function (grunt) {
   try {
     localConfig = require('./server/config/local.env');
   } catch(e) {
-    localConfig = {};
+    localConfig = { NODE_ENV: 'development' };
   }
 
   // Load grunt tasks automatically, when needed
@@ -131,7 +131,7 @@ module.exports = function (grunt) {
     dock: {
       options: {
         docker: {
-         socketPath: '/var/run/docker.sock' 
+         socketPath: '/var/run/docker.sock'
         },
         images: {
           'kapture': {

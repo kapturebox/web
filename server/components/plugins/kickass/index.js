@@ -12,7 +12,7 @@ var KickassSource = function( options ) {
   this.metadata = {
     pluginId: 'cr.kat',                  // Unique ID of plugin
     pluginName: 'Kickass',               // Display name of plugin
-    pluginType: 'source',                // 'source', 'downloader', 'player'
+    pluginTypes: 'source',                // 'source', 'downloader', 'player'
     sourceType: 'adhoc',                 // 'adhoc', 'continuous'
     link: 'http://kat.cr',               // Link to provider site
     description: 'General torrent site'  // Description of plugin provider
