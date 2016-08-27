@@ -1,18 +1,17 @@
 'use strict';
 
-var util = require('util');
-var youtubedl = require('youtube-dl');
+var util          = require('util');
+var youtubedl     = require('youtube-dl');
 var youtubesearch = require('youtube-search');
-var request = require('request');
-var crypto = require('crypto');
-var fs = require('fs');
-var sanitize = require('sanitize-filename');
-
-var config  = require('../../../config/environment');
+var request       = require('request');
+var crypto        = require('crypto');
+var fs            = require('fs');
+var _             = require('lodash');
+var path          = require('path');
+var sanitize      = require('sanitize-filename');
 
 
 var youtubeSearchToken = 'AIzaSyAlhhTxfbaIjaCHi4qs5rl95PtpmcRTZTA';
-
 
 
 
@@ -28,31 +27,24 @@ function YoutubeSource( options ) {
     description: 'You know what youtube is'   // Description of plugin provider
   };
 
+  YoutubeSource.super_.apply( this, arguments );
+
   return this;
 }
 
 
 YoutubeSource.prototype.download = function( item ) {
-  config.logger.info( '[Youtube] downloading: [%s] %s', item.youtubeId, item.title );
+  this.logger.info( '[Youtube] downloading: [%s] %s', item.youtubeId, item.title );
   return this.url( item.downloadUrl );
 };
 
 
 YoutubeSource.prototype.url = function( url ) {
-  return new Promise( function( resolve, reject ) {
-    var info = {
-      size: null,
-      pos: 0
-    };
+  var self = this;
 
-    // get some metadata for use later
-    youtubedl.getInfo( url, function( err, retInfo ) {
-      if( !err ) {
-        info.title = retInfo.title;
-        info.id    = retInfo.id;
-        info.size  = retInfo.size;
-      }
-    });
+  return new Promise( function( resolve, reject ) {
+    var kapResult = {};
+    var lastTime = new Date();
 
     var video = youtubedl( url,
       ['--format=18'],
@@ -61,39 +53,87 @@ YoutubeSource.prototype.url = function( url ) {
 
     // Will be called when the download starts.
     video.on( 'info', function( retInfo ) {
-      config.logger.info( '[Youtube] Download started: %s, (%s)', retInfo._filename, retInfo.size );
+      kapResult = self.transformDownloadResult( retInfo );
 
-      video.pipe( fs.createWriteStream(
-        config.rootDownloadPath + config.defaultMediaPath + '/' + sanitize( retInfo._filename )
-      ));
+      self.logger.info( '[Youtube] download started: %s, (%s)', kapResult.filename, kapResult.totalSize );
 
-      resolve( retInfo );
+      try {
+        video.pipe( fs.createWriteStream( kapResult.fullPath ));
+      } catch( err ) {
+        self.logger.error( '[Youtube] cant download %s: %s', kapResult.id, err.toString() );
+      }
+
+      resolve( kapResult );
     });
 
     // track position in file for use later
     video.on( 'data', function data( chunk ) {
-      info.pos += chunk.length;
+      if( isNaN( kapResult.pos ) ) {
+        kapResult.pos = 0;
+      }
 
-      // `size` should not be 0 here.
-      if( info.size ) {
-        var percent = (info.pos / info.size * 100).toFixed( 2 );
-        config.logger.info( percent + '%' );
+      var timeDelta = new Date() - lastTime;
+      lastTime = new Date(); 
+
+      kapResult.pos += chunk.length;
+
+      kapResult.percentDone  = kapResult.pos / kapResult.totalSize;
+      kapResult.rateDownload = chunk.length / timeDelta;
+      kapResult.eta          = ( kapResult.totalSize - kapResult.pos ) / kapResult.rateDownload;
+
+      // && new Date().getTime() % 100 === 0
+
+      if( kapResult.totalSize ) {
+        self.updateDownloadState( kapResult );
       }
     });
 
     // successful download
     video.on( 'end', function() {
-      config.logger.info( '[Youtube] Download complete: [%s] %s', info.id, info.title );
+      kapResult.isFinished = true;
+      kapResult.isStalled = false;
+      self.updateDownloadState( kapResult );
+      self.logger.info( '[Youtube] download complete: [%s] %s', kapResult.id, kapResult.title );
     });
 
     // unsuccessful download
     video.on( 'error', function(err) {
-      reject(new Error( err ));
+      reject( new Error( err ) );
     });
 
   });
 };
 
+YoutubeSource.prototype.transformDownloadResult = function( result ) {
+  var sha1 = crypto.createHash('sha1').update( result.id );
+
+  return {
+    sourceId:    this.metadata.pluginId,
+    sourceName:  self.metadata.pluginName,
+    mediaType:   'video',
+    hashString:  sha1.digest( 'hex' ),
+    startDate:   new Date().toISOString(),
+    name:        result.title,
+    title:       result.title,
+    id:          result.id,
+    totalSize:   result.size,
+    thumbnail:   result.thumbnails[0].url || null,
+    filename:    result._filename,
+    fullPath:    path.join( this.config.rootDownloadPath, this.config.defaultMediaPath, sanitize( result._filename ) ),
+    score:       this.calculateScore( result )
+    // ,source_info: result
+  };
+
+}
+
+YoutubeSource.prototype.calculateScore = function( result ) {
+  return ( result.like_count - result.dislike_count ) / result.view_count * 100;
+}
+
+
+YoutubeSource.prototype.updateDownloadState = function( result ) {
+  return this.setState( result.id, result );
+}
 
 
 
@@ -117,48 +157,70 @@ YoutubeSource.prototype.search = function( query ) {
 
     youtubesearch( query, opts, function( err, results ) {
       if( err )  {
-        return reject( err );
+        return reject( new Error( err.toString() ) );
       }
 
-      config.logger.info( '[%s] results: %d', self.metadata.pluginName, results.length );
+      self.logger.info( '[%s] results: %d', self.metadata.pluginName, results.length );
 
-      resolve( self.transformResults( results ) );
+      resolve( self.transformSearchResults( results ) );
     });
   });
 };
 
-YoutubeSource.prototype.status = function() {
-  return [];
-}
 
-
-
-
-YoutubeSource.prototype.transformResults = function( results ) {
+YoutubeSource.prototype.transformSearchResults = function( results ) {
   var self = this;
 
   return results.map(function( e ) {
     var sha1 = crypto.createHash('sha1').update( e.id );
 
     return {
-      sourceId: self.metadata.pluginId,
-      source: self.metadata.pluginName,
-      youtubeId: e.id,
-      youtubeKind: e.kind,
+      sourceId:           self.metadata.pluginId,
+      sourceName:         self.metadata.pluginName,
+      mediaType:          'video',
+      downloadMechanism:  'youtube-dl',
+      id:                 e.id,
+      youtubeId:          e.id,
+      youtubeKind:        e.kind,
       youtubeDescription: e.description,
-      title: e.title,
-      icon: e.thumbnails.default.url || null,
-      uploaded: e.publishedAt,
-      mediaType: 'video',
-      downloadUrl: e.link,
-      hashString: sha1.digest( 'hex' ),
-      downloadMechanism: 'youtube-dl'
+      title:              e.title,
+      thumbnail:          e.thumbnails.default.url || null,
+      uploaded:           e.publishedAt,
+      downloadUrl:        e.link,
+      hashString:         sha1.digest( 'hex' )
     }
   });
 }
 
 
+YoutubeSource.prototype.status = function() {
+  return this.getState() || [];
+}
 
 
+
+YoutubeSource.prototype.remove = function( item, deleteOnDisk ) {
+  var self = this;
+  return new Promise( function(resolve, reject) {
+    try {
+      var canonical = self.getState( item.id );
+      if( canonical === undefined ) {
+        throw new Error();
+      }
+    } catch( err ) {
+      return reject( new Error( 'cant find item to delete in store' ));
+    }
+
+    try {
+      if( deleteOnDisk )  {
+          fs.unlinkSync( canonical.fullPath );
+      }
+
+      resolve( self.removeState( canonical.id ) );
+    } catch(err) {
+      return reject( new Error( err.toString() ));
+    }
+  })
+}
 
 module.exports = YoutubeSource;

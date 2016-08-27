@@ -46,13 +46,13 @@ module.exports = {
   },
 
   getEnabledDownloaders: function() {
-    return _.reject( this.getEnabledPlugins(), function( p ) {
-      return ! _.includes( p.metadata.pluginTypes, 'downloader' );
+    return _.filter( this.getEnabledPlugins(), function( p ) {
+      return _.includes( p.metadata.pluginTypes, 'downloader' );
     });
   },
 
   getEnabledSources: function() {
-    return _.find( this.getEnabledPlugins(), function(p) {
+    return _.filter( this.getEnabledPlugins(), function(p) {
       return _.includes( p.metadata.pluginTypes, 'source' );
     });
   }

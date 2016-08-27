@@ -4,7 +4,7 @@ var Promise = require('bluebird');
 
 
 var plugins = require('../../components/plugin_handler');
-var config = require('../../config/environment');
+var config  = require('../../config/environment');
 
 
 
@@ -28,7 +28,7 @@ module.exports = {
       return Promise.reject(new Error( 'No enabled download method for: ' + item.downloadMechanism ));
     }
 
-    config.logger.debug( '[DownloadService] using download plugin: %s', provider.toString() );
+    config.logger.debug( '[DownloadService] using plugin: %s', provider.toString() );
 
     return provider.remove( item, deleteOnDisk );
   },
@@ -46,7 +46,7 @@ module.exports = {
       return Promise.reject(new Error( 'No enabled download method for: ' + item.downloadMechanism ));
     }
 
-    config.logger.debug( '[DownloadService] using download plugin: %s', provider.toString() );
+    config.logger.debug( '[DownloadService] using plugin: %s', provider.toString() );
 
     return provider.download( item );
   },
@@ -56,7 +56,7 @@ module.exports = {
   // get status of all downloads in system
   // returns promise with consildated array of elements of known downloads
   status: function() {
-    config.logger.debug( '[DownloadService] getting download statuses..' );
+    config.logger.debug( '[DownloadService] getting statuses..' );
 
     var statusPromises = plugins.getEnabledDownloaders()
       .map(function( p ) {

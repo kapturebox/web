@@ -5,7 +5,8 @@
 module.exports = {
   kaptureHost: '192.168.33.10',
 
-  rootDownloadPath: '/tmp/'
+  pluginStateStore: '/tmp/pluginStateStore',
+  rootDownloadPath: '/tmp/kaptureDownloads'
 
   // moviesPath       : '',
   // showsPath        : '',

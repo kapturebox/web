@@ -17,6 +17,8 @@ var KickassSource = function( options ) {
     link: 'http://kat.cr',               // Link to provider site
     description: 'General torrent site'  // Description of plugin provider
   };
+  
+  KickassSource.super_.apply( this, arguments );
 
   return this;
 }
@@ -31,6 +33,7 @@ KickassSource.prototype.urlMatches = function( url ) {
 };
 
 KickassSource.prototype.search = function( query ) {
+  var self = this;
   return new Promise( function( resolve, reject ) {
     request({
       url: KAT_JSON_URL,
@@ -45,10 +48,10 @@ KickassSource.prototype.search = function( query ) {
       if (!err && resp.statusCode == 200) {
         resp = transformKatResults( body.list );
 
-        config.logger.info( 'Results from kat: ', resp.length );
+        self.logger.info( 'Results from kat: ', resp.length );
         resolve( resp );
       } else {
-        config.logger.warn( '[kat] cant get results: ', err );
+        self.logger.warn( '[kat] cant get results: ', err );
         resolve( [] );
       }
     });
@@ -64,45 +67,39 @@ KickassSource.prototype.getDownloadStatus = function() {
 }
 
 
-module.exports = KickassSource;
 
-
-
-// private functions
-
-
-function transformKatResults( jsonResults ) {
+KickassSource.prototype.transformKatResults = function ( jsonResults ) {
+  var self = this;
   return jsonResults.map(function( d ) {
     return {
-      source: 'Kickass',
-      title: d.title,
-      uploaded: d.pubDate,
-      category: d.category,
-      mediaType: determineKatMediaType( d ),
-      size: d.size,
+      sourceId:    self.metadata.pluginId,
+      sourceName:  self.metadata.pluginName,      
+      title:       d.title,
+      uploaded:    d.pubDate,
+      category:    d.category,
+      mediaType:   self.determineKatMediaType( d ),
+      size:        d.size,
       downloadUrl: d.torrentLink,
-      hashString: d.hash,
-      peers: d.peers,
-      score: d.votes
+      hashString:  d.hash,
+      peers:       d.peers,
+      score:       d.votes
     }
   });
 };
 
-function determineKatMediaType( elem ) {
+KickassSource.prototype.determineKatMediaType = function ( elem ) {
   switch( elem.category ) {
     case 'TV':
       return 'tvshow';
-      break;
     case 'Movies':
     case 'Anime':
     case 'XXX':
       return 'video';
-      break;
     case 'Music':
       return 'audio';
-      break;
     default:
       return 'unknown';
-      break;
   }
 }
+
+module.exports = KickassSource;

@@ -2,60 +2,88 @@
 
 var fs      = require('fs');
 var YAML    = require('yamljs');
+var persist = require('node-persist');
 var util    = require('util');
+var path    = require('path');
 var config  = require('../../config/environment');
 
-var settingsFile = config.settingsFileStore;
+var settingsFile     = config.settingsFileStore;
+var stateStorePath   = config.pluginStateStore;
+
+
 
 var Plugin = function() {
-  this.metadata = {
-    pluginId: 'base.plugin'    // should be overridden by plugin
-  };
+  this.config   = config;
+  this.logger   = config.logger;
+
+  try {
+    this.stateStore = persist.create({
+      dir: path.join( stateStorePath, this.metadata.pluginId || 'base' ),
+      interval: 2000 // 2s save to disk interval
+    });
+    this.stateStore.initSync();
+  } catch( err ) {
+    this.logger.error( 'unable to init state store: %s', err.toString() );
+  }
+
+  return this;
 }
+
+
 
 Plugin.prototype.get = function( key ) {
   var userKey = 'plugins[\'' + this.metadata.pluginId + '\'].' + key;
-  return config.getUserSettings( userKey );
+  return this.config.getUserSettings( userKey );
 }
+
+
 
 Plugin.prototype.set = function( key, value ) {
   var userKey = 'plugins[\'' + this.metadata.pluginId + '\'].' + key;
-  return config.setUserSetting( userKey, value );
+  return this.config.setUserSetting( userKey, value );
 }
+
+
+
+Plugin.prototype.setState = function( key, value ) {
+  return this.stateStore.setItemSync( key, value );
+}
+
+
+
+Plugin.prototype.getState = function( key ) {
+  if( ! key ) { // then return array of all
+    return this.stateStore.values();
+  } else {
+    return this.stateStore.getItemSync( key );
+  }
+}
+
+
+Plugin.prototype.removeState = function( key ) {
+  return this.stateStore.removeItemSync( key );
+}
+
 
 
 Plugin.prototype.toString = function() {
   return util.format( '%s', this.metadata.pluginName );
 }
 
+
 Plugin.prototype.isEnabled = function() {
-  try {
-    var settings = YAML.load( settingsFile );
-    return Boolean( settings.plugins[this.metadata.pluginId].enabled ) || false;
-  } catch ( err ) {
-    return false;
-  }
-};
-
-Plugin.prototype.setEnabled = function( enabled ) {
-  var settings = YAML.load( settingsFile );
-  settings.plugins[this.metadata.pluginId].enabled = enabled;
-  var yaml_str = YAML.stringify( settings );
-
-  return fs.writeFile( settingsFile, yaml_str, function( err ) {
-    if( err ) {
-      throw Error( '[base.plugin] cant write settings file:', err );
-    }
-  });
+  return this.get( 'enabled' ) || false;
 };
 
 
 Plugin.prototype.enable = function() {
-  this.setEnabled( true );
+  return this.set( 'enabled', true );
 };
 
+
 Plugin.prototype.disable = function() {
-  this.setEnabled( false );
+  return this.set( 'enabled', false );
 };
+
 
 module.exports = Plugin;

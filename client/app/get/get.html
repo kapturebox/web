@@ -57,19 +57,19 @@
                     </td>
                     <td md-cell>{{ item.title }}</td>
                     <td md-cell hide show-gt-xs>{{ item.category }}</td>
-                    <td md-cell hide show-gt-sm>{{ item.source }}</td>
+                    <td md-cell hide show-gt-sm>{{ item.sourceName }}</td>
                     <td md-cell hide show-gt-xs>{{ item.size | humanizeFilesize }}</td>
                     <td md-cell hide show-gt-xs>
                       <time ng-if="item.uploaded" am-time-ago="{{ getDate(item.uploaded) }}"></time>
                     </td>
                     <td md-cell>
                       <md-button class="md-button md-primary md-small" aria-label="Download"
-                                 ng-click="downloadLink( item )" ng-hide="item.source=='showrss'">
+                                 ng-click="downloadLink( item )" ng-hide="item.sourceId=='info.showrss'">
                         <md-tooltip md-direction="left">Click to download this file</md-tooltip>
                         <md-icon md-svg-src="file:file_download"></md-icon>
                       </md-button>
                       <md-button class="md-button md-primary md-small" aria-label="AutoKapture"
-                                 ng-click="downloadLink( item )" ng-show="item.source=='showrss'">
+                                 ng-click="downloadLink( item )" ng-show="item.sourceId=='info.showrss'">
                         <md-tooltip md-direction="left">Click to AutoKapture new episodes of this series in the future, automatically</md-tooltip>
                         <md-icon md-svg-src="action:autorenew"></md-icon>
                       </md-button>

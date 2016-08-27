@@ -21,6 +21,8 @@ var ShowRssSource = function( options ) {
     description: 'Updated feed of TV shows'   // Description of plugin provider
   };
 
+  ShowRssSource.super_.apply( this, arguments );
+
   return this;
 }
 
@@ -33,6 +35,7 @@ var ShowRssSource = function( options ) {
 // };
 
 ShowRssSource.prototype.search = function( query ) {
+  var self        = this;
   var SHOWS_URL   = 'http://showrss.info/browse';
   var SHOWS_XPATH = '//*[@id="showselector"]/option';
 
@@ -56,7 +59,7 @@ ShowRssSource.prototype.search = function( query ) {
       // gives us all the elements
       var shownames = shownames_xml.map( function(e) {
         return e.firstChild ? {
-          sourceId:    this.metadata.sourceId,
+          sourceId:    self.metadata.pluginId,
           mediaType:   'series',
           showRssId:   e.getAttribute('value'),
           title:       e.firstChild.data
@@ -70,7 +73,7 @@ ShowRssSource.prototype.search = function( query ) {
               && obj.title.toLowerCase().indexOf( query.toLowerCase() ) > -1;
       });
 
-      config.logger.info( '[showrss] results: ', shownames_filtered.length );
+      self.logger.info( '[showrss] results: ', shownames_filtered.length );
       resolve( shownames_filtered );
     })
   });

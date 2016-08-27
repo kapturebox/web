@@ -8,7 +8,7 @@ var config = require('../../config/environment')
 // Get list of searchs
 exports.search = function( req, res, next ) {
   var query = req.query.q;
-  config.logger.info( 'Search query: %s', query );
+  config.logger.info( 'search query: %s', query );
 
   search( query )
     .then(function( results ) {

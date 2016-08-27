@@ -43,6 +43,9 @@ var all = {
   // settings that will be used by ansible here
   settingsFileStore : 'system_settings.yml',
 
+  // where information about plugin download state is stored
+  pluginStateStore: 'pluginStateStore',
+
   getUserSettings: getUserSettings,
   setUserSetting : setUserSetting,
 
@@ -112,10 +115,10 @@ function getUserSettings( key ) {
 
 function setUserSetting( key, value ) {
   var orig = this.getUserSettings();
-  var toSave;
+  var toSave = orig;
 
-  this.logger.debug( 'setting: %s = %s', key, value );
-  this.logger.debug( 'read file:', orig );
+  // this.logger.debug( 'setting: %s = %s', key, value || 'obj' );
+  // this.logger.debug( 'read file:', orig );
 
   if( typeof( key ) === 'object' ) {
     this.logger.debug( 'merging obj: ', key, orig );
@@ -124,9 +127,9 @@ function setUserSetting( key, value ) {
     toSave = _.set( orig, key, value );
   }
 
-  this.logger.debug( 'writing setting:', toSave );
+  // this.logger.debug( 'writing setting:', toSave );
 
-  fs.writeFile( this.settingsFileStore, YAML.stringify( toSave, 4 ), function( err ) {
+  fs.writeFile( this.settingsFileStore, YAML.stringify( toSave, 8 ), function( err ) {
     if( err ) {
       this.logger.warn( 'cant save user settings file: ', err );
       throw new Error( err );

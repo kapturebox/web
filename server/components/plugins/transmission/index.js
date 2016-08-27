@@ -4,15 +4,18 @@ var Promise = require('bluebird');
 var request = require('request');
 var util    = require('util');
 var _       = require('lodash');
+var path    = require('path');
 
+
+// CONFIG STUFF STILL HERE FOR THE URLS .. should be moved somewhere
 var config  = require('../../../config/environment');
 
 
-var RPC_URL = 'http://' + config.kaptureHost + ':' + config.transmissionPort + '/transmission/rpc';
+const RPC_URL = 'http://' + config.kaptureHost + ':' + config.transmissionPort + '/transmission/rpc';
 
-var TRANSMISSION_USER  = config.transmissonUser;
-var TRANSMISSION_PASS  = config.transmissionPass;
-var ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
+const TRANSMISSION_USER  = config.transmissonUser;
+const TRANSMISSION_PASS  = config.transmissionPass;
+const ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
 
 
 
@@ -29,13 +32,26 @@ var TransmissionDownloader = function( options ) {
     description: 'Popular torrent downloader'// Description of plugin provider
   };
 
+  TransmissionDownloader.super_.apply( this, arguments );
+
+  this.mediaTypePathMap = {
+    'movie'  : path.join( this.config.rootDownloadPath, this.config.moviesPath ),
+    'video'  : path.join( this.config.rootDownloadPath, this.config.moviesPath ),
+    'tvshow' : path.join( this.config.rootDownloadPath, this.config.showsPath ),
+    'audio'  : path.join( this.config.rootDownloadPath, this.config.musicPath ),
+    'music'  : path.join( this.config.rootDownloadPath, this.config.musicPath ),
+    'photos' : path.join( this.config.rootDownloadPath, this.config.photosPath ),
+    'other'  : path.join( this.config.rootDownloadPath, this.config.defaultMediaPath )
+  }
+
   return this;
 }
 
 
 
 TransmissionDownloader.prototype.download = function( item ) {
-  return getSessionID().then(function( sessionid ) {
+  var self = this;
+  return this.getSessionID().then(function( sessionid ) {
     return new Promise(function(resolve, reject) {
       request({
         url: RPC_URL,
@@ -48,7 +64,7 @@ TransmissionDownloader.prototype.download = function( item ) {
           method: 'torrent-add',
           arguments: {
             'filename':     item.downloadUrl,
-            'download-dir': getDownloadPath( item )
+            'download-dir': self.getDownloadPath( item )
           }
         },
         headers: {
@@ -71,7 +87,8 @@ TransmissionDownloader.prototype.download = function( item ) {
 
 // takes the item as generated in search, and removes from list (with delete option if present)
 TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
-  return getSessionID().then(function( sessionid ) {
+  var self = this;
+  return this.getSessionID().then(function( sessionid ) {
     return new Promise(function( resolve, reject ) {
       request({
         url: RPC_URL,
@@ -83,7 +100,7 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
         json: {
           method: 'torrent-remove',
           arguments: {
-            'ids': item.hashString,
+            'ids':               item.hashString,
             'delete-local-data': deleteOnDisk || false
           }
         },
@@ -96,7 +113,7 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
             util.format( '[Transmission] code: %s, body: %s', resp.statusCode, body )
           ));
         } else {
-          config.logger.info( 'successfully removed: ', item.title );
+          self.logger.info( 'successfully removed: ', item.title );
           resolve( body );
         }
       });
@@ -106,8 +123,7 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
 
 TransmissionDownloader.prototype.status = function( item ) {
   var self = this;
-
-  return getSessionID().then(function( sessionid ) {
+  return this.getSessionID().then(function( sessionid ) {
     return new Promise(function( resolve, reject ) {
       request({
         url: RPC_URL,
@@ -144,8 +160,8 @@ TransmissionDownloader.prototype.status = function( item ) {
         } else {
           var ret = body.arguments.torrents.map(function(obj) {
             return _.extend( obj,  {
-              mediaType: getMediaTypeFromPath( obj['downloadDir'] ),
-              sourceId: self.metadata.pluginId
+              mediaType: self.getMediaTypeFromPath( obj['downloadDir'] ),
+              sourceId:  self.metadata.pluginId
             });
           });
 
@@ -157,27 +173,16 @@ TransmissionDownloader.prototype.status = function( item ) {
 }
 
 
-var mediaTypePathMap = {
-  'movie'  : config.rootDownloadPath + config.moviesPath,
-  'video'  : config.rootDownloadPath + config.moviesPath,
-  'tvshow' : config.rootDownloadPath + config.showsPath,
-  'audio'  : config.rootDownloadPath + config.musicPath,
-  'music'  : config.rootDownloadPath + config.musicPath,
-  'photos' : config.rootDownloadPath + config.photosPath,
-  'other'  : config.rootDownloadPath + config.defaultMediaPath
+TransmissionDownloader.prototype.getDownloadPath = function ( item ) {
+  return this.mediaTypePathMap[ item.mediaType ] || 'other';
+}
+
+TransmissionDownloader.prototype.getMediaTypeFromPath = function ( path ) {
+  return _.invert( this.mediaTypePathMap )[ path ] || 'other';
 }
 
 
-function getDownloadPath( item ) {
-  return mediaTypePathMap[ item.mediaType ] || 'other';
-}
-
-function getMediaTypeFromPath( path ) {
-  return _.invert( mediaTypePathMap )[ path ] || 'other';
-}
-
-
-function getSessionID() {
+TransmissionDownloader.prototype.getSessionID = function () {
   return new Promise( function( resolve, reject ) {
     request({
       url: RPC_URL,

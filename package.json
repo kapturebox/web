@@ -20,6 +20,7 @@
     "lodash": "~4.12.0",
     "method-override": "~2.3.5",
     "ngrok": "^2.2.1",
+    "node-persist": "^1.0.0",
     "request": "^2.69.0",
     "sanitize-filename": "^1.6.0",
     "serve-favicon": "~2.3.0",
