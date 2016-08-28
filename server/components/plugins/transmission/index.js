@@ -16,7 +16,7 @@ const RPC_URL = 'http://' + config.kaptureHost + ':' + config.transmissionPort +
 const TRANSMISSION_USER  = config.transmissonUser;
 const TRANSMISSION_PASS  = config.transmissionPass;
 const ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
-
+//
 
 
 
@@ -85,6 +85,7 @@ TransmissionDownloader.prototype.download = function( item ) {
   });
 }
 
+
 // takes the item as generated in search, and removes from list (with delete option if present)
 TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
   var self = this;
@@ -121,6 +122,7 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
   });
 }
 
+
 TransmissionDownloader.prototype.status = function( item ) {
   var self = this;
   return this.getSessionID().then(function( sessionid ) {
@@ -153,15 +155,16 @@ TransmissionDownloader.prototype.status = function( item ) {
           'X-Transmission-Session-Id': sessionid,
         }
       }, function( err, resp, body ) {
-        if(err || resp.statusCode !== 200 || body.result !== 'success' ) {
+        if( err || resp.statusCode !== 200 || body.result !== 'success' ) {
           reject( new Error(
-            util.format('cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, resp.body )
+            util.format( 'cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, resp.body )
           ));
         } else {
           var ret = body.arguments.torrents.map(function(obj) {
             return _.extend( obj,  {
-              mediaType: self.getMediaTypeFromPath( obj['downloadDir'] ),
-              sourceId:  self.metadata.pluginId
+              mediaType:         self.getMediaTypeFromPath( obj['downloadDir'] ),
+              sourceId:          self.metadata.pluginId,
+              downloadMechanism: 'torrent'
             });
           });
 

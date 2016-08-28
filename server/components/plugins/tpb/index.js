@@ -74,12 +74,12 @@ ThepiratebaySource.prototype.getDownloadStatus = function() {
 }
 
 
-// private functions
-
 ThepiratebaySource.prototype.removeWeirdCharacters = function( str ) {
   return str.replace( '\xc2','' )
             .replace( '\xa0','\x20' );
 }
+
+
 
 ThepiratebaySource.prototype.transformResults = function( jsonResults ) {
   var self = this;
@@ -127,6 +127,8 @@ ThepiratebaySource.prototype.transformResults = function( jsonResults ) {
     }
   });
 };
+
+
 
 ThepiratebaySource.prototype.determineMediaType = function ( elem ) {
   switch( elem.category.name + ':' + elem.subcategory.name ) {

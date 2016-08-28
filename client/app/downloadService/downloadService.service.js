@@ -95,17 +95,13 @@ angular.module('kaptureApp')
 
 
 
-    function removeActive( item, deleteFile ) {
-      var permDelete = false;
-      if( deleteFile ){
-        permDelete = true;
-      }
-
+    function removeActive( item, deleteFromDisk ) {
       return $http({
         method: 'DELETE',
-        url: '/api/download/' + item.hashString,
+        url: '/api/download',
         data: {
-          delete: permDelete,
+          item: item,
+          deleteFromDisk: deleteFromDisk || false,
         },
         headers: {
           'Content-Type': 'application/json'

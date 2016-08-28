@@ -25,7 +25,7 @@ module.exports = {
     var provider = plugins.getDownloadMechanismProvider( item.downloadMechanism );
 
     if( _.isEmpty( provider ) || typeof( provider.download ) === 'undefined' ) {
-      return Promise.reject(new Error( 'No enabled download method for: ' + item.downloadMechanism ));
+      return Promise.reject(new Error( 'No enabled remove method for: ' + item.downloadMechanism ));
     }
 
     config.logger.debug( '[DownloadService] using plugin: %s', provider.toString() );

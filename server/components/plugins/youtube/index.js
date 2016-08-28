@@ -108,19 +108,20 @@ YoutubeSource.prototype.transformDownloadResult = function( result ) {
   var sha1 = crypto.createHash('sha1').update( result.id );
 
   return {
-    sourceId:    this.metadata.pluginId,
-    sourceName:  self.metadata.pluginName,
-    mediaType:   'video',
-    hashString:  sha1.digest( 'hex' ),
-    startDate:   new Date().toISOString(),
-    name:        result.title,
-    title:       result.title,
-    id:          result.id,
-    totalSize:   result.size,
-    thumbnail:   result.thumbnails[0].url || null,
-    filename:    result._filename,
-    fullPath:    path.join( this.config.rootDownloadPath, this.config.defaultMediaPath, sanitize( result._filename ) ),
-    score:       this.calculateScore( result )
+    sourceId:          this.metadata.pluginId,
+    sourceName:        this.metadata.pluginName,
+    downloadMechanism: this.metadata.downloadProviders,
+    mediaType:         'video',
+    hashString:        sha1.digest( 'hex' ),
+    startDate:         new Date().toISOString(),
+    name:              result.title,
+    title:             result.title,
+    id:                result.id,
+    totalSize:         result.size,
+    thumbnail:         result.thumbnails[0].url || null,
+    filename:          result._filename,
+    fullPath:          path.join( this.config.rootDownloadPath, this.config.defaultMediaPath, sanitize( result._filename ) ),
+    score:             this.calculateScore( result )
     // ,source_info: result
   };
 
@@ -177,8 +178,8 @@ YoutubeSource.prototype.transformSearchResults = function( results ) {
     return {
       sourceId:           self.metadata.pluginId,
       sourceName:         self.metadata.pluginName,
+      downloadMechanism:  self.metadata.downloadProviders,
       mediaType:          'video',
-      downloadMechanism:  'youtube-dl',
       id:                 e.id,
       youtubeId:          e.id,
       youtubeKind:        e.kind,
@@ -213,7 +214,7 @@ YoutubeSource.prototype.remove = function( item, deleteOnDisk ) {
 
     try {
       if( deleteOnDisk )  {
-          fs.unlinkSync( canonical.fullPath );
+        fs.unlinkSync( canonical.fullPath );
       }
 
       resolve( self.removeState( canonical.id ) );

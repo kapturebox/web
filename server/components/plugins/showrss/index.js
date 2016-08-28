@@ -60,6 +60,7 @@ ShowRssSource.prototype.search = function( query ) {
       var shownames = shownames_xml.map( function(e) {
         return e.firstChild ? {
           sourceId:    self.metadata.pluginId,
+          sourceName:  self.metadata.pluginName,
           mediaType:   'series',
           showRssId:   e.getAttribute('value'),
           title:       e.firstChild.data
@@ -80,11 +81,16 @@ ShowRssSource.prototype.search = function( query ) {
 };
 
 ShowRssSource.prototype.status = function() {
-  return [];
+  return [];  // uses torrent downloader and flexget
 }
 
 ShowRssSource.prototype.download = function( url ) {
   return this.url( url );
 };
+
+ShowRssSource.prototype.remove = function() {
+  return [];
+}
+
 
 module.exports = ShowRssSource;
