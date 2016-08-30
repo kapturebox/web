@@ -55,5 +55,13 @@ module.exports = {
     return _.filter( this.getEnabledPlugins(), function(p) {
       return _.includes( p.metadata.pluginTypes, 'source' );
     });
+  },
+
+  getEnabledSeriesProviders: function() {
+    return _.filter( this.getEnabledPlugins(), function(p) {
+      return _.includes( p.metadata.pluginTypes, 'series' );
+    });    
   }
+
+  
 }

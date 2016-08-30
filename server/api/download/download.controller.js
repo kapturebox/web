@@ -7,7 +7,6 @@ var YAML    = require('yamljs');
 var fs      = require('fs');
 
 var plugins = require('../../components/plugin_handler');
-var config = require('../../config/environment');
 
 var DownloadService = require('../../components/download_service');
 

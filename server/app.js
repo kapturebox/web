@@ -20,7 +20,7 @@ require('./makedirs')();
 
 // Start server
 server.listen(config.port, config.ip, function () {
-  config.logger.info('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
+  config.logger.info('Express server listening on http://%s:%d, in %s mode', config.ip, config.port, app.get('env'));
 });
 
 // Expose app
