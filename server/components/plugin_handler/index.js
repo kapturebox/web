@@ -18,10 +18,15 @@ module.exports = {
   },
 
   getAllPlugins: function() {
+    var self = this;
     return this.getAllPluginFiles().map( function( plugin_name ) {
       var plugin = require( '../plugins/' + plugin_name );
       util.inherits( plugin, base );
-      return new plugin();
+
+      plugin.prototype.pluginHandler = self;
+      var newPluginObj = new plugin();
+
+      return newPluginObj;
     })
   },
 

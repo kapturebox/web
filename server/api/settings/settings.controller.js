@@ -17,5 +17,5 @@ exports.postSettings = function( req, res, next ) {
 
 // get settings from ansible
 exports.getSettings = function( req, res, next ) {
-  res.status(200).json( config.getUserSettings() );
+  res.status(200).json( config.getUserSetting() );
 };

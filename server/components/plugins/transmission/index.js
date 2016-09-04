@@ -11,12 +11,6 @@ var path    = require('path');
 var config  = require('../../../config/environment');
 
 
-const RPC_URL = 'http://' + config.kaptureHost + ':' + config.transmissionPort + '/transmission/rpc';
-
-const TRANSMISSION_USER  = config.transmissonUser;
-const TRANSMISSION_PASS  = config.transmissionPass;
-const ROOT_DOWNLOAD_PATH = config.rootDownloadPath;
-//
 
 
 
@@ -49,16 +43,22 @@ var TransmissionDownloader = function( options ) {
 
 
 
+TransmissionDownloader.prototype.getRpcUrl = function( item ) {
+  return util.format( 'http://%s:%s/transmission/rpc', this.get('transmission_host'), this.get('transmission_port') );
+}
+
+
+
 TransmissionDownloader.prototype.download = function( item ) {
   var self = this;
   return this.getSessionID().then(function( sessionid ) {
     return new Promise(function(resolve, reject) {
       request({
-        url: RPC_URL,
+        url: self.getRpcUrl(),
         method: 'POST',
         auth: {
-          user: TRANSMISSION_USER,
-          pass: TRANSMISSION_PASS
+          user: self.get('transmission_user'),
+          pass: self.get('transmission_pass')
         },
         json: {
           method: 'torrent-add',
@@ -92,11 +92,11 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
   return this.getSessionID().then(function( sessionid ) {
     return new Promise(function( resolve, reject ) {
       request({
-        url: RPC_URL,
+        url: self.getRpcUrl(),
         method: 'POST',
         auth: {
-          user: TRANSMISSION_USER,
-          pass: TRANSMISSION_PASS
+          user: self.get('transmission_user'),
+          pass: self.get('transmission_pass')
         },
         json: {
           method: 'torrent-remove',
@@ -128,11 +128,11 @@ TransmissionDownloader.prototype.status = function( item ) {
   return this.getSessionID().then(function( sessionid ) {
     return new Promise(function( resolve, reject ) {
       request({
-        url: RPC_URL,
+        url: self.getRpcUrl(),
         method: 'POST',
         auth: {
-          user: TRANSMISSION_USER,
-          pass: TRANSMISSION_PASS
+          user: self.get('transmission_user'),
+          pass: self.get('transmission_pass')
         },
         json: {
           method: 'torrent-get',
@@ -186,13 +186,14 @@ TransmissionDownloader.prototype.getMediaTypeFromPath = function ( path ) {
 
 
 TransmissionDownloader.prototype.getSessionID = function () {
+  var self = this;
   return new Promise( function( resolve, reject ) {
     request({
-      url: RPC_URL,
+      url: self.getRpcUrl(),
       method: 'POST',
       auth: {
-        user: TRANSMISSION_USER,
-        pass: TRANSMISSION_PASS
+        user: self.get('transmission_user'),
+        pass: self.get('transmission_pass')
       }
     }, function( err, resp, body ) {
       if( !err && resp.statusCode != 200 ) {

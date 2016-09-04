@@ -72,7 +72,7 @@ angular.module('kaptureApp')
         url: '/api/series',
         timeout: 30000  // in ms
       }).then( function( resp ) {
-        stateData.series = resp.data.series;
+        stateData.series = resp.data;
         stateData.gettingSeries = false;
         return stateData.series;
       });
@@ -95,18 +95,18 @@ angular.module('kaptureApp')
 
 
 
-    function removeActive( item, deleteFromDisk ) {
+    function removeActive( item, deleteFileOnDisk ) {
       return $http({
         method: 'DELETE',
         url: '/api/download',
         data: {
           item: item,
-          deleteFromDisk: deleteFromDisk || false,
+          deleteFileOnDisk: deleteFileOnDisk || false,
         },
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: 30000 //ms
+        timeout: 30 * 1000 //ms
       }).then(function( resp ) {
         return resp.data;
       }).catch(function( err ) {
@@ -121,22 +121,14 @@ angular.module('kaptureApp')
 
 
     function addDownload( item ) {
-      var endpoint = '/api/download';
-      var successMessage = 'Download started..';
-
-      if( item.mediaType == 'series' ) {
-        endpoint = '/api/series';
-        successMessage = 'Series added!';
-      }
-
       return $http({
-        url:    endpoint,
+        url:    '/api/download',
         method: 'PUT',
         data:   {
           item: item
         }
       }).then( function( resp ) {
-        return showToastMessage( successMessage );
+        return showToastMessage( 'Download started..' );
       }, function( failed ) {
         return showToastMessage( 'Can\'t add: ' + failed.status + ' ' + failed.statusText );
       });
@@ -145,7 +137,11 @@ angular.module('kaptureApp')
     function deleteSeries( item ) {
       return $http({
         method: 'DELETE',
-        url: '/api/series/' + item.showRssId
+        url: '/api/download',
+        headers: {'content-type':'application/json'},
+        data: {
+          item: item
+        }
       }).then( function( resp ) {
         return resp;
       });
@@ -153,7 +149,7 @@ angular.module('kaptureApp')
 
 
     function showToastMessage( msg ) {
-      return $mdToast.show(
+      return $mdToast.show( {relative:true},
         $mdToast.simple()
           .textContent( msg )
           .hideDelay( 2000 )

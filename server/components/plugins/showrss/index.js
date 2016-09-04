@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 var request = require('request');
 var _       = require('lodash');
 var util    = require('util');
+var path    = require('path');
 
 var xpath = require('xpath');
 var dom   = require('xmldom').DOMParser;
@@ -16,6 +17,7 @@ var ShowRssSource = function( options ) {
     pluginName: 'ShowRss',                    // Display name of plugin
     pluginTypes: ['source','series'],         // 'source', 'downloader', 'player'
     sourceType: 'continuous',                 // 'adhoc', 'continuous'
+    requires: ['com.flexget','com.transmissionbt'],  // this plugin requires the flexget plugin
     link: 'http://showrss.info/',             // Link to provider site
     description: 'Updated feed of TV shows'   // Description of plugin provider
   };
@@ -53,12 +55,13 @@ ShowRssSource.prototype.search = function( query ) {
         return e.firstChild !== undefined; 
       }).map(function( e ) {
         return {
-          sourceId:     self.metadata.pluginId,
-          sourceName:   self.metadata.pluginName,
-          flexgetModel: 'showrss',
-          mediaType:    'series',
-          id:           e.getAttribute('value'),
-          title:        e.firstChild.data
+          sourceId:          self.metadata.pluginId,
+          sourceName:        self.metadata.pluginName,
+          downloadMechanism: 'flexget',
+          flexgetModel:      'showrss',
+          mediaType:         'series',
+          id:                e.getAttribute('value'),
+          title:             e.firstChild.data
         };
       });
 
@@ -150,7 +153,6 @@ ShowRssSource.prototype.add = function( item ) {
   return new Promise(function(resolve, reject) {
     try {
       self.setState( item.id, item );
-      // trigger update to flexget
       resolve( item );
     } catch ( err ) {
       reject( new Error( err.toString() ));      
@@ -172,6 +174,8 @@ ShowRssSource.prototype.getEnabledSeries = function() {
 
 ShowRssSource.prototype.flexgetModel = function() {
   var self = this;
+  var transmissionConfig = this.pluginHandler.getPlugin( 'com.transmissionbt' );
+
   return {
     showRssTask: {
       rss: {
@@ -186,11 +190,11 @@ ShowRssSource.prototype.flexgetModel = function() {
       }],
       series: self.getEnabledSeriesNames(),
       transmission: {
-        host: 'localhost',
-        port: 9091,
-        username: 'admin',
-        password: 'password',
-        path: '/tmp/tvshows'
+        host:     transmissionConfig.get( 'transmission_host' ),
+        port:     transmissionConfig.get( 'transmission_port' ),
+        username: transmissionConfig.get( 'transmission_user' ),
+        password: transmissionConfig.get( 'transmission_pass' ),
+        path:     path.join( self.config.rootDownloadPath, self.config.showsPath )
       }
     }
   }

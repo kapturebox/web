@@ -36,17 +36,13 @@ var all = {
   photosPath       : 'photos',
   defaultMediaPath : 'downloads',
 
-  transmissionPort  : 9091,
-  transmissonUser   : 'admin',
-  transmissionPass  : 'password',
-
   // settings that will be used by ansible here
   settingsFileStore : 'system_settings.yml',
 
   // where information about plugin download state is stored
   pluginStateStore: 'pluginStateStore',
 
-  getUserSettings: getUserSettings,
+  getUserSetting: getUserSetting,
   setUserSetting : setUserSetting,
 
   // where to keep the series files for flexget to use
@@ -95,7 +91,7 @@ var userSettingDefaults = {
   }
 };
 
-function getUserSettings( key ) {
+function getUserSetting( key ) {
   try {
     var json_obj = YAML.load( this.settingsFileStore );
     if( ! key ) {
@@ -114,7 +110,7 @@ function getUserSettings( key ) {
 };
 
 function setUserSetting( key, value ) {
-  var orig = this.getUserSettings();
+  var orig = this.getUserSetting();
   var toSave = orig;
 
   // this.logger.debug( 'setting: %s = %s', key, value || 'obj' );

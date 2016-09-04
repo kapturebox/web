@@ -3,7 +3,6 @@
 var _       = require('lodash');
 var request = require('request');
 var Promise = require('bluebird');
-var YAML    = require('yamljs');
 var fs      = require('fs');
 
 var plugins = require('../../components/plugin_handler');

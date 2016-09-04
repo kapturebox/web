@@ -17,11 +17,14 @@ module.exports = function( query ) {
       return plugin.search( query );
     }))
     .then(function( arr ) {
-      config.logger.debug( 'results array: ', arr );
       // filter out failed sources
-      return arr.reduce( function( prev, cur ) {
-        return _.concat( prev, _.reject( cur, _.isEmpty ));
+      var results = arr.reduce( function( prev, cur ) {
+        return prev.concat( cur );
       },[]);
+
+      config.logger.debug( 'merged results array: ', results );
+
+      return results;
     })
     .catch(function( err ) {
       config.logger.error( 'cant get results: ', err );

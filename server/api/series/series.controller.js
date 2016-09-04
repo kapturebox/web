@@ -12,7 +12,7 @@ exports.index = function(req, res) {
   try {
     var series = plugins.getEnabledSeriesProviders().map(function(p) {
       return p.getEnabledSeries();
-    }).reduce(function(last,cur) {
+    }).reduce(function( last,cur ) {
       return last.concat( cur );
     },[]);
 
