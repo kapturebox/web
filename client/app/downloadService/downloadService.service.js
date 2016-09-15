@@ -86,7 +86,7 @@ angular.module('kaptureApp')
 
       return $http({
         method: 'GET',
-        url: `/api/series/source/${item.sourceId}/series/${item.id}`,
+        url: '/api/series/source/'+item.sourceId+'/series/'+item.id,
         timeout: 30000  // in ms
       }).then( function( resp ) {
         return resp.data;
