@@ -47,8 +47,12 @@ var FlexgetDownloader = function( options ) {
   this.getApiToken      = this.get.bind( this, 'api_token' );
   this.getFlexgetHost   = this.get.bind( this, 'flexget_host' );
   this.getFlexgetPort   = this.get.bind( this, 'flexget_port' );
+  
   this.getFlexgetApiUrl = function( path ) {
-    return util.format( 'http://%s:%s/api/%s', self.getFlexgetHost(), self.getFlexgetPort(), path || '' );
+    return util.format( 'http://%s:%s/api/%s', 
+      self.getFlexgetHost() || 'localhost', 
+      self.getFlexgetPort() || '5859', 
+      path || '' );
   }
 
   return this;

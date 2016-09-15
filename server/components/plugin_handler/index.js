@@ -7,7 +7,11 @@ var util    = require('util');
 var base    = require('./plugin_base');
 var config  = require('../../config/environment');
 
-var PLUGIN_PREFIX = path.join( process.cwd(), 'components/plugins' );
+var PLUGIN_PREFIX = path.join( 
+  process.cwd(), 
+  config.env === 'production' ? '' : 'server',    // needed because dev doesnt start within server folder
+  'components/plugins' 
+);
 
 
 

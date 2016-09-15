@@ -32,10 +32,10 @@ exports.get = function( req, res ) {
 function getPluginInfo( p ) {
   if( p ) {
     var plugin = plugins.getPlugin( p );
-    return _.merge( plugin.metadata, {enabled: plugin.isEnabled()} );
+    return _.merge( plugin.metadata, {settings: plugin.getAllSettings() });
   } else {
     return plugins.getAllPlugins().map(function( plugin ) {
-      return _.merge( plugin.metadata, {enabled: plugin.isEnabled()} );
+      return _.merge( plugin.metadata, {settings: plugin.getAllSettings() } );
     });
   }
 }

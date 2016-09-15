@@ -29,6 +29,11 @@ var Plugin = function() {
 }
 
 
+Plugin.prototype.getAllSettings = function( ) {
+  var userKey = 'plugins[\'' + this.metadata.pluginId + '\']';
+  return this.config.getUserSetting( userKey );
+}
+
 
 Plugin.prototype.get = function( key ) {
   var userKey = 'plugins[\'' + this.metadata.pluginId + '\'].' + key;

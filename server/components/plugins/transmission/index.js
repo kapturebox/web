@@ -117,7 +117,7 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
             util.format( '[Transmission] code: %s, body: %s', resp.statusCode, body )
           ));
         } else {
-          self.logger.info( 'successfully removed: ', item.title );
+          self.logger.info( 'successfully removed: ', item.name );
           resolve( body );
         }
       });
