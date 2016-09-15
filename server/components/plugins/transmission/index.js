@@ -29,13 +29,13 @@ var TransmissionDownloader = function( options ) {
   TransmissionDownloader.super_.apply( this, arguments );
 
   this.mediaTypePathMap = {
-    'movie'  : path.join( this.config.rootDownloadPath, this.config.moviesPath ),
-    'video'  : path.join( this.config.rootDownloadPath, this.config.moviesPath ),
-    'tvshow' : path.join( this.config.rootDownloadPath, this.config.showsPath ),
-    'audio'  : path.join( this.config.rootDownloadPath, this.config.musicPath ),
-    'music'  : path.join( this.config.rootDownloadPath, this.config.musicPath ),
-    'photos' : path.join( this.config.rootDownloadPath, this.config.photosPath ),
-    'other'  : path.join( this.config.rootDownloadPath, this.config.defaultMediaPath )
+    'movie'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('moviesPath') ),
+    'video'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('moviesPath') ),
+    'tvshow' : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('showsPath') ),
+    'audio'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('musicPath') ),
+    'music'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('musicPath') ),
+    'photos' : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('photosPath') ),
+    'other'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('defaultMediaPath') )
   }
 
   return this;

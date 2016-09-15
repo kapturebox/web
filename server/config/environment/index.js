@@ -27,32 +27,46 @@ var all = {
 
   // where the system lives
   kaptureHost: 'localhost',
-
-  // keep the trailing slash
-  rootDownloadPath : '/media/usb/',
-  moviesPath       : 'movies',
-  showsPath        : 'tvshows',
-  musicPath        : 'music',
-  photosPath       : 'photos',
-  defaultMediaPath : 'downloads',
-
   // settings that will be used by ansible here
   settingsFileStore : 'system_settings.yml',
 
   // where information about plugin download state is stored
   pluginStateStore: 'pluginStateStore',
 
-  getUserSetting: getUserSetting,
+  getUserSetting : getUserSetting,
   setUserSetting : setUserSetting,
-
-  // where to keep the series files for flexget to use
-  seriesFileStore         : 'user_series.yml',          //flexget
-  seriesMetadataFileStore : 'user_series_metadata.yml', //kapture
 
   // if ngrok enabled and installed, can hit the /api/remote url to spin up a ngrok tunnel
   ngrokEnabled   : false,
   ngrokAuthToken : null,
   ngrokTimeout   : 30 * 60 * 1000,   // time in ms to keep ngrok alive
+
+  // some user setting stuff
+  userSettingDefaults: {
+    systemname              : os.hostname(),
+    flexget_check_frequency : 15,
+    email                   : null,
+    rootDownloadPath        : '/media/usb/',
+    moviesPath              : 'movies',
+    showsPath               : 'tvshows',
+    musicPath               : 'music',
+    photosPath              : 'photos',
+    defaultMediaPath        : 'downloads',
+    plugins                 : {
+      'com.piratebay': {
+        enabled: true
+      },
+      'com.youtube': {
+        enabled: true
+      },
+      'info.showrss': {
+        enabled: true
+      },
+      'com.transmissionbt': {
+        enabled: true
+      }
+    }
+  },
 
   logger: require('../logger')()
 };
@@ -69,43 +83,29 @@ function requiredProcessEnv(name) {
 
 
 
-// some user setting stuff
 
-var userSettingDefaults = {
-  systemname: os.hostname(),
-  flexget_check_frequency: 15,
-  email: null,
-  plugins: {
-    'com.piratebay': {
-      enabled: true
-    },
-    'com.youtube': {
-      enabled: true
-    },
-    'info.showrss': {
-      enabled: true
-    },
-    'com.transmissionbt': {
-      enabled: true
-    }
-  }
-};
 
 function getUserSetting( key ) {
+  var self = this;
+
   try {
     var json_obj = YAML.load( this.settingsFileStore );
-    if( ! key ) {
-      return json_obj;
-    } else {
-      if( typeof( key ) == 'string' && _.has( json_obj, key ) ) {
-        return _.get( json_obj, key );
-      } else {
-        return null;
-      }
-    }
   } catch( err ) {
-    this.logger.warn( 'cant get user setting: %s', key, err, this.settingsFileStore );
-    return userSettingDefaults;
+    this.logger.warn( 'cant read settings file, setting defaults:', this.userSettingDefaults );
+
+    fs.writeFileSync( this.settingsFileStore, YAML.stringify( this.userSettingDefaults, 8 ));
+
+    return _.get( this.userSettingDefaults, key );
+  }
+
+  if( ! key ) {
+    return json_obj;
+  } else {
+    if( typeof( key ) == 'string' && _.has( json_obj, key ) ) {
+      return _.get( json_obj, key );
+    } else {
+      return null;
+    }
   }
 };
 

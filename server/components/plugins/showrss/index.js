@@ -180,8 +180,13 @@ ShowRssSource.prototype.getEnabledSeries = function() {
 
 
 ShowRssSource.prototype.flexgetModel = function() {
-  var self = this;
+  var self               = this;
   var transmissionConfig = this.pluginHandler.getPlugin( 'com.transmissionbt' );
+  var series             = self.getEnabledSeriesNames();
+
+  if( _.isEmpty( series ) ) {
+    return {noop:{ manual: true }};
+  }
 
   return {
     showRssTask: {
@@ -195,13 +200,13 @@ ShowRssSource.prototype.flexgetModel = function() {
           from: 'showrss:showname'
         }
       }],
-      series: self.getEnabledSeriesNames(),
+      series: series,
       transmission: {
-        host:     transmissionConfig.get( 'transmission_host' ),
-        port:     transmissionConfig.get( 'transmission_port' ),
+        host:     transmissionConfig.get( 'transmission_host' ) || 'localhost',
+        port:     parseInt( transmissionConfig.get( 'transmission_port' ) || 9091 ),
         username: transmissionConfig.get( 'transmission_user' ),
         password: transmissionConfig.get( 'transmission_pass' ),
-        path:     path.join( self.config.rootDownloadPath, self.config.showsPath )
+        path:     path.join( self.config.getUserSetting('rootDownloadPath'), self.config.getUserSetting('showsPath') )
       }
     }
   }

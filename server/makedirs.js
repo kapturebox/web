@@ -3,17 +3,16 @@
 var fs     = require('fs');
 var path   = require('path');
 var _      = require('lodash');
-var config = require('./config/environment');
 
 
 
-module.exports = function makeDirs() {
+module.exports = function makeDirs( config ) {
   var dirs = [
-    path.join( config.rootDownloadPath, config.moviesPath ),
-    path.join( config.rootDownloadPath, config.showsPath ),
-    path.join( config.rootDownloadPath, config.musicPath ),
-    path.join( config.rootDownloadPath, config.photosPath ),
-    path.join( config.rootDownloadPath, config.defaultMediaPath )
+    path.join( config.getUserSetting('rootDownloadPath'), config.getUserSetting('moviesPath') ),
+    path.join( config.getUserSetting('rootDownloadPath'), config.getUserSetting('showsPath') ),
+    path.join( config.getUserSetting('rootDownloadPath'), config.getUserSetting('musicPath') ),
+    path.join( config.getUserSetting('rootDownloadPath'), config.getUserSetting('photosPath') ),
+    path.join( config.getUserSetting('rootDownloadPath'), config.getUserSetting('defaultMediaPath') )
   ];
 
   dirs.forEach(function(dir) {
