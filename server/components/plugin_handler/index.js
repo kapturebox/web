@@ -2,11 +2,12 @@
 
 var fs      = require('fs');
 var _       = require('lodash');
-var base    = require('./plugin_base');
+var path    = require('path');
 var util    = require('util');
+var base    = require('./plugin_base');
 var config  = require('../../config/environment');
 
-var PLUGIN_PREFIX = 'server/components/plugins';
+var PLUGIN_PREFIX = path.join( process.cwd(), 'components/plugins' );
 
 
 

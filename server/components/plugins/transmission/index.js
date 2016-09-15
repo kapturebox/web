@@ -44,7 +44,10 @@ var TransmissionDownloader = function( options ) {
 
 
 TransmissionDownloader.prototype.getRpcUrl = function( item ) {
-  return util.format( 'http://%s:%s/transmission/rpc', this.get('transmission_host'), this.get('transmission_port') );
+  return util.format( 'http://%s:%s/transmission/rpc', 
+    this.get('transmission_host') || 'localhost', 
+    this.get('transmission_port') || 9091 
+  );
 }
 
 
