@@ -13,7 +13,7 @@
             No series set to auto kapture.  To add some <a ng-href="/get">search on the get page</a>
           </div>
 
-          <div ng-show="getEnabledSeries().length > 0" class="download-series-table" flex-gt-xs="50">
+          <div ng-show="getEnabledSeries().length > 0" class="download-series-table" flex>
             <md-list class="download-series" layout="column"> 
               <md-list-item class="md-1-line" ng-repeat="series in getEnabledSeries()" ng-class="{'active':$index==selectedSeriesIndex}" flex>
                 <div class="md-padding series-entry" layout="column" flex>
@@ -46,7 +46,7 @@
             </md-list>
           </div>
 
-          <div ng-hide="!selectedSeriesIndex" class="active md-padding md-whiteframe-z3" flex-gt-xs="50">
+          <div ng-hide="selectedSeriesIndex === undefined" class="active md-padding md-whiteframe-z3" flex-gt-xs="50">
             <span class="md-subhead">Recent episodes</span>
             <div class="loading" ng-show="selectedSeriesEpisodes.length == 0">
               <div flex layout="column" layout-align="center center">

@@ -57,10 +57,13 @@ ShowRssSource.prototype.search = function( query ) {
         return {
           sourceId:          self.metadata.pluginId,
           sourceName:        self.metadata.pluginName,
+          score:             self.calculateScore(e),
           downloadMechanism: 'flexget',
           flexgetModel:      'showrss',
           mediaType:         'series',
           id:                e.getAttribute('value'),
+          category:          'TV Shows',
+          size:              'N/A',
           title:             e.firstChild.data
         };
       });
@@ -79,6 +82,10 @@ ShowRssSource.prototype.search = function( query ) {
 };
 
 
+
+ShowRssSource.prototype.calculateScore = function( result ) {
+  return 1.0 / 10;
+}
 
 ShowRssSource.prototype.status = function() {
   return Promise.resolve([]);  // uses torrent downloader and flexget

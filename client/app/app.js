@@ -51,7 +51,7 @@ angular.module('kaptureApp', [
       .primaryPalette('deep-purple', {
         'default': '600'
       })
-      .accentPalette('grey', {
-        'default': '300'
+      .accentPalette('green', {
+        'default': '700'
       });
   });

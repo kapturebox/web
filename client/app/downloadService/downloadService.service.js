@@ -80,13 +80,13 @@ angular.module('kaptureApp')
 
 
     function pullSeriesUpcomingEpisodes( item ) {
-      if( ! item || ! item.showRssId ) {
+      if( ! item || ! item.id ) {
         return {};
       }
 
       return $http({
         method: 'GET',
-        url: '/api/series/' + item.showRssId,
+        url: `/api/series/source/${item.sourceId}/series/${item.id}`,
         timeout: 30000  // in ms
       }).then( function( resp ) {
         return resp.data;

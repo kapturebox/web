@@ -31,9 +31,9 @@
                   <span class="title md-padding">{{ entry.name }}</span>
                 </div>
 
-                <md-subheader class="stats" layout="column" layout-align="center start" class="md-padding" flex="10">
+                <md-subheader class="stats" layout="column" layout-align="center start" class="md-padding">
                   <div class="md-primary">
-                    <span>{{ entry.percentDone * 100 | number:2 }}% of {{ entry.totalSize | humanizeFilesize }}</span>
+                    <span>{{ entry.percentDone * 100 | number:2 }}% of {{ entry.size | humanizeFilesize }}</span>
                   </div>
                   <div class="md-primary">
                     <span ng-if="entry.isFinished == false">{{ entry.eta | amDurationFormat: 'seconds' }} @ {{ entry.rateDownload | humanizeFilesize }}/s</span>

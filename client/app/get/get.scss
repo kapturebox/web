@@ -4,11 +4,15 @@
   }
 
   .md-cell {
-    padding: 0 10px 0 5px !important;
+    padding: 0 2px 0 2px !important;
   }
 
   .search-form-container {
     margin-top: .75em;
+  }
+
+  table th.md-column {
+    padding: 0 31px 0 0 !important;
   }
 
 }

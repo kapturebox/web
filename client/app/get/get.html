@@ -27,7 +27,7 @@
            <md-input-container>
              <md-button type="submit" ng-disabled="mediaSearchForm.$invalid || searchLoading" class="md-raised md-primary" layout="column" layout-align="center center">
                <span ng-hide="searchLoading">Search</span>
-               <md-progress-circular ng-show="searchLoading" md-mode="indeterminate"></md-progress-circular>
+               <md-progress-circular ng-show="searchLoading" md-mode="indeterminate" md-diameter="25px"></md-progress-circular>
              </md-button>
            </md-input-container>
          </div>
@@ -44,6 +44,7 @@
                     <th md-column md-order-by="title">Name</th>
                     <th md-column md-order-by="category" hide show-gt-xs>Category</th>
                     <th md-column md-order-by="source" hide show-gt-sm>Source</th>
+                    <th md-column md-order-by="score" hide show-gt-sm>Score</th>
                     <th md-column md-order-by="size" md-numeric hide show-gt-xs>Size</th>
                     <th md-column md-order-by="uploaded" md-numeric hide show-gt-xs>Uploaded</th>
                     <th md-column>Download</th>
@@ -58,6 +59,7 @@
                     <td md-cell>{{ item.title }}</td>
                     <td md-cell hide show-gt-xs>{{ item.category }}</td>
                     <td md-cell hide show-gt-sm>{{ item.sourceName }}</td>
+                    <td md-cell hide show-gt-sm>{{ item.score * 1000 | number:2 }}</td>
                     <td md-cell hide show-gt-xs>{{ item.size | humanizeFilesize }}</td>
                     <td md-cell hide show-gt-xs>
                       <time ng-if="item.uploaded" am-time-ago="{{ getDate(item.uploaded) }}"></time>

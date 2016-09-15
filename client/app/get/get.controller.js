@@ -4,6 +4,7 @@ angular.module('kaptureApp')
   .controller('GetCtrl', function ( $scope, $mdToast, $http, downloadService ) {
 
     $scope.unescape = unescape;
+    $scope.selectOrder = '-score';
 
     $scope.selected = [];
 

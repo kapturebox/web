@@ -3,6 +3,7 @@
 var util          = require('util');
 var youtubedl     = require('youtube-dl');
 var youtubesearch = require('youtube-search');
+var youtubesdk    = require('youtube-sdk');
 var request       = require('request');
 var crypto        = require('crypto');
 var fs            = require('fs');
@@ -29,12 +30,15 @@ function YoutubeSource( options ) {
 
   YoutubeSource.super_.apply( this, arguments );
 
+  this.youtubesdk = new youtubesdk();
+  this.youtubesdk.use( youtubeSearchToken );
+
   return this;
 }
 
 
 YoutubeSource.prototype.download = function( item ) {
-  this.logger.info( '[Youtube] downloading: [%s] %s', item.youtubeId, item.title );
+  this.logger.info( '[Youtube] downloading: [%s] %s', item.idd, item.title );
   return this.url( item.downloadUrl );
 };
 
@@ -55,7 +59,7 @@ YoutubeSource.prototype.url = function( url ) {
     video.on( 'info', function( retInfo ) {
       kapResult = self.transformDownloadResult( retInfo );
 
-      self.logger.info( '[Youtube] download started: %s, (%s)', kapResult.filename, kapResult.totalSize );
+      self.logger.info( '[Youtube] download started: %s, (%s)', kapResult.filename, kapResult.size );
 
       try {
         video.pipe( fs.createWriteStream( kapResult.fullPath ));
@@ -77,13 +81,11 @@ YoutubeSource.prototype.url = function( url ) {
 
       kapResult.pos += chunk.length;
 
-      kapResult.percentDone  = kapResult.pos / kapResult.totalSize;
-      kapResult.rateDownload = chunk.length / timeDelta;
-      kapResult.eta          = ( kapResult.totalSize - kapResult.pos ) / kapResult.rateDownload;
+      if( kapResult.size ) {
+        kapResult.percentDone  = kapResult.pos / kapResult.size;
+        kapResult.rateDownload = chunk.length / timeDelta;
+        kapResult.eta          = ( kapResult.size - kapResult.pos ) / kapResult.rateDownload;
 
-      // && new Date().getTime() % 100 === 0
-
-      if( kapResult.totalSize ) {
         self.updateDownloadState( kapResult );
       }
     });
@@ -117,18 +119,21 @@ YoutubeSource.prototype.transformDownloadResult = function( result ) {
     name:              result.title,
     title:             result.title,
     id:                result.id,
-    totalSize:         result.size,
+    size:              result.size,
     thumbnail:         result.thumbnails[0].url || null,
     filename:          result._filename,
-    fullPath:          path.join( this.config.rootDownloadPath, this.config.defaultMediaPath, sanitize( result._filename ) ),
-    score:             this.calculateScore( result )
-    // ,source_info: result
+    fullPath:          path.join( this.config.rootDownloadPath, this.config.defaultMediaPath, sanitize( result._filename ) )
+   ,source_info:       result
   };
 
 }
 
+// as of 2016-09-13, it's psy's gangnam style :)
+const MAX_YOUTUBE_VIEWS = 2642 * 1000000;  // 2.6 billion
+const SCORE_SCALING_FACTOR = 5;
+
 YoutubeSource.prototype.calculateScore = function( result ) {
-  return ( result.like_count - result.dislike_count ) / result.view_count * 100;
+  return ( result.statistics.viewCount / MAX_YOUTUBE_VIEWS ) * SCORE_SCALING_FACTOR;
 }
 
 
@@ -151,9 +156,10 @@ YoutubeSource.prototype.search = function( query ) {
 
   return new Promise(function( resolve, reject ) {
     var opts = {
-      maxResults: 10,
+      maxResults: 30,
       key: youtubeSearchToken,
-      type: 'video'
+      type: 'video',
+      order: 'relevance'
     };
 
     youtubesearch( query, opts, function( err, results ) {
@@ -163,17 +169,44 @@ YoutubeSource.prototype.search = function( query ) {
 
       self.logger.info( '[%s] results: %d', self.metadata.pluginName, results.length );
 
-      resolve( self.transformSearchResults( results ) );
+      resolve( results );
     });
+  }).then(function( ids ) {
+    return self.getMetadataFromResults( ids );
+  }).then(function( itemsWithMetadata ) {
+    return self.transformSearchResults( itemsWithMetadata.items );
   });
 };
 
+
+YoutubeSource.prototype.getMetadataFromResults = function( results ) {
+  var self = this;
+
+  return new Promise(function( resolve, reject ) {
+    var params = {
+      part: 'snippet,statistics,contentDetails',
+      id: results.map(function(e) {
+        return e.id;
+      }).join(',')
+    };
+
+    self.youtubesdk.get( 'videos', params, function( err, items ) {
+      if( err ) {
+        return reject( new Error( err.toString() ) );
+      }
+      resolve( items );
+    })
+  }); 
+
+}
+
+const YOUTUBE_VIDEO_URL = 'https://www.youtube.com/watch?v=%s';
 
 YoutubeSource.prototype.transformSearchResults = function( results ) {
   var self = this;
 
   return results.map(function( e ) {
-    var sha1 = crypto.createHash('sha1').update( e.id );
+    var sha1 = crypto.createHash( 'sha1' ).update( e.id );
 
     return {
       sourceId:           self.metadata.pluginId,
@@ -181,17 +214,37 @@ YoutubeSource.prototype.transformSearchResults = function( results ) {
       downloadMechanism:  self.metadata.downloadProviders,
       mediaType:          'video',
       id:                 e.id,
-      youtubeId:          e.id,
-      youtubeKind:        e.kind,
-      youtubeDescription: e.description,
-      title:              e.title,
-      thumbnail:          e.thumbnails.default.url || null,
-      uploaded:           e.publishedAt,
-      downloadUrl:        e.link,
-      hashString:         sha1.digest( 'hex' )
+      description:        e.snippet.description,
+      title:              e.snippet.title,
+      thumbnail:          e.snippet.thumbnails.default.url || null,
+      uploaded:           e.snippet.publishedAt,
+      downloadUrl:        util.format( YOUTUBE_VIDEO_URL, e.id ),
+      hashString:         sha1.digest( 'hex' ),
+      size:               self.calculateSize( e ),
+      score:              self.calculateScore( e )
+     ,source_data:        e
     }
   });
 }
+
+// this is wrong but it's a baseline at least.
+const DURATION_REGEX = /PT((\d+)H)?((\d+)M)?((\d+)S)/;
+const SD_BITS_PER_SEC = 1 * (1024) * 5;
+const HD_BITS_PER_SEC = 8 * (1024) * 5;
+
+YoutubeSource.prototype.calculateSize = function( result ) {
+  var durMatches  = DURATION_REGEX.exec( result.contentDetails.duration );
+  var dimension   = result.contentDetails.dimension;
+  var definition  = result.contentDetails.definition;
+
+  var seconds = ( parseInt(durMatches[2] || 0 ) * 60*60 ) + ( parseInt(durMatches[4] || 0 ) * 60 ) + ( parseInt(durMatches[6] || 0 ) );
+  var ret     = seconds * ( definition === 'hd' ? HD_BITS_PER_SEC : SD_BITS_PER_SEC );
+
+  // this.logger.debug( 'name: %s, seconds: %d, definition: %s, result: %d, matches: %s', result.snippet.title, seconds, definition, ret, durMatches );
+  
+  return ret;
+}
+
 
 
 YoutubeSource.prototype.status = function() {
@@ -202,6 +255,7 @@ YoutubeSource.prototype.status = function() {
 
 YoutubeSource.prototype.remove = function( item, deleteOnDisk ) {
   var self = this;
+
   return new Promise( function(resolve, reject) {
     try {
       var canonical = self.getState( item.id );

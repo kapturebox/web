@@ -164,6 +164,7 @@ TransmissionDownloader.prototype.status = function( item ) {
             return _.extend( obj,  {
               mediaType:         self.getMediaTypeFromPath( obj['downloadDir'] ),
               sourceId:          self.metadata.pluginId,
+              size:              obj.totalSize,
               downloadMechanism: 'torrent'
             });
           });

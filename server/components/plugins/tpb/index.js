@@ -123,6 +123,8 @@ ThepiratebaySource.prototype.transformResults = function( jsonResults ) {
       peers:              parseInt( d.seeders ) + parseInt( d.leechers ),
       seeders:            parseInt( d.seeders ),
       leechers:           parseInt( d.leechers ),
+      score:              self.calculateScore( d ),
+      source_data:        d,
       downloadMechanism:  'torrent'
     }
   });
@@ -153,7 +155,11 @@ ThepiratebaySource.prototype.determineMediaType = function ( elem ) {
   }
 }
 
+const MAX_ACTIVE_SEEDERS = 10000;
 
+ThepiratebaySource.prototype.calculateScore = function ( result ) {
+  return result.seeders / MAX_ACTIVE_SEEDERS;
+}
 
 
 ThepiratebaySource.prototype.convertSize = function ( sizeString ) {

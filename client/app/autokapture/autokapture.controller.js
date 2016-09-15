@@ -3,7 +3,10 @@
 angular.module('kaptureApp')
   .controller('AutoKaptureCtrl', function ($scope, $http, downloadService) {
 
+    $scope.selectedSeriesIndex = undefined;
+
     downloadService.pullSeries();
+
     $scope.getEnabledSeries = downloadService.getEnabledSeries;
 
     $scope.deleteSeries = function( item ) {

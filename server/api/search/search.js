@@ -22,7 +22,7 @@ module.exports = function( query ) {
         return prev.concat( cur );
       },[]);
 
-      config.logger.debug( 'merged results array: ', results );
+      // config.logger.debug( 'merged results array: ', results );
 
       return results;
     })
