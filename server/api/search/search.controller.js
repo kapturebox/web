@@ -15,6 +15,7 @@ exports.search = function( req, res, next ) {
       return res.status(200).json( results );
     })
     .catch(function( err ) {
+      config.logger.error( 'cant get results:', err );
       return next(new Error( err ));
     });
 };
