@@ -1,6 +1,6 @@
 {
   "name": "kapture",
-  "version": "0.0.0",
+  "version": "3.0.0",
   "dependencies": {
     "angular": "^1.5.5",
     "json3": "^3.3.2",
