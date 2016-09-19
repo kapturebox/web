@@ -39,7 +39,7 @@ var all = {
   // if ngrok enabled and installed, can hit the /api/remote url to spin up a ngrok tunnel
   ngrokEnabled   : false,
   ngrokAuthToken : null,
-  ngrokTimeout   : 30 * 60 * 1000,   // time in ms to keep ngrok alive
+  ngrokTimeout   : 60 * 60 * 1000,   // time in ms to keep ngrok alive
 
   // some user setting stuff
   userSettingDefaults: {
@@ -63,6 +63,9 @@ var all = {
         enabled: true
       },
       'com.transmissionbt': {
+        enabled: true
+      },
+      'com.flexget': {
         enabled: true
       }
     }
