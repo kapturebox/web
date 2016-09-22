@@ -23,14 +23,14 @@ angular.module('kaptureApp')
             $scope.applyingSettings = false;
 
             $mdToast.show(
-              $mdToast.simple()
+              $mdToast.simple({ position:'bottom right' })
                 .textContent( 'Settings saved successfully!' )
                 .hideDelay( 2000 )
             );
           }).catch(function(err) {
             $scope.applyingSettings = false;
             $mdToast.show(
-              $mdToast.simple()
+              $mdToast.simple({ position:'bottom right' })
                 .textContent( 'Unable to save settings' )
                 .hideDelay( 2000 )
             );

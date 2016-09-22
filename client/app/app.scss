@@ -35,6 +35,10 @@ h1.site-title {
   font-weight: bold;
 }
 
+md-toast {
+  position: fixed
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'autokapture/autokapture.scss';

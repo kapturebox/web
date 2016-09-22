@@ -28,7 +28,7 @@ angular.module('kaptureApp')
       }, function( failed ) {
         $scope.searchLoading = false;
         $mdToast.show(
-          $mdToast.simple()
+          $mdToast.simple({ position:'bottom right' })
             .textContent( 'Query failed: ' + failed.status + ' ' + failed.statusText )
             .hideDelay( 2000 )
         );

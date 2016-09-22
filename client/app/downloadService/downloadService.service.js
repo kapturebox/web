@@ -149,8 +149,8 @@ angular.module('kaptureApp')
 
 
     function showToastMessage( msg ) {
-      return $mdToast.show( {relative:true},
-        $mdToast.simple()
+      return $mdToast.show(
+        $mdToast.simple({ position:'bottom right' })
           .textContent( msg )
           .hideDelay( 2000 )
       );

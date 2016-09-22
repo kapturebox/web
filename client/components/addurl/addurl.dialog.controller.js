@@ -21,14 +21,14 @@ angular.module('kaptureApp')
         $scope.close();
 
         $mdToast.show(
-          $mdToast.simple()
+          $mdToast.simple({ position:'bottom right' })
             .textContent( 'URL added successfully!' )
             .hideDelay( 2000 )
         );
       }).catch(function(err) {
         $scope.applyingSettings = false;
         $mdToast.show(
-          $mdToast.simple()
+          $mdToast.simple({ position:'bottom right' })
             .textContent( 'Unable to add URL: HTTP ' + err.statusText + ": " + err.data )
             .hideDelay( 7000 )
         );
