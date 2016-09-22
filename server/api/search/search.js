@@ -55,6 +55,8 @@ Promise.allSettled = function(arrayOfPromises) {
     results.forEach(function(result) {
       if(result.resolve) {
         allFailed = false;
+      } else {
+        config.logger.warn( 'search promise returned error:', result.result );
       }
       passed.push(result.resolve ? result.result : null);
       failed.push(result.resolve ? null : result.result);
