@@ -28,8 +28,8 @@ exports.index = function( req, res ) {
         }
 
         var endNgrok = function() {
-          ng.disconnect();
-          ng.kill();
+          // ng.disconnect();
+          // ng.kill();
           config.logger.info( '[ngrok] cleanup success' );
         }
 
