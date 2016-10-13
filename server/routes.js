@@ -10,8 +10,8 @@ var path = require('path');
 module.exports = function(app) {
 
   // Insert routes below
-  app.use('/api/remote', require('./api/remote'));
-  app.use('/api/plugin', require('./api/plugin'));
+  app.use('/api/remote',   require('./api/remote'));
+  app.use('/api/plugin',   require('./api/plugin'));
   app.use('/api/ansible',  require('./api/ansible'));
   app.use('/api/series',   require('./api/series'));
   app.use('/api/download', require('./api/download'));
