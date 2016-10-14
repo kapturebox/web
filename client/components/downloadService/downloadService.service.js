@@ -3,8 +3,6 @@
 angular.module('kaptureApp')
   .service('downloadService', function ($http, $interval) {
 
-    var self = this;
-
     //always use objects as top level... referenceable
     var stateData = {
       downloads: [],
