@@ -4,8 +4,8 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "boxcutter/ubuntu1604"
   config.vm.hostname = "kapture-vagrant"
-  config.vm.network "private_network", ip: "192.168.33.10" # , nic_type: "virtio"
-  # config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
+  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
 
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provider "virtualbox" do |vb|
@@ -33,6 +33,8 @@ Vagrant.configure(2) do |config|
     pip install ansible markupsafe
 
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
+
+    usermod -aG vagrant debian-transmission
 
     # get code deps setup, and install kapture package locally
     npm install -g grunt-cli npm bower

@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>kapture</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -15,6 +15,7 @@
       <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css" />
       <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+      <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -46,6 +47,7 @@
       <script src="bower_components/chart.js/dist/Chart.js"></script>
       <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
       <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+      <script src="bower_components/toastr/toastr.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -64,7 +66,9 @@
       <script src="app/scripts/directives/sidebar/sidebar-search/sidebar-search.js"></script>
       <script src="app/scripts/directives/sidebar/sidebar.js"></script>
       <script src="app/scripts/directives/timeline/timeline.js"></script>
-      <script src="components/downloadService/downloadService.service.js"></script>
+      <script src="app/scripts/filters/percentage.js"></script>
+      <script src="app/scripts/services/downloadService/downloadService.js"></script>
+      <script src="app/scripts/services/seriesService/seriesService.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->
 

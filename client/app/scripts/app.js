@@ -1,4 +1,7 @@
 'use strict';
+
+
+
 /**
  * @ngdoc overview
  * @name kaptureApp
@@ -12,7 +15,7 @@ angular
     'oc.lazyLoad',
     'ui.router',
     'ui.bootstrap',
-    'angular-loading-bar',
+    'angular-loading-bar'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     
@@ -33,18 +36,19 @@ angular
                 {
                     name:'kaptureApp',
                     files:[
-                    'app/scripts/directives/header/header.js',
-                    'app/scripts/directives/header/header-notification/header-notification.js',
-                    'app/scripts/directives/sidebar/sidebar.js',
-                    'app/scripts/directives/sidebar/sidebar-search/sidebar-search.js'
+                      'app/scripts/directives/header/header.js',
+                      'app/scripts/directives/header/header-notification/header-notification.js',
+                      'app/scripts/directives/sidebar/sidebar.js',
+                      'app/scripts/directives/sidebar/sidebar-search/sidebar-search.js'
                     ]
                 }),
                 $ocLazyLoad.load(
                 {
                    name:'toggle-switch',
-                   files:["bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
-                          "bower_components/angular-toggle-switch/angular-toggle-switch.css"
-                      ]
+                   files:[
+                      "bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
+                      "bower_components/angular-toggle-switch/angular-toggle-switch.css"
+                    ]
                 }),
                 $ocLazyLoad.load(
                 {
@@ -83,11 +87,11 @@ angular
             return $ocLazyLoad.load({
               name:'kaptureApp',
               files:[
-              'app/scripts/controllers/main.js',
-              'app/scripts/directives/timeline/timeline.js',
-              'app/scripts/directives/notifications/notifications.js',
-              'app/scripts/directives/chat/chat.js',
-              'app/scripts/directives/dashboard/stats/stats.js'
+                'app/scripts/controllers/main.js',
+                'app/scripts/directives/timeline/timeline.js',
+                'app/scripts/directives/notifications/notifications.js',
+                'app/scripts/directives/chat/chat.js',
+                'app/scripts/directives/dashboard/stats/stats.js'
               ]
             })
           }
@@ -118,8 +122,8 @@ angular
               ]
             }),
             $ocLazyLoad.load({
-                name:'kaptureApp',
-                files:['app/scripts/controllers/chartController.js']
+              name:'kaptureApp',
+              files:['app/scripts/controllers/chartController.js']
             })
           }
         }

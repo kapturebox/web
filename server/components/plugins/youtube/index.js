@@ -116,7 +116,6 @@ YoutubeSource.prototype.transformDownloadResult = function( result ) {
     mediaType:         'video',
     hashString:        sha1.digest( 'hex' ),
     startDate:         new Date().toISOString(),
-    name:              result.title,
     title:             result.title,
     id:                result.id,
     size:              result.size,

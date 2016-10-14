@@ -7,8 +7,6 @@
  * Controller of the kaptureApp
  */
 angular.module('kaptureApp')
-  .controller('MainCtrl', function($scope,downloadService) {
-
-    $scope.downloads = downloadService.getCurrentDownloads;
+  .controller('MainCtrl', function( $scope ) {
 
   });

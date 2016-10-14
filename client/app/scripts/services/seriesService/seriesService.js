@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .service('downloadService', function ($http, $interval) {
+  .service('seriesService', function ($http, $interval) {
 
-    //always use objects as top level... referenceable
+    // current state of world
     var stateData = {
       downloads: [],
       series: [],
-      interval: null, //stop later?
+      interval: null,
       running: false,
     };
 
@@ -35,8 +35,6 @@ angular.module('kaptureApp')
     }
 
     function getCurrentDownloads(){
-      // console.log( 'downloads:', self.stateData.downloads );
-      console.log( stateData );
       return stateData.downloads;
     }
 
