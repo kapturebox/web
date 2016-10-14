@@ -7,7 +7,7 @@
  * # adminPosHeader
  */
 
-angular.module('sbAdminApp')
+angular.module('kaptureApp')
   .directive('sidebar',['$location',function() {
     return {
       templateUrl:'app/scripts/directives/sidebar/sidebar.html',

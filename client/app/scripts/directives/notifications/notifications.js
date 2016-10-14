@@ -6,7 +6,7 @@
  * @description
  * # adminPosHeader
  */
-angular.module('sbAdminApp')
+angular.module('kaptureApp')
 	.directive('notifications',function(){
 		return {
         templateUrl:'app/scripts/directives/notifications/notifications.html',

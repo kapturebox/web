@@ -13,9 +13,8 @@
       <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
       <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
       <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css" />
-      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
-      <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css" />
+      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -38,15 +37,15 @@
       <script src="bower_components/angular-touch/angular-touch.js"></script>
       <script src="bower_components/angular-route/angular-route.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-      <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+      <script src="bower_components/oclazyload/dist/ocLazyLoad.js"></script>
       <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
       <script src="bower_components/jquery/dist/jquery.js"></script>
-      <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
       <script src="bower_components/metisMenu/dist/metisMenu.js"></script>
-      <script src="bower_components/Chart.js/Chart.js"></script>
+      <script src="bower_components/chart.js/dist/Chart.js"></script>
       <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+      <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -54,7 +53,7 @@
       <!-- injector:js -->
       <script src="app/js/sb-admin-2.js"></script>
       <script src="app/scripts/app.js"></script>
-      <script src="app/scripts/controllers/chartContoller.js"></script>
+      <script src="app/scripts/controllers/chartController.js"></script>
       <script src="app/scripts/controllers/form.js"></script>
       <script src="app/scripts/controllers/main.js"></script>
       <script src="app/scripts/directives/chat/chat.js"></script>
@@ -65,6 +64,7 @@
       <script src="app/scripts/directives/sidebar/sidebar-search/sidebar-search.js"></script>
       <script src="app/scripts/directives/sidebar/sidebar.js"></script>
       <script src="app/scripts/directives/timeline/timeline.js"></script>
+      <script src="components/downloadService/downloadService.service.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->
 
@@ -75,12 +75,13 @@
     <!-- Morris Charts CSS -->
     <!-- <link href="styles/morrisjs/morris.css" rel="stylesheet"> -->
 
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
 
     </head>
    
     <body>
 
-    <div ng-app="sbAdminApp">
+    <div ng-app="kaptureApp">
 
         <div ui-view></div>
 

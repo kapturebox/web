@@ -1,11 +1,14 @@
 'use strict';
 /**
  * @ngdoc function
- * @name sbAdminApp.controller:MainCtrl
+ * @name kaptureApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the sbAdminApp
+ * Controller of the kaptureApp
  */
-angular.module('sbAdminApp')
-  .controller('MainCtrl', function($scope,$position) {
+angular.module('kaptureApp')
+  .controller('MainCtrl', function($scope,downloadService) {
+
+    $scope.downloads = downloadService.getCurrentDownloads;
+
   });

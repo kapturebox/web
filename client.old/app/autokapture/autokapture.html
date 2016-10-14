@@ -1,0 +1,78 @@
+<div ng-include="'components/shell/shell.html'"></div>
+
+<div class="page autokapture-page" layout-align="center center" layout>
+
+    <div class="autokapture-container md-whiteframe-z1" flex-gt-sm="80" flex>
+
+        <md-toolbar class="md-whiteframe-z1 rounded-toolbar">
+          <h2 class="md-toolbar-tools">AutoKaptured series</h2>
+        </md-toolbar>
+
+        <md-content layout="column" layout-gt-xs="row" flex>
+          <div ng-show="!(getEnabledSeries().length)" class="md-padding" layout="column" layout-align="center center" flex>
+            No series set to auto kapture.  To add some <a ng-href="/get">search on the get page</a>
+          </div>
+
+          <div ng-show="getEnabledSeries().length > 0" class="download-series-table" flex>
+            <md-list class="download-series" layout="column"> 
+              <md-list-item class="md-1-line" ng-repeat="series in getEnabledSeries()" ng-class="{'active':$index==selectedSeriesIndex}" flex>
+                <div class="md-padding series-entry" layout="column" flex>
+                  <div class="series-header" layout="row" flex>
+
+                    <div class="md-padding" layout="column" layout-align="center center">
+                      <md-icon md-svg-src="communication:rss_feed" class="rss-icon"></md-icon>
+                    </div>
+
+                    <div class="md-list-item-text" layout="column" layout-align="start" flex>
+                      <h3 class="series-name">{{ series.title }}</h3>
+                    </div>
+
+                    <div layout="row" layout-align="center center">
+                      <md-button class="md-small" ng-click="selectSeries($index, series)">
+                        <md-tooltip md-direction="bottom">Show recent ..</md-tooltip>
+                        <md-icon md-svg-src="image:remove_red_eye"></md-icon>
+                      </md-button>
+                      <md-button class="md-small" aria-label="Delete series {{ series.title }}" ng-click="deleteSeries( series )">
+                        <md-tooltip md-direction="bottom">Delete this series permanently</md-tooltip>
+                        <md-icon md-svg-src="action:delete" class="delete-series"></md-icon>
+                      </md-button>
+                    </div>
+                  </div>
+                </div>
+
+                <md-divider ng-if="!$last"></md-divider>
+
+              </md-list-item>
+            </md-list>
+          </div>
+
+          <div ng-hide="selectedSeriesIndex === undefined" class="active md-padding md-whiteframe-z3" flex-gt-xs="50">
+            <span class="md-subhead">Recent episodes</span>
+            <div class="loading" ng-show="selectedSeriesEpisodes.length == 0">
+              <div flex layout="column" layout-align="center center">
+                <md-progress-circular md-mode="indeterminate" />
+                <span>Loading...</span>
+              </div>
+            </div>
+            <md-list class="series-ep-list md-2-line">
+              <md-list-item ng-repeat="ep in selectedSeriesEpisodes" class="md-padding" layout="row">
+                <div>
+                  <md-icon md-svg-src="av:videocam"></md-icon>
+                </div>
+                <div class="series-item-text md-padding" layout="column">
+                    <b>{{ ep.title }}</b>
+                    <time am-time-ago="{{ parseDate(ep.uploaded) }}"></time>
+                </div>
+                <md-divider></md-divider>
+
+              </md-list-item>
+            </md-list>
+          </div>
+
+        </md-content>
+
+
+
+    </div>
+
+</div>

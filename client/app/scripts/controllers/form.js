@@ -1,12 +1,12 @@
 'use strict';
 /**
  * @ngdoc function
- * @name sbAdminApp.controller:MainCtrl
+ * @name kaptureApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the sbAdminApp
+ * Controller of the kaptureApp
  */
-angular.module('sbAdminApp')
+angular.module('kaptureApp')
   .controller('FormCtrl', function($scope) {
     
 });

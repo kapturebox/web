@@ -1,0 +1,95 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1.0">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(client) app/vendor.css -->
+      <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+      <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.css" />
+      <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,client}) app/app.css -->
+    <link rel="stylesheet" href="app/app.css">
+      <!-- injector:css -->
+      <!-- endinjector -->
+    <!-- endbuild -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700,400" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
+  </head>
+  <body ng-app="kaptureApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div layout="column" flex style="min-height:100%;">
+      <ui-view flex layout="column">
+        <div flex layout="column" layout-align="center center">
+          <md-progress-circular md-mode="indeterminate" />
+          <span>Loading...</span>
+        </div>
+      </ui-view>
+    </div>
+
+
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js({client,node_modules}) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-messages/angular-messages.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-aria/angular-aria.js"></script>
+      <script src="bower_components/angular-material/angular-material.js"></script>
+      <script src="bower_components/lodash/lodash.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/angular-moment/angular-moment.js"></script>
+      <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
+      <script src="bower_components/humanize/humanize.js"></script>
+      <script src="bower_components/angularjs-humanize/src/angular-humanize.js"></script>
+      <script src="bower_components/angular-material-data-table/dist/md-data-table.js"></script>
+      <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+      <script src="bower_components/marked/lib/marked.js"></script>
+      <script src="bower_components/angular-md/dist/angular-md.js"></script>
+      <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,client}) app/app.js -->
+      <script src="app/app.js"></script>
+      <!-- injector:js -->
+      <script src="app/autokapture/autokapture.controller.js"></script>
+      <script src="app/autokapture/autokapture.js"></script>
+      <script src="app/downloads/downloads.controller.js"></script>
+      <script src="app/downloads/downloads.js"></script>
+      <script src="app/downloadService/downloadService.service.js"></script>
+      <script src="app/get/get.controller.js"></script>
+      <script src="app/get/get.js"></script>
+      <script src="app/kp-filetype-icon/kp-filetype-icon.directive.js"></script>
+      <script src="app/main/main.controller.js"></script>
+      <script src="app/main/main.js"></script>
+      <script src="app/settings/settings.controller.js"></script>
+      <script src="app/settings/settings.js"></script>
+      <script src="app/watch/watch.controller.js"></script>
+      <script src="app/watch/watch.js"></script>
+      <script src="components/addurl/addurl.dialog.controller.js"></script>
+      <script src="components/shell/shell.controller.js"></script>
+      <!-- endinjector -->
+    <!-- endbuild -->
+</body>
+</html>

@@ -6,7 +6,7 @@
  * @description
  * # adminPosHeader
  */
-angular.module('sbAdminApp')
+angular.module('kaptureApp')
     .directive('stats',function() {
     	return {
   		templateUrl:'app/scripts/directives/dashboard/stats/stats.html',

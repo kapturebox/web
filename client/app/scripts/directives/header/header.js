@@ -6,7 +6,7 @@
  * @description
  * # adminPosHeader
  */
-angular.module('sbAdminApp')
+angular.module('kaptureApp')
 	.directive('header',function(){
 		return {
         templateUrl:'app/scripts/directives/header/header.html',

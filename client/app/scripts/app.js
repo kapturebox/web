@@ -1,14 +1,14 @@
 'use strict';
 /**
  * @ngdoc overview
- * @name sbAdminApp
+ * @name kaptureApp
  * @description
- * # sbAdminApp
+ * # kaptureApp
  *
  * Main module of the application.
  */
 angular
-  .module('sbAdminApp', [
+  .module('kaptureApp', [
     'oc.lazyLoad',
     'ui.router',
     'ui.bootstrap',
@@ -31,7 +31,7 @@ angular
             loadMyDirectives:function($ocLazyLoad){
                 return $ocLazyLoad.load(
                 {
-                    name:'sbAdminApp',
+                    name:'kaptureApp',
                     files:[
                     'app/scripts/directives/header/header.js',
                     'app/scripts/directives/header/header-notification/header-notification.js',
@@ -81,7 +81,7 @@ angular
         resolve: {
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
-              name:'sbAdminApp',
+              name:'kaptureApp',
               files:[
               'app/scripts/controllers/main.js',
               'app/scripts/directives/timeline/timeline.js',
@@ -114,13 +114,12 @@ angular
             return $ocLazyLoad.load({
               name:'chart.js',
               files:[
-                'bower_components/angular-chart.js/dist/angular-chart.min.js',
-                'bower_components/angular-chart.js/dist/angular-chart.css'
+                'bower_components/angular-chart.js/dist/angular-chart.min.js'
               ]
             }),
             $ocLazyLoad.load({
-                name:'sbAdminApp',
-                files:['app/scripts/controllers/chartContoller.js']
+                name:'kaptureApp',
+                files:['app/scripts/controllers/chartController.js']
             })
           }
         }

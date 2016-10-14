@@ -6,7 +6,7 @@
  * @description
  * # adminPosHeader
  */
-angular.module('sbAdminApp')
+angular.module('kaptureApp')
 	.directive('timeline',function() {
     return {
         templateUrl:'app/scripts/directives/timeline/timeline.html',

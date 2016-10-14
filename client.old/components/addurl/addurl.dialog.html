@@ -1,0 +1,47 @@
+<md-dialog flex="40" class="addUrlDialog" aria-label="Add URL Dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Add new URL to download</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="close()">
+        <md-icon md-svg-icon="content:clear" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content flex>
+    <div class="addurl-form-container md-padding">
+      <form ng-submit="addUrl(url, urlIsAutomaticSource)" name="addUrlForm">
+        <md-input-container class="md-block">
+          <label>Enter a URL..</label>
+          <input type="url" required name="url" ng-model="url" />
+          <div ng-messages="addUrlForm.url.$error">
+            <div ng-message="url">Invalid URL.</div>
+          </div>
+        </md-input-container>
+        <md-input-container flex>
+          <md-checkbox ng-model="urlIsAutomaticSource" aria-label="Source automaticaly updates">
+            This source is a constantly updating URL
+            <br/><br />
+            If selected, kapture will check periodically for updates and automatically download them for you
+          </md-checkbox>
+        </md-input-container>
+
+        <md-dialog-actions layout="row">
+          <md-button ng-click="close()" class="md-primary">
+            Cancel
+          </md-button>
+          <md-button  type="submit"
+                      ng-disabled="addUrlForm.$invalid"
+                      name="submitUrlButton"
+                      class="md-raised md-primary"
+                      layout layout-align="center center">
+            <span>Add</span>
+          </md-button>
+        </md-dialog-actions>
+
+      </form>
+    </div>
+  </md-dialog-content>
+
+</md-dialog>
