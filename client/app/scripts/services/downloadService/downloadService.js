@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .service('downloadService', function ($http, $interval, $log) {
+  .service('downloadService', function( $http, $interval, popup ) {
     var DOWNLOAD_URI = '/api/download';
 
     var self = this;
@@ -25,7 +25,7 @@ angular.module('kaptureApp')
         stateData.downloads = resp.data;
         stateData.running = false;
 
-        popup.info( 'got ' + stateData.downloads.length + ' entries' );
+        popup.success( 'got ' + stateData.downloads.length + ' active download entries' );
 
         return stateData.downloads;
       }).catch(function(err){
@@ -34,37 +34,19 @@ angular.module('kaptureApp')
     }
 
 
-    // REFACTOR INTO TOASTR SERVICE
-    toastr.options = {
-      progressBar: true,
-      hideDuration: 300,
-      showEasing: 'swing',
-      positionClass: 'toast-bottom-right'
-    };
-
-    var popup = {
-      success: function( msg ) {
-        toastr.success( msg );
-        $log.info( '[downloadService]: ' + msg );
-      },
-      info: function( msg ) {
-        toastr.info( msg );
-        $log.info( '[downloadService]: ' + msg );
-      },
-      error: function( msg ) {
-        toastr.error( msg );
-        $log.error( '[downloadService]: ' +  msg );
-      }
-    }
-
     // EXPOSED FUNCTIONS
     // start / stop intervals
     this.stopFetching = function() {
       $interval.cancel( stateData.interval );
     }
 
-    this.startFetching = function() {
-      stateData.interval = $interval( fetch, 3000 ); // 3s
+    this.startFetching = function( delay ) {
+      stateData.interval = $interval( fetch, delay || 3000 ); // 3s
+    }
+
+    this.updateFetchDelay = function( delay ) {
+      self.stopFetching();
+      self.startFetching( delay );
     }
     
     // return the current active downloads
@@ -87,7 +69,7 @@ angular.module('kaptureApp')
           deleteFileOnDisk:  deleteFileOnDisk || false,
         }
       }).then(function( resp ) {
-        popup.info( 'successfully removed item: ' + item.title );
+        popup.success( 'successfully removed item: ' + item.title );
         return resp.data;
       }).catch(function( err ) {
         popup.error( 'error', err );
@@ -108,7 +90,7 @@ angular.module('kaptureApp')
           item: item
         }
       }).then( function( resp ) {
-        return popup.info( 'Download started..' );
+        return popup.success( 'Download started..' );
       }, function( failed ) {
         return popup.error( 'Can\'t add: ' + failed.status + ' ' + failed.statusText );
       });
