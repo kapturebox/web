@@ -17,8 +17,9 @@ angular
     'ui.bootstrap',
     'angular-loading-bar'
   ])
-  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
-    
+  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider','$locationProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider,$locationProvider) {
+    $locationProvider.html5Mode(true);
+
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
@@ -54,22 +55,22 @@ angular
                 {
                   name:'ngAnimate',
                   files:['bower_components/angular-animate/angular-animate.js']
-                })
+                }),
                 $ocLazyLoad.load(
                 {
                   name:'ngCookies',
                   files:['bower_components/angular-cookies/angular-cookies.js']
-                })
+                }),
                 $ocLazyLoad.load(
                 {
                   name:'ngResource',
                   files:['bower_components/angular-resource/angular-resource.js']
-                })
+                }),
                 $ocLazyLoad.load(
                 {
                   name:'ngSanitize',
                   files:['bower_components/angular-sanitize/angular-sanitize.js']
-                })
+                }),
                 $ocLazyLoad.load(
                 {
                   name:'ngTouch',
@@ -78,6 +79,23 @@ angular
             }
         }
     })
+      .state( 'search', {
+        url: '/search/:query',
+        controller: 'SearchCtrl',
+        templateUrl: 'app/views/pages/search.html'
+      })
+
+
+
+
+
+
+
+
+
+
+
+
       .state('dashboard.home',{
         url:'/home',
         controller: 'MainCtrl',

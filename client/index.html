@@ -5,8 +5,8 @@
     <title>kapture</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+    <base href="/">
     
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
@@ -58,6 +58,7 @@
       <script src="app/scripts/controllers/chartController.js"></script>
       <script src="app/scripts/controllers/form.js"></script>
       <script src="app/scripts/controllers/main.js"></script>
+      <script src="app/scripts/controllers/searchController.js"></script>
       <script src="app/scripts/directives/chat/chat.js"></script>
       <script src="app/scripts/directives/dashboard/stats/stats.js"></script>
       <script src="app/scripts/directives/header/header-notification/header-notification.js"></script>
@@ -69,6 +70,7 @@
       <script src="app/scripts/filters/percentage.js"></script>
       <script src="app/scripts/services/downloadService/downloadService.js"></script>
       <script src="app/scripts/services/popupService/popup.js"></script>
+      <script src="app/scripts/services/searchService/searchService.js"></script>
       <script src="app/scripts/services/seriesService/seriesService.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->
@@ -82,16 +84,11 @@
 
     <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
 
-    </head>
-   
-    <body>
-
+  </head>
+  
+  <body>
     <div ng-app="kaptureApp">
-
-        <div ui-view></div>
-
+      <div ui-view></div>
     </div>
-
-    </body>
-
+  </body>
 </html>

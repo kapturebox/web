@@ -15,8 +15,11 @@ angular.module('kaptureApp')
       replace: true,
       scope: {
       },
-      controller:function($scope){
+      controller:function($scope, $state){
         $scope.selectedMenu = 'home';
+        $scope.doSearch = function() {
+          $state.go('search', {query: $scope.query});
+        }
       }
     }
   });

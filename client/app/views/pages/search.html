@@ -1,0 +1,41 @@
+<div id="wrapper">
+			
+	<header></header>
+
+	<div id="page-wrapper" style="min-height: 561px;">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Search Results: {{ query }}</h1>
+
+					<div ng-show="isLoading()">Loading..</div>
+
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table ng-show="!isLoading()" class="table table-striped">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Source</th>
+										<th>Size</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in results()">
+										<td>{{ item.title }}</td>
+										<td>{{ item.sourceName }}</td>
+										<td>{{ item.size }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+			
+	</div>
+</div>
+

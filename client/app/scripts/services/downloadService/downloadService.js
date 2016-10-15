@@ -5,6 +5,7 @@ angular.module('kaptureApp')
     var DOWNLOAD_URI = '/api/download';
 
     var self = this;
+    
     // current state of world
     var stateData = {
       downloads: [],
@@ -25,7 +26,7 @@ angular.module('kaptureApp')
         stateData.downloads = resp.data;
         stateData.running = false;
 
-        popup.success( 'got ' + stateData.downloads.length + ' active download entries' );
+        // popup.success( 'got ' + stateData.downloads.length + ' active download entries' );
 
         return stateData.downloads;
       }).catch(function(err){
