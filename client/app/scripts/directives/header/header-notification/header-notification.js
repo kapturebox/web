@@ -13,7 +13,10 @@ angular.module('kaptureApp')
       restrict: 'E',
       replace: true,
       controller: function($scope, downloadService) {
-        $scope.downloads = downloadService.list;
+        $scope.downloads = downloadService.downloads;
+        $scope.$on('downloads.updated', function() {
+          $scope.downloads = downloadService.downloads;
+        })
       }
     }
   });

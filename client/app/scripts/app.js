@@ -15,10 +15,13 @@ angular
     'oc.lazyLoad',
     'ui.router',
     'ui.bootstrap',
+    'ngAnimate',
     'angular-loading-bar'
   ])
-  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider','$locationProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider,$locationProvider) {
+  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider','$locationProvider','cfpLoadingBarProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider,$locationProvider, cfpLoadingBarProvider) {
     $locationProvider.html5Mode(true);
+
+    cfpLoadingBarProvider.includeSpinner = false;
 
     $ocLazyLoadProvider.config({
       debug:false,
@@ -85,10 +88,29 @@ angular
         templateUrl: 'app/views/pages/search.html'
       })
 
+      .state( 'downloads', {
+        url: '/downloads',
+        controller: 'DownloadCtrl',
+        templateUrl: 'app/views/pages/downloads.html'
+      })
 
+      .state( 'watch', {
+        url: '/watch/:videoId',
+        controller: 'WatchCtrl',
+        templateUrl: 'app/views/pages/watch.html'
+      })
 
+      .state( 'autokapture', {
+        url: '/autokapture',
+        controller: 'AutokaptureCtrl',
+        templateUrl: 'app/views/pages/autokapture.html'
+      })
 
-
+      .state( 'help', {
+        url: '/help',
+        controller: 'HelpCtrl',
+        templateUrl: 'app/views/pages/help.html'
+      })
 
 
 

@@ -81,3 +81,7 @@ body {
 text-decoration: none;
 background-color: #eee;
 }
+
+.download-notification {
+  overflow: hidden;
+}

@@ -5,16 +5,15 @@
             <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-tasks">
-            <li ng-repeat-start="item in downloads()">
+            <li ng-repeat-start="item in downloads | limitTo : 5">
                 <a href="#">
-                    <div>
+                    <div class="download-notification">
                         <p>
                             <strong>{{ item.title }}</strong>
-                            <span class="pull-right text-muted">{{ item.percentDone | percentage:1 }} Complete</span>                        
                         </p>
                         <div class="progress progress-striped" ng-class="{'active': !item.isFinished}">
-                            <div class="progress-bar" ng-class="{'progress-bar-warning': item.isStalled, 'progress-bar-success': 1===1}" role="progressbar" aria-valuenow="{{ item.percentDone | percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ item.percentDone | percentage }}">
-                                <span class="sr-only">{{ item.percentDone | percentage:1 }} Complete</span>
+                            <div class="progress-bar" ng-class="{'progress-bar-warning': item.isStalled, 'progress-bar-success': item.isFinished, 'progress-bar-info': !(item.isFinished || item.isStalled)}" role="progressbar" aria-valuenow="{{ item.percentDone | percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ item.percentDone | percentage }}">
+                                {{ item.percentDone | percentage:0 }} Complete
                             </div>
                         </div>
                     </div>
@@ -23,7 +22,7 @@
             <li ng-repeat-end class="divider"></li>
   
             <li>
-                <a class="text-center" href="#">
+                <a class="text-center" ui-sref="downloads">
                     <strong>See all</strong>
                     <i class="fa fa-angle-right"></i>
                 </a>

@@ -1,0 +1,26 @@
+<div id="wrapper">
+			
+	<header></header>
+
+	<div id="page-wrapper" style="min-height: 561px;">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Downloads</h1>
+
+					<div ng-show="isLoading">Loading..</div>
+
+          <div class="panel-body">
+            <div class="download-item" ng-repeat="item in downloads">
+              <span class="title">{{ item.title }}</span>
+            </div>
+
+          </div>
+
+				</div>
+			</div>
+		</div>
+			
+	</div>
+</div>

@@ -23,7 +23,7 @@ angular.module('kaptureApp')
       state.results  = null;
       state.query    = query;
 
-      $http({
+      return $http({
         url: SEARCH_URI,
         method: 'GET',
         params: {
@@ -35,7 +35,7 @@ angular.module('kaptureApp')
         return state.results;
       }, function( failed ) {
         state.loading = false;
-        popup.error( 'Query failed: ' + failed.status + ' ' + failed.statusText );        
+        popup.error( 'Search failed: ' + failed.status + ' ' + failed.statusText );        
       });
     };
 

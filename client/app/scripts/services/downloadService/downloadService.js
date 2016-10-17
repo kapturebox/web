@@ -1,34 +1,35 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .service('downloadService', function( $http, $interval, popup ) {
+  .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup ) {
     var DOWNLOAD_URI = '/api/download';
 
-    var self = this;
+    var svc = {};
     
     // current state of world
-    var stateData = {
-      downloads: [],
-      interval: null,
-      running: false,
-    };
+    svc.downloads  = [];
+    svc.running    = false;
+    svc.interval   = null;
 
     // private functions
-    function fetch() {
-      if (stateData.running) return;
-      stateData.running = true;
+    svc.fetch = function() {
+      if( svc.running ) return;
+      svc.running = true;
 
       return $http({
         method:  'GET',
         url:     DOWNLOAD_URI,
-        timeout: 30 * 1000  //ms
+        timeout: 30 * 1000,  //ms
+        ignoreLoadingBar: true
       }).then(function( resp ) {
-        stateData.downloads = resp.data;
-        stateData.running = false;
+        if( resp.status === 200 ) { // only update array and broadcast if modified
+          svc.downloads = $filter('orderBy')( resp.data, ['!isFinished','startDate'], true );
+          svc.running = false;
 
-        // popup.success( 'got ' + stateData.downloads.length + ' active download entries' );
+          $rootScope.$broadcast( 'downloads.updated' );
+        }
 
-        return stateData.downloads;
+        return svc.downloads;
       }).catch(function(err){
         popup.error( 'Error fetching: ' + angular.toJson( err ) );
       });
@@ -37,27 +38,22 @@ angular.module('kaptureApp')
 
     // EXPOSED FUNCTIONS
     // start / stop intervals
-    this.stopFetching = function() {
-      $interval.cancel( stateData.interval );
+    svc.stopFetching = function() {
+      $interval.cancel( svc.interval );
     }
 
-    this.startFetching = function( delay ) {
-      stateData.interval = $interval( fetch, delay || 3000 ); // 3s
+    svc.startFetching = function( delay ) {
+      svc.interval = $interval( svc.fetch, delay || 3000 ); // 3s
     }
 
-    this.updateFetchDelay = function( delay ) {
-      self.stopFetching();
-      self.startFetching( delay );
-    }
-    
-    // return the current active downloads
-    this.list = function() {
-      return stateData.downloads;
+    svc.updateFetchDelay = function( delay ) {
+      svc.stopFetching();
+      svc.startFetching( delay );
     }
 
     // removes the selected download from backend
     // by default, won't delete file on disk (just from lists)
-    this.remove = function( item, deleteFileOnDisk ) {
+    svc.remove = function( item, deleteFileOnDisk ) {
       return $http({
         method:  'DELETE',
         url:     DOWNLOAD_URI,
@@ -78,12 +74,12 @@ angular.module('kaptureApp')
     };
 
     // removes download and deletes from disk
-    this.delete = function( item ) {
-      return self.removeActive( item, true );
+    svc.delete = function( item ) {
+      return svc.removeActive( item, true );
     }
 
     // sends item to download service to start
-    this.add = function( item ) {
+    svc.add = function( item ) {
       return $http({
         url:     DOWNLOAD_URI,
         method:  'PUT',
@@ -98,8 +94,8 @@ angular.module('kaptureApp')
     }
 
     // init
-    this.startFetching();
+    svc.startFetching();
 
     // Public API here
-    return this;
+    return svc;
   });
