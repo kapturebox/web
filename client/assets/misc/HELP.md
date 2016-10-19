@@ -1,14 +1,16 @@
-> This ultimately will be turned into a video or quick intro screen
+Kapture is a device that allows you to get media from all around the internet with ease, or even add your own.  You can then play it back wherever you want (phone, computer, TV).
 
-# You've made it to the kapture site!
+This page describes how to use the device.
 
-That's step one, good job.  Now you can download whatever you want using the links in the menu in the top right of kapture.
+## Step 1: Plug device into your router and power, and connect to site
 
-# GET media
+Since you're at this page, you've already done that successfully! Well done!
 
-Use the Get link to pull down whatever you want, to your hearts content (that you're licensed to, of course).  This will pull down and store locally on your kapture.
+The kapture site can be accessed via the page that you're currently at, or athttp://kapture.local 
 
-# WATCH media (with Plex)
+Now you can download whatever you want using the search field on the left.  Simply enter whatever you want to kapture, and it will scour the internet to find what you want.  Then click whatever entries you want to download (that you're licensed to, of course) and it will be stored on your kapture box! 
+
+## Step 2: Watch media via Plex 
 
 Once your download has completed (you can see this by clicking on the downloads menu link), you'll be able to look at it in the 'watch' menu link.  You can do this in a number of different ways all though the PLEX app:
 

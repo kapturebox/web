@@ -85,3 +85,8 @@ background-color: #eee;
 .download-notification {
   overflow: hidden;
 }
+
+help table, th, td {
+  border: 1px solid black;
+  padding: 5px;
+}

@@ -16,6 +16,7 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ngAnimate',
+    'yaru22.md',
     'angular-loading-bar'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider','$locationProvider','cfpLoadingBarProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider,$locationProvider, cfpLoadingBarProvider) {
