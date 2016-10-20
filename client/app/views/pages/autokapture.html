@@ -21,10 +21,10 @@
 								<div uib-accordion-heading>
 										<span class="title">{{ item.title }}</span>
 										<div class="actions pull-right">
-											<button class="btn btn-xs btn-default">
+											<button class="btn btn-xs btn-default" tooltip-placement="top" uib-tooltip="Show upcoming and recent episodes">
 												<i class="fa fa-eye" aria-hidden="true"></i>
 											</button>									
-											<button ng-click="delete( item )" class="btn btn-xs btn-danger">
+											<button ng-click="delete( item )" class="btn btn-xs btn-danger" tooltip-placement="top" uib-tooltip="Stop autokapturing this series">
 												<i class="fa fa-trash" aria-hidden="true"></i>
 											</button>									
 										</div>
@@ -35,7 +35,10 @@
 										<div ng-show="item.recent !== undefined">
 											<ul>
 												<li ng-repeat="rep in item.recent">
-													<h5 class="title">{{ rep.title }}<br/><small>{{ rep.uploaded }}</small></h5>
+													<h5 class="title">{{ rep.title }}<br/>
+														<i class="fa fa-clock-o"></i>
+														<small><time am-time-ago="{{ parseDate(rep.uploaded) }}"></time></small>
+													</h5>
 												</li>
 											</ul>
 										</div>

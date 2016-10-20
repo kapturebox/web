@@ -7,12 +7,18 @@
  * # adminPosHeader
  */
 angular.module('kaptureApp')
-	.directive('header',function(){
+	.directive('header',function() {
 		return {
-        templateUrl:'app/scripts/directives/header/header.html',
-        restrict: 'E',
-        replace: true,
-    	}
+			templateUrl:'app/scripts/directives/header/header.html',
+			restrict: 'E',
+			scope: {},
+			replace: true,
+			controller: function( $scope, $state ) {
+        $scope.doSearch = function() {
+          $state.go('search', {query: $scope.query});
+        }				
+			}
+		}
 	});
 
 

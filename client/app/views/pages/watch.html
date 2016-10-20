@@ -1,24 +1,5 @@
 <div id="wrapper">
-			
 	<header></header>
-
-	<div id="page-wrapper" style="min-height: 561px;">
-
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">Watch</h1>
-
-					<div ng-show="isLoading()">Loading..</div>
-
-					<div class="panel-body" ng-show="!isLoading()">
-
-					</div>
-
-				</div>
-			</div>
-		</div>
-			
-	</div>
+	<iframe class="media-iframe" ng-src="{{ watchiFrameUrl }}" allowfullscreen></iframe>			
 </div>
 

@@ -17,6 +17,8 @@ angular
     'ui.bootstrap',
     'ngAnimate',
     'yaru22.md',
+    'angularMoment',
+    'angular-humanize',  
     'angular-loading-bar'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider','$locationProvider','cfpLoadingBarProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider,$locationProvider, cfpLoadingBarProvider) {

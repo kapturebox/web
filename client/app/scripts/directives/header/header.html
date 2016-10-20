@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
     <div class="navbar-header">
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -7,10 +7,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" ui-sref="dashboard.main">kapture</a>
+
+        <a class="navbar-brand" ui-sref="dashboard.home">kapture</a>
+
     </div>
+
+    <form ng-submit="doSearch()" class="navbar-form navbar-left navbar-search">
+        <div class="input-group custom-search-form">
+            <input type="text" class="form-control" placeholder="Search for media or enter URL.." ng-model="query" style="width: 20em;">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+
     <!-- /.navbar-header -->
     <header-notification></header-notification>
 
     <sidebar></sidebar>
+
 </nav>

@@ -51,6 +51,10 @@ angular.module('kaptureApp')
       svc.startFetching( delay );
     }
 
+    svc.isLoading = function() {
+      return svc.running;
+    }
+
     // removes the selected download from backend
     // by default, won't delete file on disk (just from lists)
     svc.remove = function( item, deleteFileOnDisk ) {
@@ -87,7 +91,13 @@ angular.module('kaptureApp')
           item: item
         }
       }).then( function( resp ) {
-        return popup.success( 'Download started..' );
+        var msg = 'Download started..';
+
+        if( item.mediaType === 'series' ) {
+          msg = 'Series added to AutoKapture';
+        }
+
+        return popup.success( msg );
       }, function( failed ) {
         return popup.error( 'Can\'t add: ' + failed.status + ' ' + failed.statusText );
       });

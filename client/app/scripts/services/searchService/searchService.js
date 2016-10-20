@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .service('searchService', function( $http, popup ) {
+  .service('searchService', function( $http, $filter, popup ) {
     var SEARCH_URI = '/api/search';
 
     var state = {
@@ -30,8 +30,9 @@ angular.module('kaptureApp')
           q: query
         }
       }).then( function( results ) {
+        state.results = $filter('orderBy')( results.data, 'score', true );
         state.loading = false;
-        state.results = results.data;
+
         return state.results;
       }, function( failed ) {
         state.loading = false;

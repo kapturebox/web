@@ -7,6 +7,7 @@
  * Controller of the watch page
  */
 angular.module('kaptureApp')
-  .controller('WatchCtrl', ['$scope','$stateParams', function( $scope, $stateParams ) {
-
+  .controller('WatchCtrl', ['$scope','$stateParams','$sce', function( $scope, $stateParams, $sce ) {
+    var watchUrl = location.protocol + '//' + location.hostname  + ':32400/web/';
+    $scope.watchiFrameUrl = $sce.trustAsResourceUrl( watchUrl );
 	}]);

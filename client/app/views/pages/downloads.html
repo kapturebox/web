@@ -7,16 +7,54 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Downloads</h1>
+					<h1 class="page-header">
+						Downloads
+						<span class="small" ng-show="isLoading() && downloads.length === 0">
+							<i class="fa fa-spinner fa-spin"></i>
+						</span>
+					</h1>
 
-					<div ng-show="isLoading">Loading..</div>
+					<div class="lead">
+						Active and recently downloaded items appear here
+					</div>
 
-          <div class="panel-body">
-            <div class="download-item" ng-repeat="item in downloads">
-              <span class="title">{{ item.title }}</span>
+          <div class="download-list" ng-show="downloads.length > 0">
+            <div class="panel panel-default download-item" ng-repeat="item in downloads">
+							<div class="panel-heading">
+								<span class="title"><strong>{{ item.title }}</strong></span>
+								<div class="pull-right actions">
+									<button class="btn btn-xs btn-primary" ng-click="watch(entry)"  tooltip-placement="top" uib-tooltip="View in plex">
+										<i class="fa fa-eye" aria-hidden="true"></i>
+									</button>
+									<button class="btn btn-xs btn-danger" ng-click="delete(entry)"  tooltip-placement="top" uib-tooltip="Delete file from device">
+										<i class="fa fa-trash" aria-hidden="true"></i>
+									</button>
+									<button class="btn btn-xs btn-default" ng-click="remove(entry)" tooltip-placement="top" uib-tooltip="Stop and Remove download">
+										<i class="fa fa-times" aria-hidden="true"></i>
+									</button>
+								</div>
+							</div>
+							<div class="panel-body">
+
+								<div class="md-primary">
+									<span>{{ item.percentDone | percentage:0 }} of {{ item.size | humanizeFilesize }}</span>
+								</div>
+								<div class="md-primary">
+									<span ng-if="item.isFinished == false">{{ item.eta | amDurationFormat: 'seconds' }} @ {{ item.rateDownload | humanizeFilesize }}/s</span>
+									<span ng-show="item.isStalled" class="text-danger">Stalled</span>
+								</div>								
+
+								<div class="progress">
+									<div class="progress-bar" role="progressbar"  aria-valuenow="{{ item.percentDone | percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ item.percentDone | percentage }};">
+										<span>{{ item.percentDone | percentage:0 }} Complete</span>
+									</div>
+								</div>
+
+							</div>
             </div>
-
           </div>
+
+
 
 				</div>
 			</div>

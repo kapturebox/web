@@ -17,9 +17,6 @@ angular.module('kaptureApp')
       },
       controller:function($scope, $state){
         $scope.selectedMenu = 'home';
-        $scope.doSearch = function() {
-          $state.go('search', {query: $scope.query});
-        }
       }
     }
   });

@@ -31,6 +31,11 @@ angular.module('kaptureApp')
       $scope.series = seriesService.series;
     });
 
+    $scope.parseDate = function( d ) {
+      return new Date( d );
+    };
+
+
     seriesService.fetch();
 
 	}]);

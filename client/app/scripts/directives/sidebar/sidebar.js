@@ -15,7 +15,9 @@ angular.module('kaptureApp')
       replace: true,
       scope: {
       },
-      controller:function($scope){
+      controller:function($scope, $state){
+        $scope.hidden = ($state.current.name === 'watch');
+
         $scope.selectedMenu = 'dashboard';
         $scope.collapseVar = 0;
         $scope.multiCollapseVar = 0;

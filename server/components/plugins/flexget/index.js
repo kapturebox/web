@@ -28,10 +28,9 @@ var FlexgetDownloader = function( options ) {
   this.flexgetConfig = {
     web_server: {
       bind: this.config.env  === 'production' ? '127.0.0.1' : '0.0.0.0',
-      port: 3539
+      port: 3539,
+      web_ui: this.config.env  === 'production' ? false : true
     },
-    api:   true,
-    webui: this.config.env  === 'production' ? false : true
   };
 
   this.schedulerConfig = {
