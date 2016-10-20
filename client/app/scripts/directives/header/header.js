@@ -15,7 +15,7 @@ angular.module('kaptureApp')
 			replace: true,
 			controller: function( $scope, $state ) {
         $scope.doSearch = function() {
-          $state.go('search', {query: $scope.query});
+          $state.go('nav.search', {query: $scope.query});
         }				
 			}
 		}

@@ -14,9 +14,6 @@ angular.module('kaptureApp')
       restrict: 'E',
       replace: true,
       scope: {
-      },
-      controller:function($scope, $state){
-        $scope.selectedMenu = 'home';
       }
     }
   });
