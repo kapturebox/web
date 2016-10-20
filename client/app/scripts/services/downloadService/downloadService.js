@@ -51,6 +51,10 @@ angular.module('kaptureApp')
       svc.startFetching( delay );
     }
 
+    svc.getDownloads = function() {
+      return svc.downloads;
+    }
+
     svc.isLoading = function() {
       return svc.running;
     }
@@ -70,16 +74,16 @@ angular.module('kaptureApp')
           deleteFileOnDisk:  deleteFileOnDisk || false,
         }
       }).then(function( resp ) {
-        popup.success( 'successfully removed item: ' + item.title );
+        popup.success( 'successfully removed: ' + item.title );
         return resp.data;
       }).catch(function( err ) {
-        popup.error( 'error', err );
+        popup.error( 'error' + angular.toJson( err ) );
       });
     };
 
     // removes download and deletes from disk
     svc.delete = function( item ) {
-      return svc.removeActive( item, true );
+      return svc.remove( item, true );
     }
 
     // sends item to download service to start

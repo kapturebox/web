@@ -9,7 +9,7 @@
 				<div class="col-lg-12">
 					<h1 class="page-header">
 						Downloads
-						<span class="small" ng-show="isLoading() && downloads.length === 0">
+						<span class="small" ng-show="isLoading() && downloads().length === 0">
 							<i class="fa fa-spinner fa-spin"></i>
 						</span>
 					</h1>
@@ -18,18 +18,18 @@
 						Active and recently downloaded items appear here
 					</div>
 
-          <div class="download-list" ng-show="downloads.length > 0">
-            <div class="panel panel-default download-item" ng-repeat="item in downloads">
+          <div class="download-list" ng-show="downloads().length > 0">
+            <div class="panel panel-default download-item" ng-repeat="item in downloads()">
 							<div class="panel-heading">
 								<span class="title"><strong>{{ item.title }}</strong></span>
 								<div class="pull-right actions">
-									<button class="btn btn-xs btn-primary" ng-click="watch(entry)"  tooltip-placement="top" uib-tooltip="View in plex">
+									<button class="btn btn-xs btn-primary" ng-click="watch( item )"  tooltip-placement="bottom" uib-tooltip="View in plex">
 										<i class="fa fa-eye" aria-hidden="true"></i>
 									</button>
-									<button class="btn btn-xs btn-danger" ng-click="delete(entry)"  tooltip-placement="top" uib-tooltip="Delete file from device">
+									<button class="btn btn-xs btn-danger" ng-click="delete( item )"  tooltip-placement="bottom" uib-tooltip="Delete file from device">
 										<i class="fa fa-trash" aria-hidden="true"></i>
 									</button>
-									<button class="btn btn-xs btn-default" ng-click="remove(entry)" tooltip-placement="top" uib-tooltip="Stop and Remove download">
+									<button class="btn btn-xs btn-default" ng-click="remove( item )" tooltip-placement="bottom" uib-tooltip="Stop and Remove download">
 										<i class="fa fa-times" aria-hidden="true"></i>
 									</button>
 								</div>

@@ -9,10 +9,11 @@
 angular.module('kaptureApp')
   .controller('DownloadCtrl', ['$scope', 'downloadService', function( $scope, downloadService ) {
 
-    $scope.downloads = downloadService.downloads;
+    $scope.downloads = downloadService.getDownloads;
     $scope.isLoading = downloadService.isLoading;
     $scope.remove    = downloadService.remove;
     $scope.delete    = downloadService.delete;
+
     $scope.watch     = function( item ) {
       // nothing for now
     }
