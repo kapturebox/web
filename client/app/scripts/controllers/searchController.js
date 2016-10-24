@@ -7,7 +7,7 @@
  * Controller of the search page
  */
 angular.module('kaptureApp')
-  .controller('SearchCtrl', ['$scope','$stateParams','searchService', 'downloadService', function( $scope, $stateParams, searchService, downloadService ) {
+  .controller('SearchCtrl', ['$scope','$stateParams','searchService', 'downloadService', '$rootScope', function( $scope, $stateParams, searchService, downloadService, $rootScope ) {
 		$scope.query      = $stateParams.query;
     $scope.results    = searchService.getResults;
     $scope.isLoading  = searchService.isLoading;
@@ -15,5 +15,9 @@ angular.module('kaptureApp')
     $scope.download   = downloadService.add;
 
     searchService.search( $stateParams.query );
+
+    $scope.$on( '$destroy', function() {
+      $rootScope.$broadcast( 'clearSearchInput' );
+    });
 
 	}]);
