@@ -67,6 +67,9 @@ var all = {
       },
       'com.flexget': {
         enabled: true
+      },
+      'com.kapture.url': {
+        enabled: true
       }
     }
   },

@@ -10,6 +10,7 @@ var fs            = require('fs');
 var _             = require('lodash');
 var path          = require('path');
 var sanitize      = require('sanitize-filename');
+var Promse        = require('bluebird');
 
 
 var youtubeSearchToken = 'AIzaSyAlhhTxfbaIjaCHi4qs5rl95PtpmcRTZTA';
@@ -38,7 +39,7 @@ function YoutubeSource( options ) {
 
 
 YoutubeSource.prototype.download = function( item ) {
-  this.logger.info( '[Youtube] downloading: [%s] %s', item.idd, item.title );
+  this.logger.info( '[Youtube] downloading: [%s] %s', item.id, item.title );
   return this.url( item.downloadUrl );
 };
 
@@ -252,7 +253,7 @@ YoutubeSource.prototype.status = function() {
 
 
 
-YoutubeSource.prototype.remove = function( item, deleteOnDisk ) {
+YoutubeSource.prototype.remove = function( item, deleteFromDisk ) {
   var self = this;
 
   return new Promise( function(resolve, reject) {
@@ -266,7 +267,7 @@ YoutubeSource.prototype.remove = function( item, deleteOnDisk ) {
     }
 
     try {
-      if( deleteOnDisk )  {
+      if( deleteFromDisk )  {
         fs.unlinkSync( canonical.fullPath );
       }
 

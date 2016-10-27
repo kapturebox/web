@@ -13,9 +13,13 @@ angular.module('kaptureApp')
 			restrict: 'E',
 			scope: {},
 			replace: true,
-			controller: function( $scope, $state ) {
+			controller: function( $scope, $state, downloadService ) {
 
         $scope.doSearch = function() {
+					if ( downloadService.isUrl( $scope.query ) ) {
+						return downloadService.add( {url: $scope.query} );
+					};
+
           $state.go( 'nav.search', {query: $scope.query} );
         };
 

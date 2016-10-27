@@ -21,7 +21,7 @@ module.exports = {
   // takes a item of the download, and whether to delete the file from disk or not
   // returns promise to caller
   remove: function( item, deleteOnDisk ) {
-    config.logger.debug( '[DownloadService] removing: %s', item.title );
+    config.logger.debug( '[DownloadService] removing:', item );
     var provider = plugins.getDownloadMechanismProvider( item.downloadMechanism );
 
     if( _.isEmpty( provider ) || typeof( provider.download ) === 'undefined' ) {
@@ -39,7 +39,7 @@ module.exports = {
   // expects a promise back from 'download' function
   // returns promise to caller
   add: function( item ) {
-    config.logger.debug( '[DownloadService] adding: %s', item.title );
+    config.logger.debug( '[DownloadService] adding:', item );
     var provider = plugins.getDownloadMechanismProvider( item.downloadMechanism );
 
     if( _.isEmpty( provider ) || typeof( provider.download ) === 'undefined' ) {

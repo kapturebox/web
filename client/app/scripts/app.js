@@ -63,6 +63,11 @@ angular
         controller: 'HelpCtrl',
         templateUrl: 'app/views/pages/help.html'
       })
+      .state( 'nav.settings', {
+        url: '/settings',
+        controller: 'SettingsCtrl',
+        templateUrl: 'app/views/pages/settings.html'
+      })
 
 
 

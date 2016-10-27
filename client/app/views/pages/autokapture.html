@@ -11,16 +11,20 @@
 
 				<div ng-show="isLoading">Loading..</div>
 
+				<div ng-show="!isLoading && series.length === 0">
+					<div class="alert alert-info">You currently don't have any auto-kaptured series, find them by searching for media above</div>
+				</div>
+
 				<div class="panel-body" ng-show="!isLoading">
 					<uib-accordion close-others="true">
 						<div uib-accordion-group class="panel-default" ng-repeat="item in series" is-open="accordionState[$index]">
 							<div uib-accordion-heading>
 									<span class="title">{{ item.title }}</span>
 									<div class="actions pull-right">
-										<button class="btn btn-xs btn-default" tooltip-placement="top" uib-tooltip="Show upcoming and recent episodes">
+										<button class="btn btn-xs btn-default" tooltip-placement="bottom" uib-tooltip="Show upcoming and recent episodes">
 											<i class="fa fa-eye" aria-hidden="true"></i>
 										</button>									
-										<button ng-click="delete( item )" class="btn btn-xs btn-danger" tooltip-placement="top" uib-tooltip="Stop autokapturing this series">
+										<button ng-click="delete( item )" class="btn btn-xs btn-danger" tooltip-placement="bottom" uib-tooltip="Stop autokapturing this series">
 											<i class="fa fa-trash" aria-hidden="true"></i>
 										</button>									
 									</div>

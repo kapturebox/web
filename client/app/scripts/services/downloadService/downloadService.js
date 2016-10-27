@@ -4,17 +4,18 @@ angular.module('kaptureApp')
   .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup ) {
     var DOWNLOAD_URI = '/api/download';
 
+    // singleton to be returned to callers
     var svc = {};
     
-    // current state of world
-    svc.downloads  = [];
-    svc.running    = false;
-    svc.interval   = null;
+    // current state of world (private)
+    var downloads  = [];
+    var running    = false;
+    var interval   = null;
 
     // private functions
     svc.fetch = function() {
-      if( svc.running ) return;
-      svc.running = true;
+      if( running ) return;
+      running = true;
 
       return $http({
         method:  'GET',
@@ -23,13 +24,13 @@ angular.module('kaptureApp')
         ignoreLoadingBar: true
       }).then(function( resp ) {
         if( resp.status === 200 ) { // only update array and broadcast if modified
-          svc.downloads = $filter('orderBy')( resp.data, ['!isFinished','startDate'], true );
-          svc.running = false;
+          downloads = $filter('orderBy')( resp.data, ['!isFinished','startDate'], true );
+          running = false;
 
           $rootScope.$broadcast( 'downloads.updated' );
         }
 
-        return svc.downloads;
+        return downloads;
       }).catch(function(err){
         popup.error( 'Error fetching: ' + angular.toJson( err ) );
       });
@@ -39,11 +40,11 @@ angular.module('kaptureApp')
     // EXPOSED FUNCTIONS
     // start / stop intervals
     svc.stopFetching = function() {
-      $interval.cancel( svc.interval );
+      $interval.cancel( interval );
     }
 
     svc.startFetching = function( delay ) {
-      svc.interval = $interval( svc.fetch, delay || 3000 ); // 3s
+      interval = $interval( svc.fetch, delay || 3000 ); // 3s
     }
 
     svc.updateFetchDelay = function( delay ) {
@@ -52,11 +53,11 @@ angular.module('kaptureApp')
     }
 
     svc.getDownloads = function() {
-      return svc.downloads;
+      return downloads;
     }
 
     svc.isLoading = function() {
-      return svc.running;
+      return running;
     }
 
     // removes the selected download from backend
@@ -77,7 +78,7 @@ angular.module('kaptureApp')
         popup.success( 'successfully removed: ' + item.title );
         return resp.data;
       }).catch(function( err ) {
-        popup.error( 'error' + angular.toJson( err ) );
+        popup.error( 'error: ' + err.data.error  );
       });
     };
 
@@ -88,12 +89,19 @@ angular.module('kaptureApp')
 
     // sends item to download service to start
     svc.add = function( item ) {
+      var data = {item: item};
+
+      if( item && item.url ) {
+        data = {item:{
+          url: item.url,
+          downloadMechanism: 'url'
+        }};
+      }
+
       return $http({
         url:     DOWNLOAD_URI,
         method:  'PUT',
-        data:    {
-          item: item
-        }
+        data:    data
       }).then( function( resp ) {
         var msg = 'Download started..';
 
@@ -102,9 +110,14 @@ angular.module('kaptureApp')
         }
 
         return popup.success( msg );
-      }, function( failed ) {
-        return popup.error( 'Can\'t add: ' + failed.status + ' ' + failed.statusText );
+      }, function( err ) {
+        return popup.error( 'Can\'t add: ' + err.data.error );
       });
+    }
+
+    // keep it simple for now and just look for '://' since we want to handle all sorts of protocols
+    svc.isUrl = function( str ) {
+      return /\:\/\//.test( str );
     }
 
     // init
