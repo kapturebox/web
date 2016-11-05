@@ -32,6 +32,9 @@ Vagrant.configure(2) do |config|
     pip install --upgrade setuptools pip
     pip install ansible markupsafe
 
+    # disable avahai so that it doesnt conflict with netatalk
+    service avahi-daemon disable && service avahi-daemon stop
+        
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
     usermod -aG vagrant debian-transmission

@@ -342,11 +342,15 @@ module.exports = function (grunt) {
         assetsDirs: [
           '<%= yeoman.dist %>/public',
           '<%= yeoman.dist %>/public/assets/images',
+          '<%= yeoman.dist %>/public/assets/fonts',
           '<%= yeoman.dist %>/public/assets/icons',
           '<%= yeoman.dist %>/public/assets/iconsets'
         ],
         // This is so we update image references in our ng-templates
         patterns: {
+          css: [
+            [/(\.\.\/fonts\/(.*?\.(?:eot|svg|woff|woff2|ttf)))/gm, 'Update the CSS to reference our revved fonts',, function(a){ return a.replace(/\.\./,'/assets');}]
+          ],
           js: [
             [/(assets\/images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images'],
             [/(assets\/icons\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved icons'],
@@ -438,7 +442,6 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            'bower_components/**/*',
             'assets/images/{,*/}*.{webp}',
             'assets/fonts/**/*',
             'assets/icons/**/*',
@@ -451,6 +454,13 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/public/assets/images',
           src: ['generated/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.client %>/bower_components/font-awesome/fonts',
+          dest: '<%= yeoman.dist %>/public/assets/fonts',
+          src: [
+            '*'
+          ]
         }, {
           expand: true,
           dest: '<%= yeoman.dist %>',
