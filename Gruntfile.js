@@ -173,7 +173,8 @@ module.exports = function (grunt) {
         },
         directories: [
           '/etc/kapture',       // config files
-          '/var/lib/kapture',   // download default (or symlink to usb)
+          '/var/lib/kapture',   // plugin store directory
+          '/var/lib/downloads', // download default (or symlink to usb)
           '/var/kapture'        // app files
         ]
       },
