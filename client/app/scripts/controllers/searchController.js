@@ -58,7 +58,7 @@ angular.module('kaptureApp')
     // TODO: needs to be fixed, maybe make an object that sends to filter instead
     $scope.filterSelectedValues = function filterSelectedValues( val, idx, arr ) {
       return $scope.filters.map(function(f) {
-        $log.info( Array(f.selected) );
+        // $log.info( Array(f.selected) );
         return f.selected && f.selected.indexOf( true ).map(function(selIdx) {
           return val[f.name] === f.values[selIdx];
         }).includes( true );
