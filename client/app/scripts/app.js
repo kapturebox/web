@@ -22,7 +22,7 @@ angular
     'datatables',
     'datatables.bootstrap'
   ])
-  .constant( 'mockSearchResults', true )
+  .constant( 'mockSearchResults', false )
   .config(['$stateProvider','$urlRouterProvider','$locationProvider','cfpLoadingBarProvider',
         function ($stateProvider,$urlRouterProvider,$locationProvider, cfpLoadingBarProvider) {
 
