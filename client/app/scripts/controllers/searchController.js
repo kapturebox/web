@@ -72,6 +72,7 @@ angular.module('kaptureApp')
       .withOption('bInfo', false)
       .withOption('bFilter', false)
       .withOption('bLengthChange', false)
+      .withOption('order', '-score')
 
 
     $scope.$on( '$destroy', function() {
