@@ -17,9 +17,12 @@ angular
     'ngAnimate',
     'yaru22.md',
     'angularMoment',
-    'angular-humanize',  
-    'angular-loading-bar'
+    'angular-humanize',
+    'angular-loading-bar',
+    'datatables',
+    'datatables.bootstrap'
   ])
+  .constant( 'mockSearchResults', true )
   .config(['$stateProvider','$urlRouterProvider','$locationProvider','cfpLoadingBarProvider',
         function ($stateProvider,$urlRouterProvider,$locationProvider, cfpLoadingBarProvider) {
 

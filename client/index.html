@@ -16,6 +16,7 @@
       <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
+      <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -28,6 +29,7 @@
 
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
+      <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
       <script src="bower_components/json3/lib/json3.js"></script>
       <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -42,10 +44,7 @@
       <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
-      <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/metisMenu/dist/metisMenu.js"></script>
-      <script src="bower_components/chart.js/dist/Chart.js"></script>
-      <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
       <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
       <script src="bower_components/toastr/toastr.js"></script>
       <script src="bower_components/angular-mocks/angular-mocks.js"></script>
@@ -55,6 +54,20 @@
       <script src="bower_components/angularjs-humanize/src/angular-humanize.js"></script>
       <script src="bower_components/moment/moment.js"></script>
       <script src="bower_components/angular-moment/angular-moment.js"></script>
+      <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
+      <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+      <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
+      <script src="bower_components/lodash/lodash.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -98,8 +111,8 @@
   </head>
   
   <body>
-    <div ng-app="kaptureApp">
-      <div ui-view></div>
+    <div class="max-height" ng-app="kaptureApp">
+      <div class="max-height" ui-view></div>
     </div>
   </body>
 </html>

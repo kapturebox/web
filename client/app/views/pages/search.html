@@ -12,10 +12,22 @@
 				</h1>
 
 				<div class="panel-body" ng-show="!isLoading()">
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr>
+
+					<div class="query-filters">
+						<script type="text/ng-template" id="popoverTemplate.html">
+							<div class="form-group">
+								<div class="checkbox" ng-repeat="filterVal in filter.values" ng-if="!!filterVal">
+									<label><input type="checkbox" ng-model="filter.selected[$index]" ng-change="dtInstance.rerender()">{{ filterVal }}</label>
+								</div>
+							</div>
+						</script>
+						<button class="btn btn-default btn-sm" ng-repeat="filter in filters" uib-popover-template="'popoverTemplate.html'" popover-title="{{ filter.name }}" popover-placement="bottom" popover-trigger="'outsideClick'">{{ filter.name }}</button>
+					</div>
+
+					<div class="table-container">
+						<table datatable="ng" dt-options="dtTableOpts" dt-instance="dtInstance" class="table table-striped table-bordered">
+ 							<thead>
+ 								<tr>
 									<th>Name</th>
 									<th>Category</th>
 									<th>Source</th>
@@ -25,7 +37,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in results()">
+								<tr ng-repeat="item in results | filter: filterSelectedValues">
 									<td>{{ item.title }}</td>
 									<td>{{ item.category }}</td>
 									<td>{{ item.sourceName }}</td>

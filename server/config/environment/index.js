@@ -46,7 +46,7 @@ var all = {
     systemname              : os.hostname(),
     flexget_check_frequency : 15,
     email                   : null,
-    rootDownloadPath        : '/media/usb/',
+    rootDownloadPath        : '/var/lib/downloads',
     moviesPath              : 'movies',
     showsPath               : 'tvshows',
     musicPath               : 'music',

@@ -11,7 +11,8 @@ module.exports = function() {
     loglevel = 'debug';
   }
 
-  console.log('log level', loglevel );
+  console.log( 'environment', process.env.NODE_ENV );
+  console.log( 'log level', loglevel );
 
   return new (winston.Logger)({
     transports: [
