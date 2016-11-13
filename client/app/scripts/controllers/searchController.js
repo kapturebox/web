@@ -27,7 +27,7 @@ angular.module('kaptureApp')
       {'key': 'size',       'displayName': 'Size'},
       {'key': 'uploaded',   'displayName': 'Uploaded'}
     ];
-    
+
 
     // for all the results that are returned, get the unique entries to filter upon 
     function getFiltersAndValues( results ) {
@@ -107,9 +107,6 @@ angular.module('kaptureApp')
         // send to $apply, then rerender
         resolve( $scope.results );
 
-      }).then(function(results){
-        // once thats all done, rerender the table (if dtInstance has been instanciated)
-        typeof $scope.dtInstance.rerender === 'function' && $scope.dtInstance.rerender();
       });
     }
 
