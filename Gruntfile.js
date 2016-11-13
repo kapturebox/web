@@ -456,10 +456,14 @@ module.exports = function (grunt) {
           src: ['generated/*']
         }, {
           expand: true,
-          cwd: '<%= yeoman.client %>/bower_components/font-awesome/fonts',
+          flatten: true,
+          cwd: '<%= yeoman.client %>/bower_components',
           dest: '<%= yeoman.dist %>/public/assets/fonts',
           src: [
-            '*'
+            '**/*.woff',
+            '**/*.eot',
+            '**/*.woff2',
+            '**/*.ttf',
           ]
         }, {
           expand: true,
