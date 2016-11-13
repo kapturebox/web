@@ -1,6 +1,7 @@
 'use strict';
 
 var winston = require('winston');
+var util = require('util');
 
 module.exports = function() {
   var loglevel = 'info';
@@ -11,8 +12,7 @@ module.exports = function() {
     loglevel = 'debug';
   }
 
-  console.log( 'environment', process.env.NODE_ENV );
-  console.log( 'log level', loglevel );
+  console.log( util.format( 'environment: %s, log level: %s', process.env.NODE_ENV, loglevel ));
 
   return new (winston.Logger)({
     transports: [

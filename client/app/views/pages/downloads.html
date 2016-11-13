@@ -14,6 +14,8 @@
 					Active and recently downloaded items appear here
 				</div>
 
+				<div class="alert alert-info" ng-if="!isLoadin() && downloads().length === 0">No recent downloads</div>
+
 				<div class="download-list" ng-show="downloads().length > 0">
 					<div class="panel panel-default download-item" ng-repeat="item in downloads()">
 						<div class="panel-heading">

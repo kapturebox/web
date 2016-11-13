@@ -7,31 +7,29 @@
  * Controller of the search page
  */
 angular.module('kaptureApp')
-  .controller('SearchCtrl', ['$scope','$stateParams','searchService', 'downloadService', '$rootScope', '$log', 'DTOptionsBuilder',
-      function( $scope, $stateParams, searchService, downloadService, $rootScope, $log, DTOptionsBuilder ) {
+  .controller('SearchCtrl', ['$scope','$stateParams','searchService', 'downloadService', '$rootScope', 'DTOptionsBuilder', '$q', 
+      function( $scope, $stateParams, searchService, downloadService, $rootScope, DTOptionsBuilder, $q ) {
 
     
-		$scope.query      = $stateParams.query;
+    $scope.query      = $stateParams.query;
     $scope.results    = [];
+    $scope._          = _;
 
     $scope.isLoading  = searchService.isLoading;
     $scope.download   = downloadService.add;
 
-    searchService
-      .search( $stateParams.query )
-      .then(function( results ){
-        $scope.results = results;
-        $scope.filters = getFiltersAndValues( results );
-      });
 
+    // filters fields to allow selecting
     var allowedFilters = [
-      'sourceName',
-      'category',
-      'mediaType',
-      'size',
-      'uploaded'
+      {'key': 'sourceName', 'displayName': 'Source'},
+      {'key': 'category',   'displayName': 'Category'},
+      {'key': 'mediaType',  'displayName': 'Media Type'},
+      {'key': 'size',       'displayName': 'Size'},
+      {'key': 'uploaded',   'displayName': 'Uploaded'}
     ];
+    
 
+    // for all the results that are returned, get the unique entries to filter upon 
     function getFiltersAndValues( results ) {
       // gets list of keys in entire results array
       var keys = [];
@@ -42,12 +40,13 @@ angular.module('kaptureApp')
       // finds the unique values of each key and store them in a way
       // we can easily lookup via ng-repeat and filters
       return keys.map(function(k) {
-        if( allowedFilters.includes(k) ) {
+        if( _.some( allowedFilters, {'key':k} )) {
           return {
-            name: k,
-            values: _.uniq( results.map(function(r) {
-              return r[k];
-            }))
+            name:        k,
+            displayName: _.find( allowedFilters, {'key':k} ).displayName,
+            values:      _.uniq( results.map(function(r) {
+                          return r[k];
+                         }))
           }
         }
       }).reduce(function( prev, cur ) {
@@ -55,28 +54,80 @@ angular.module('kaptureApp')
       },[]);
     }
 
-    // TODO: needs to be fixed, maybe make an object that sends to filter instead
-    $scope.filterSelectedValues = function filterSelectedValues( val, idx, arr ) {
-      return $scope.filters.map(function(f) {
-        // $log.info( Array(f.selected) );
-        return f.selected && f.selected.indexOf( true ).map(function(selIdx) {
-          return val[f.name] === f.values[selIdx];
-        }).includes( true );
-      })
+    // run query through search service and handle it
+    function getResults() {
+      searchService
+        .search( $stateParams.query )
+        .then(function( results ){
+          $scope.results = results;
+          $scope.filters = getFiltersAndValues( results );
+          $scope.updateResultsFromFilters();
+        });
     }
 
 
+    $scope.dtInstance = {};
+
+    $scope.updateResultsFromFilters = function updateResultsFromFilters() {
+      // wrap in a promise as we want to wait for this to be done to rerender table
+      return $q(function(resolve, reject) {
+
+        // for each result, apply each of the filters to it, and if they match correctly
+        // then mark the item in the results array with 'displayed' to filter based on
+        $scope.results.forEach(function(r, r_idx, r_arr) {
+          
+          var allFilterMatches = $scope.filters.map(function(f){
+
+            // lets make sure there are actually selected values first
+            // otherwise this filter can pass
+            if( f.selected && _.some( f.selected, Boolean ) ) {
+
+              // for each selected filter, find anything that is selected and matches
+              // the filter we're comparing
+              //TODO: filter ranges
+              var filterResults = Object.keys( f.selected ).map(function(sel) {
+                return f.selected[sel] && r[f.name] === f.values[sel];
+              });
+
+              // we can assume its okay if something matches in there
+              return _.some( filterResults, Boolean );
+            } else {
+              return true;
+            }
+          });
+
+          // we want ALL of the above to be true so its displayed
+          if( _.every( allFilterMatches, Boolean ) ) {
+            $scope.results[r_idx].displayed = true;
+          } else {
+            $scope.results[r_idx].displayed = false;
+          }
+        });
+
+        // send to $apply, then rerender
+        resolve( $scope.results );
+
+      }).then(function(results){
+        // once thats all done, rerender the table (if dtInstance has been instanciated)
+        typeof $scope.dtInstance.rerender === 'function' && $scope.dtInstance.rerender();
+      });
+    }
+
+
+    // some table options for datatables
     $scope.dtTableOpts = DTOptionsBuilder.newOptions()
       .withDisplayLength(25)
       .withBootstrap()
       .withOption('bInfo', false)
       .withOption('bFilter', false)
       .withOption('bLengthChange', false)
-      .withOption('order', [3, 'desc'])
-
+      .withOption('order', [3, 'desc']);
 
     $scope.$on( '$destroy', function() {
       $rootScope.$broadcast( 'clearSearchInput' );
     });
+
+    // init 
+    getResults();
 
 	}]);

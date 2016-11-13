@@ -12,6 +12,15 @@ body {
   color: black;
 }
 
+h4, .h4, h5, .h5, h6, .h6 {
+  margin-top: 3px;
+  margin-bottom: 0px;
+}
+
+.page-header {
+  margin-top: 20px;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -110,4 +119,11 @@ body {
 
 .navbar-header {
   margin-right: 8em;
+}
+
+
+
+/* Search page */
+.query-filters .filter-button {
+  margin-left: 1em;
 }

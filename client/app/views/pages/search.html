@@ -12,20 +12,30 @@
 				</h1>
 
 				<div class="panel-body" ng-show="!isLoading()">
-
-					<div class="query-filters">
+ 
+					<div class="query-filters container-fluid well well-sm">
+						<div class="row">
+							<div class="col-xs-2 col-lg-2">
+								<h4>Filters:</h4>
+							</div>
+							<div class="col-xs-10 col-lg-10">
+								<button class="btn btn-sm btn-primary filter-button" ng-repeat="filter in filters" uib-popover-template="'popoverTemplate.html'" popover-title="{{ filter.displayName }}" popover-placement="bottom" popover-trigger="'outsideClick'">
+									<span ng-if="_.some( filter.selected, Boolean )"><i class="fa fa-check" aria-hidden="true"></i></span>
+									{{ filter.displayName }}
+								</button>								
+							</div>
+						</div>
 						<script type="text/ng-template" id="popoverTemplate.html">
 							<div class="form-group">
 								<div class="checkbox" ng-repeat="filterVal in filter.values" ng-if="!!filterVal">
-									<label><input type="checkbox" ng-model="filter.selected[$index]" ng-change="dtInstance.rerender()">{{ filterVal }}</label>
+									<label><input type="checkbox" ng-model="filter.selected[$index]" ng-change="updateResultsFromFilters()">{{ filterVal }}</label>
 								</div>
 							</div>
 						</script>
-						<button class="btn btn-default btn-sm" ng-repeat="filter in filters" uib-popover-template="'popoverTemplate.html'" popover-title="{{ filter.name }}" popover-placement="bottom" popover-trigger="'outsideClick'">{{ filter.name }}</button>
 					</div>
 
 					<div class="table-container">
-						<table datatable="ng" dt-options="dtTableOpts" dt-instance="dtInstance" class="table table-striped table-bordered">
+						<table datatable="ng" dt-options="dtTableOpts" dt-instance="dtInstance" class="table table-striped table-bordered table-hover">
  							<thead>
  								<tr>
 									<th>Name</th>
@@ -37,7 +47,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in results | filter: filterSelectedValues">
+								<tr ng-repeat="item in results | filter: {displayed: true} ">
 									<td>{{ item.title }}</td>
 									<td>{{ item.category }}</td>
 									<td>{{ item.sourceName }}</td>

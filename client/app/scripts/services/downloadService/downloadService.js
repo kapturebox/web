@@ -4,6 +4,9 @@ angular.module('kaptureApp')
   .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup ) {
     var DOWNLOAD_URI = '/api/download';
 
+    var FETCH_DELAY_SLOW = 30 * 1000; // in ms
+    var FETCH_DELAY_FAST = 2 * 1000;
+
     // singleton to be returned to callers
     var svc = {};
     
@@ -12,7 +15,9 @@ angular.module('kaptureApp')
     var running    = false;
     var interval   = null;
 
-    // private functions
+    // EXPOSED FUNCTIONS
+
+
     svc.fetch = function() {
       if( running ) return;
       running = true;
@@ -28,28 +33,32 @@ angular.module('kaptureApp')
           running = false;
 
           $rootScope.$broadcast( 'downloads.updated' );
+          svc.updateFetchDelay( FETCH_DELAY_FAST );
         }
 
         return downloads;
       }).catch(function(err){
+        running = false;
         popup.error( 'Error fetching: ' + angular.toJson( err ) );
+
+        return svc.updateFetchDelay( FETCH_DELAY_SLOW ); 
       });
     }
 
 
-    // EXPOSED FUNCTIONS
     // start / stop intervals
     svc.stopFetching = function() {
-      $interval.cancel( interval );
+      return $interval.cancel( interval );
     }
 
     svc.startFetching = function( delay ) {
-      interval = $interval( svc.fetch, delay || 3000 ); // 3s
+      interval = $interval( svc.fetch, delay || FETCH_DELAY_FAST ); // 3s
+      return interval;
     }
 
     svc.updateFetchDelay = function( delay ) {
       svc.stopFetching();
-      svc.startFetching( delay );
+      return svc.startFetching( delay );
     }
 
     svc.getDownloads = function() {
