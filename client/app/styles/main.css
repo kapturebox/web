@@ -44,6 +44,9 @@ h4, .h4, h5, .h5, h6, .h6 {
 /* Custom page footer */
 .footer {
   padding-top: 19px;
+  padding-bottom: 19px;
+  margin-right: 1em;
+  margin-bottom: 20px;
   color: #777;
 }
 
