@@ -48,7 +48,10 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in results | filter: {displayed: true} ">
-									<td>{{ item.title }}</td>
+									<td>
+										<div>{{ item.title }}</div>
+										<time am-time-ago="{{ getDate(item.uploaded) }}" class="text-left text-muted small"></time>
+									</td>
 									<td>{{ item.category }}</td>
 									<td>{{ item.sourceName }}</td>
 									<td>{{ item.score * 1000 | number:1 }}</td>

@@ -228,7 +228,7 @@ YoutubeSource.prototype.transformSearchResults = function( results ) {
 }
 
 // this is wrong but it's a baseline at least.
-const DURATION_REGEX = /PT((\d+)H)?((\d+)M)?((\d+)S)/;
+const DURATION_REGEX = /PT((\d+)H)?((\d+)M)?((\d+)S)?/;
 const SD_BITS_PER_SEC = 1 * (1024) * 5;
 const HD_BITS_PER_SEC = 8 * (1024) * 5;
 
@@ -237,12 +237,19 @@ YoutubeSource.prototype.calculateSize = function( result ) {
   var dimension   = result.contentDetails.dimension;
   var definition  = result.contentDetails.definition;
 
-  var seconds = ( parseInt(durMatches[2] || 0 ) * 60*60 ) + ( parseInt(durMatches[4] || 0 ) * 60 ) + ( parseInt(durMatches[6] || 0 ) );
-  var ret     = seconds * ( definition === 'hd' ? HD_BITS_PER_SEC : SD_BITS_PER_SEC );
+  try {
+    var seconds = ( parseInt(durMatches[2] || 0 ) * 60*60 ) 
+                + ( parseInt(durMatches[4] || 0 ) * 60 ) 
+                + ( parseInt(durMatches[6] || 0 ) );
 
-  // this.logger.debug( 'name: %s, seconds: %d, definition: %s, result: %d, matches: %s', result.snippet.title, seconds, definition, ret, durMatches );
-  
-  return ret;
+    var ret     = seconds * ( definition === 'hd' ? HD_BITS_PER_SEC : SD_BITS_PER_SEC );
+    
+    return ret;
+  } catch( err ) {
+    this.logger.debug( 'name: %s, seconds: %d, definition: %s, ret: %d, durMatches: %s', result.snippet.title, seconds, definition, ret, durMatches );
+    this.logger.warn( 'error calculating size:', result.contentDetails, err );
+    return null;
+  }
 }
 
 

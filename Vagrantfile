@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
 
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
-    apt-get install -y python-pip devscripts debhelper ruby ruby-compass git iptables-persistent python-dev libffi-dev libssl-dev nodejs transmission-daemon netatalk
+    apt-get install -y python-pip devscripts debhelper ruby ruby-compass git iptables-persistent python-dev libffi-dev libssl-dev nodejs transmission-daemon netatalk vim
     pip install --upgrade setuptools pip
     pip install ansible markupsafe
 

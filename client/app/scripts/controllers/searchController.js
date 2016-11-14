@@ -110,6 +110,9 @@ angular.module('kaptureApp')
       });
     }
 
+    $scope.getDate = function(arg) {
+      return moment(new Date(arg));
+    }
 
     // some table options for datatables
     $scope.dtTableOpts = DTOptionsBuilder.newOptions()
