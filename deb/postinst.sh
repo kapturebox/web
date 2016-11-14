@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/bin/chown -R kapture.kapture /var/kapture /etc/kapture /var/lib/kapture /var/lib/downloads
+/bin/chown -R kapture.kapture /var/kapture /etc/kapture /var/lib/kapture /var/lib/kapture/downloads
 
 /sbin/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 
