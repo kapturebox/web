@@ -2,15 +2,25 @@ Kapture is a device that allows you to get media from all around the internet wi
 
 This page describes how to use the device.
 
-## Step 1: Plug device into your router and power, and connect to site
+## Initial device setup
+
+Plug your kapture box into your router via the ethernet cable.  Then attach the power cable to a power source and connect to this site:  http://kapture.local  
 
 Since you're at this page, you've already done that successfully! Well done!
 
-The kapture site can be accessed via the page that you're currently at, or athttp://kapture.local 
-
 Now you can download whatever you want using the search field on the left.  Simply enter whatever you want to kapture, and it will scour the internet to find what you want.  Then click whatever entries you want to download (that you're licensed to, of course) and it will be stored on your kapture box! 
 
-## Step 2: Watch media via Plex 
+## Kapture all the media
+
+Using the search panel at the top of the page, you can find any sort of media you want throughout the internet via the plugins that come with the device (more on that later).  You can also paste URL's that contain media that you want to kapture, and have it stored on your kapture box.
+
+### AutoKapture
+
+This feature is intended to automatically kapture new media as it comes out, such as a tv show, video, or other types of constantly updated media.
+
+To set a new series to be AutoKaptured, use the search dialog above, and look for the AutoKapture 'action' that looks like this: <button class="btn btn-sm btn-success"><i class="fa fa-refresh"></i></button>  
+
+## Watch media via Plex 
 
 Once your download has completed (you can see this by clicking on the downloads menu link), you'll be able to look at it in the 'watch' menu link.  You can do this in a number of different ways all though the PLEX app:
 

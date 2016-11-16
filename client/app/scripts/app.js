@@ -23,6 +23,7 @@ angular
     'datatables.bootstrap'
   ])
   .constant( 'mockSearchResults', false )
+  .constant( 'debugMode', false )
   .config(['$stateProvider','$urlRouterProvider','$locationProvider','cfpLoadingBarProvider',
         function ($stateProvider,$urlRouterProvider,$locationProvider, cfpLoadingBarProvider) {
 
@@ -44,40 +45,35 @@ angular
       .state( 'nav.search', {
         url: '/search/:query',
         controller: 'SearchCtrl',
-        templateUrl: 'app/views/pages/search.html'
+        templateUrl: 'app/views/pages/search/search.html'
       })
       .state( 'nav.downloads', {
         url: '/downloads',
         controller: 'DownloadCtrl',
-        templateUrl: 'app/views/pages/downloads.html'
+        templateUrl: 'app/views/pages/downloads/downloads.html'
       })
       .state( 'watch', {
         url: '/watch/:videoId',
         controller: 'WatchCtrl',
-        templateUrl: 'app/views/pages/watch.html'
+        templateUrl: 'app/views/pages/watch/watch.html'
       })
       .state( 'nav.autokapture', {
         url: '/autokapture',
         controller: 'AutokaptureCtrl',
-        templateUrl: 'app/views/pages/autokapture.html'
+        templateUrl: 'app/views/pages/autokapture/autokapture.html'
       })
       .state( 'nav.help', {
         url: '/help',
         controller: 'HelpCtrl',
-        templateUrl: 'app/views/pages/help.html'
+        templateUrl: 'app/views/pages/help/help.html'
       })
       .state( 'nav.settings', {
         url: '/settings',
         controller: 'SettingsCtrl',
-        templateUrl: 'app/views/pages/settings.html'
+        templateUrl: 'app/views/pages/settings/settings.html'
       })
 
-
-
-
-
-
-
+      // unused still
       .state('login',{
         templateUrl:'app/views/pages/login.html',
         url:'/login'
