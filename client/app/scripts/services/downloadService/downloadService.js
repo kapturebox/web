@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup ) {
+  .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup, debugMode ) {
     var DOWNLOAD_URI = '/api/download';
 
     var FETCH_DELAY_SLOW = 30 * 1000; // in ms
@@ -39,7 +39,9 @@ angular.module('kaptureApp')
         return downloads;
       }).catch(function(err){
         running = false;
-        popup.error( 'Error fetching: ' + angular.toJson( err ) );
+        if( debugMode ) {
+          popup.error( 'Error fetching: ' + angular.toJson( err ) );
+        }
 
         return svc.updateFetchDelay( FETCH_DELAY_SLOW ); 
       });
