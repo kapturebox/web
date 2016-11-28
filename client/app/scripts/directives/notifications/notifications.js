@@ -12,6 +12,9 @@ angular.module('kaptureApp')
       templateUrl:'app/scripts/directives/notifications/notifications.html',
       restrict: 'E',
       replace: true,
+      scope: {
+        limit: '@'
+      },
       controller: function( $scope, $filter, notificationService ) {
         $scope.notifications = notificationService.getNotifications();
 

@@ -1,6 +1,6 @@
 <div class="list-group">
 
-  <div  class="notifications" ng-repeat="notice in notifications">
+  <div  class="notifications" ng-repeat="notice in notifications | limit: (limit || 5)">
     <a href="#">
       <span class="list-group-item">
         <media-icon type="{{ notice.mediaType }}"></media-icon> {{ notice.title }}
