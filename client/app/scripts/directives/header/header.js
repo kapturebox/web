@@ -14,7 +14,6 @@ angular.module('kaptureApp')
 			scope: {},
 			replace: true,
 			controller: function( $scope, $state, downloadService ) {
-
         $scope.doSearch = function() {
 					if ( downloadService.isUrl( $scope.query ) ) {
 						return downloadService.add( {url: $scope.query} );

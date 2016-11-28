@@ -16,6 +16,7 @@
                 <a href="#">
                     <div class="download-notification">
                         <p>
+                            <media-icon type="{{ item.mediaType }}"></media-icon>
                             <strong>{{ item.title }}</strong>
                         </p>
                         <div class="progress progress-striped" ng-class="{'active': !item.isFinished}">
@@ -42,59 +43,24 @@
 
 
 
-
-
-
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" tooltip-placement="bottom" uib-tooltip="Recent activity">
             <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-alerts">
-            <li>
+
+            <li ng-repeat-start="notice in notifications">
                 <a href="#">
                     <div>
-                        <i class="fa fa-comment fa-fw"></i> New Comment
-                        <span class="pull-right text-muted small">4 minutes ago</span>
+                        <media-icon type="{{ notice.mediaType }}"></media-icon> {{ notice.title }}
+                        <span class="pull-right text-muted small">
+                            <time am-time-ago="{{ parseDate( notice.startDate ) }}"></time>
+                        </span>
                     </div>
                 </a>
             </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                        <span class="pull-right text-muted small">12 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-envelope fa-fw"></i> Message Sent
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-tasks fa-fw"></i> New Task
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
+            <li class="divider" ng-repeat-end></li>
+
             <li>
                 <a class="text-center" href="#">
                     <strong>See All Alerts</strong>
@@ -105,6 +71,10 @@
         <!-- /.dropdown-alerts -->
     </li>
     <!-- /.dropdown -->
+
+
+
+
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>

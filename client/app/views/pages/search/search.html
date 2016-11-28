@@ -49,7 +49,11 @@
 							<tbody>
 								<tr ng-repeat="item in results | filter: {displayed: true} ">
 									<td>
-										<div>{{ item.title }}</div>
+										
+										<div>
+											<media-icon type="{{ item.mediaType }}"></media-icon>
+											{{ item.title }}
+										</div>
 										<time am-time-ago="{{ getDate(item.uploaded) }}" class="text-left text-muted small"></time>
 									</td>
 									<td>{{ item.category }}</td>

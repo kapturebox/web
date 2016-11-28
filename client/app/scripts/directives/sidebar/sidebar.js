@@ -16,23 +16,21 @@ angular.module('kaptureApp')
       scope: {
       },
       controller:function($scope, $state){
-        $scope.hidden = ($state.current.name === 'watch');
+        $scope.hidden = ( $state.current.name === 'watch' );
 
         $scope.selectedMenu = 'dashboard';
         $scope.collapseVar = 0;
         $scope.multiCollapseVar = 0;
         
-        $scope.check = function(x){
-          
-          if(x==$scope.collapseVar)
+        $scope.check = function( x ) {
+          if( x == $scope.collapseVar )
             $scope.collapseVar = 0;
           else
             $scope.collapseVar = x;
         };
         
-        $scope.multiCheck = function(y){
-          
-          if(y==$scope.multiCollapseVar)
+        $scope.multiCheck = function( y ) {
+          if( y == $scope.multiCollapseVar )
             $scope.multiCollapseVar = 0;
           else
             $scope.multiCollapseVar = y;

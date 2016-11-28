@@ -32,7 +32,7 @@ angular.module('kaptureApp')
           downloads = $filter('orderBy')( resp.data, ['!isFinished','startDate'], true );
           running = false;
 
-          $rootScope.$broadcast( 'downloads.updated' );
+          $rootScope.$broadcast( 'downloads.updated', downloads );
           svc.updateFetchDelay( FETCH_DELAY_FAST );
         }
 
@@ -65,6 +65,10 @@ angular.module('kaptureApp')
 
     svc.getDownloads = function() {
       return downloads;
+    }
+
+    svc.getActiveDownloads = function() {
+      return $filter( 'filter' )( downloads, {isFinished: false} )
     }
 
     svc.isLoading = function() {

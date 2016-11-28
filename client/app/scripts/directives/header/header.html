@@ -12,9 +12,9 @@
 
     </div>
 
-    <form ng-submit="doSearch()" class="navbar-form navbar-left navbar-search">
+    <form action="." ng-submit="$event.preventDefault(); doSearch()" class="navbar-form navbar-left navbar-search">
         <div class="input-group custom-search-form">
-            <input type="text" class="form-control" placeholder="Search for media or enter URL.." ng-model="query" style="width: 20em;">
+            <input type="text" class="form-control wide-text-input" placeholder="Search for media or paste URL.." ng-model="query">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="submit">
                     <i class="fa fa-search"></i>

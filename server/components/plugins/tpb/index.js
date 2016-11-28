@@ -148,8 +148,10 @@ ThepiratebaySource.prototype.determineMediaType = function ( elem ) {
     case 'Porn:Movies':
     case 'Porn:HD - Movies':
       return 'video';
-    case 'Music':
-      return 'audio';
+    case 'Audio':
+    case 'Audio:Music':
+    case 'Audio:Other':
+      return 'music';
     default:
       return 'unknown';
   }
