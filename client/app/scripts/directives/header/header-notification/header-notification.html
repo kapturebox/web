@@ -49,7 +49,7 @@
         </a>
         <ul class="dropdown-menu dropdown-alerts">
 
-            <li ng-repeat-start="notice in notifications">
+            <li ng-repeat-start="notice in notifications | limitTo: 5">
                 <a href="#">
                     <div>
                         <media-icon type="{{ notice.mediaType }}"></media-icon> {{ notice.title }}
