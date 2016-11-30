@@ -2,7 +2,7 @@ body {
   color: black;
   padding-bottom: 20px;
   background-color: #f8f8f8;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'OpenSansRegular', sans-serif;
   font-weight: lighter;
 }
 
@@ -105,6 +105,10 @@ h4, .h4, h5, .h5, h6, .h6 {
   }
 }
 
+.nav>li {
+  font-family: 'montserrat', sans-serif;
+}
+
 .nav>li.active>a {
   text-decoration: none;
   background-color: #eee;
@@ -118,6 +122,7 @@ h4, .h4, h5, .h5, h6, .h6 {
   font-size: 2em;
   font-weight: bold;
   color: black;
+  font-family: 'montserrat', sans-serif;
 }
 
 
@@ -346,6 +351,21 @@ h4, .h4, h5, .h5, h6, .h6 {
 
 .huge {
   font-size: 40px;
+}
+
+.panel {
+  .panel-heading {
+    font-family: 'montserrat', sans-serif;
+  }
+
+  .series-results ul {
+    padding-left: 10px;
+  }
+
+  .series-results li {
+    margin-top: 15px;
+    list-style: none;
+  }
 }
 
 .panel-green {

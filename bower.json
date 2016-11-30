@@ -28,7 +28,8 @@
     "angular-datatables": "^0.5.5",
     "lodash": "^4.16.5",
     "montserrat-webfont": "^1.0.3",
-    "ua-parser-js": "^0.7.12"
+    "ua-parser-js": "^0.7.12",
+    "WebFont-OpenSans": "webfont-opensans#^0.0.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.8",

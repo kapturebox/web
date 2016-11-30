@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
     done;
 
     # sets up remote nodejs apt repo
-    curl -sL https://deb.nodesource.com/setup_6.x |  bash -
+    curl -sL https://deb.nodesource.com/setup_7.x |  bash -
 
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
