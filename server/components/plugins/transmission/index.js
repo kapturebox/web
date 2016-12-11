@@ -168,6 +168,7 @@ TransmissionDownloader.prototype.status = function( item ) {
               mediaType:         self.getMediaTypeFromPath( obj['downloadDir'] ),
               sourceId:          self.metadata.pluginId,
               size:              obj.totalSize,
+              startDate:         new Date( obj.startDate * 1000 ),  // this function expects milliseconds
               title:             obj.name,
               downloadMechanism: 'torrent'
             });
