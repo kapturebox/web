@@ -150,7 +150,9 @@ TransmissionDownloader.prototype.status = function( item ) {
               'percentDone',
               'downloadDir',
               'hashString',
-              'startDate'
+              'startDate',
+              'doneDate',
+              'addedDate'
             ]
           }
         },
@@ -164,14 +166,21 @@ TransmissionDownloader.prototype.status = function( item ) {
           ));
         } else {
           var ret = body.arguments.torrents.map(function(obj) {
-            return _.extend( obj,  {
+            return {
               mediaType:         self.getMediaTypeFromPath( obj['downloadDir'] ),
               sourceId:          self.metadata.pluginId,
               size:              obj.totalSize,
-              startDate:         new Date( obj.startDate * 1000 ),  // this function expects milliseconds
+              startDate:         new Date( ( obj.startDate || obj.doneDate ) * 1000 ),  // this function expects milliseconds
               title:             obj.name,
-              downloadMechanism: 'torrent'
-            });
+              downloadMechanism: 'torrent',
+              hashString:        obj.hashString,
+              percentDone:       obj.percentDone,
+              rateDownload:      obj.rateDownload,
+              eta:               obj.eta,
+              isFinished:        obj.isFinished,
+              isStalled:         obj.isStalled,
+              source_data:       obj
+            };
           });
 
           resolve( ret );

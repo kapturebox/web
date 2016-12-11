@@ -51,17 +51,21 @@ ThepiratebaySource.prototype.urlMatches = function( url ) {
 
 ThepiratebaySource.prototype.search = function( query ) {
   var self = this;
-  return tpb.search( query, {
-      orderBy: 'seeds'
-    })
-    .then(function( results ) {
-      self.logger.info( '[tpb] results: ', results.length );
-      return self.transformResults( results );
-    })
-    .catch( function(err) {
-      self.logger.warn( '[tpb] cant get results:', err );
-      return [];
-    });
+  try {
+    return tpb.search( query, {
+        orderBy: 'seeds'
+      })
+      .then(function( results ) {
+        self.logger.info( '[tpb] results: ', results.length );
+        return self.transformResults( results );
+      })
+      .catch( function(err) {
+        self.logger.warn( '[tpb] cant get results:', err );
+        return [];
+      });
+  } catch( err ) {
+    return Promise.reject([]);
+  }
 };
 
 ThepiratebaySource.prototype.download = function( url ) {
@@ -100,11 +104,14 @@ ThepiratebaySource.prototype.transformResults = function( jsonResults ) {
       date = Date.parse( dateString );
 
       if( date == null ) {
-        self.logger.warn( '[tpb] failed to parse entry date: ', dateString );
+        self.logger.warn( '[tpb] failed to parse entry date [null]: "%s"', dateString );
       }
     } catch( err ) {
-      self.logger.warn( '[tpb] failed to parse entry date: ', d.uploadDate );
+      self.logger.warn( '[tpb] failed to parse entry date: "%s"', d.uploadDate, err );
     }
+
+    // get rid of weird CDATA comment strings
+    var title = d.name.replace( /\/\*.*\*\//, '' );
 
     return {
       sourceId:           self.metadata.pluginId,
@@ -112,7 +119,7 @@ ThepiratebaySource.prototype.transformResults = function( jsonResults ) {
       tpbUploadDate:      d.uploadDate,
       tpbId:              d.id,
       tpbCategory:        d.category.name + ':' + d.subcategory.name,
-      title:              d.name,
+      title:              title,
       uploaded:           date,
       category:           d.subcategory.name,
       mediaType:          self.determineMediaType( d ),
