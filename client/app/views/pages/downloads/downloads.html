@@ -19,7 +19,10 @@
 				<div class="download-list" ng-show="downloads().length > 0">
 					<div class="panel panel-default download-item" ng-repeat="item in downloads()">
 						<div class="panel-heading">
-							<span class="title"><strong>{{ item.title }}</strong></span>
+							<span class="title">
+								<media-icon type="{{ item.mediaType }}"></media-icon>
+								<strong>{{ item.title }}</strong>
+							</span>
 							<div class="pull-right actions">
 								<button class="btn btn-xs btn-primary" ng-click="watch( item )"  tooltip-placement="bottom" uib-tooltip="View in plex">
 									<i class="fa fa-eye" aria-hidden="true"></i>

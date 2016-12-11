@@ -17,9 +17,11 @@ angular.module('kaptureApp')
       },
       controller: function( $scope, $filter, notificationService ) {
         $scope.notifications = notificationService.getNotifications();
+        $scope.loaded = !notificationService.isLoading();
 
         $scope.$on('downloads.updated', function() {
           $scope.notifications = notificationService.getNotifications();
+          $scope.loaded = true;
         });
 
         $scope.parseDate = function( d ) {

@@ -5,7 +5,8 @@ angular.module('kaptureApp')
     // for now we just pull from downoad service, and filter it.
 
     var svc = {
-      notifications: []
+      notifications: [],
+      isLoading: downloadService.isLoading
     };
 
     $rootScope.$on( 'downloads.updated', function( event, data ) {

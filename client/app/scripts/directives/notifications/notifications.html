@@ -1,6 +1,6 @@
 <div class="list-group">
 
-  <div  class="notifications" ng-repeat="notice in notifications | limitTo: (limit || 5)">
+  <div class="notifications" ng-repeat="notice in notifications | limitTo: (limit || 5)">
     <a href="#">
       <span class="list-group-item">
         <media-icon type="{{ notice.mediaType }}"></media-icon> {{ notice.title }}
@@ -11,8 +11,12 @@
     </a>
   </div>
 
-  <div class="alert alert-danger" ng-if="!notifications.length">
+  <div class="alert alert-info" ng-if="!notifications.length && loaded">
     <span>No recent downloads..</span>
+  </div>
+
+  <div ng-if="!loaded" class="text-center">
+    <i class="fa fa-spinner fa-spin fa-2x"></i>
   </div>
 </div>
 
