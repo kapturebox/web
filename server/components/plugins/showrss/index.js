@@ -193,11 +193,11 @@ ShowRssSource.prototype.flexgetModel = function() {
       rss: {
         url: 'http://showrss.info/other/all.rss',
         other_fields: [
-          'tv:showname'
+          'tv:show_name'
         ]},
       manipulate: [{
         series_name: {
-          from: 'tv:showname'
+          from: 'tv:show_name'
         }
       }],
       series: series,
