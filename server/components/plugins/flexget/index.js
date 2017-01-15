@@ -18,6 +18,7 @@ var FlexgetDownloader = function( options ) {
     pluginTypes: 'downloader',               // 'source', 'downloader', 'player'
     sourceTypes: 'continuous',               // 'adhoc', 'continuous'
     link: 'https://transmissionbt.com',      // Link to provider site
+    requires: ['com.transmissionbt'],        // Dependency plugin
     downloadProviders: 'flexget',            // if plugin can also download, what
                                              // downloadMechanism can it download?
     description: 'Full featured continuous downloader' // Description of plugin provider
@@ -68,12 +69,15 @@ FlexgetDownloader.prototype.download = function( item ) {
 
     // maintain state in individual plugin
     return destPlugin.add( item )
-      .then(function( respItem ){
-        var pluginTaskConfig = destPlugin.flexgetModel();
-
-        var fullConfig       = _.extend({}, self.flexgetConfig, self.schedulerConfig, {
-          tasks: pluginTaskConfig // need to add state in here too
-        })
+      .then(function( respItem ) {
+        var fullConfig  = _.extend( {}, 
+          self.flexgetConfig, 
+          self.schedulerConfig, 
+          {
+            templates: destPlugin.flexgetTemplateModel() || {},
+            tasks:     destPlugin.flexgetTaskModel() || {}
+          }
+        );
 
         return resolve( self.updateConfig( fullConfig ) );
       });
@@ -147,14 +151,6 @@ FlexgetDownloader.prototype.updateTask = function( taskConfig ) {
       method:  'POST',
       json:    true,
       body:    taskConfig,
-      // body:    {
-      //   name: 'test',
-      //   config: {
-      //     rss: {
-      //       url: 'http://showrss.info/feeds/all.rss'
-      //     }
-      //   }
-      // },
       headers: { 
         'Authorization': util.format( 'Token %s', self.getApiToken() ) 
       }
@@ -178,11 +174,14 @@ FlexgetDownloader.prototype.remove = function( item, deleteOnDisk ) {
     // maintain state in individual plugin
     return destPlugin.remove( item )
       .then(function( respItem ){
-        var pluginTaskConfig = destPlugin.flexgetModel();
-
-        var fullConfig       = _.extend({}, self.flexgetConfig, self.schedulerConfig, {
-          tasks: pluginTaskConfig // need to add state in here too
-        })
+        var fullConfig  = _.extend( {}, 
+          self.flexgetConfig, 
+          self.schedulerConfig, 
+          {
+            templates: destPlugin.flexgetTemplateModel() || {},
+            tasks:     destPlugin.flexgetTaskModel() || {}
+          }
+        );
 
         return resolve( self.updateConfig( fullConfig ) );
       });

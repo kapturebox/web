@@ -174,42 +174,52 @@ ShowRssSource.prototype.getEnabledSeriesNames = function() {
   });
 }
 
+ShowRssSource.prototype.getEnabledSeriesIds = function() {
+  return this.getState().map(function(e){
+    return e.id;
+  });
+}
+
+
 ShowRssSource.prototype.getEnabledSeries = function() {
   return this.getState();
 }
 
-
-ShowRssSource.prototype.flexgetModel = function() {
-  var self               = this;
+ShowRssSource.prototype.flexgetTemplateModel = function() {
   var transmissionConfig = this.pluginHandler.getPlugin( 'com.transmissionbt' );
-  var series             = self.getEnabledSeriesNames();
-
-  if( _.isEmpty( series ) ) {
-    return {noop:{ manual: true }};
-  }
 
   return {
-    showRssTask: {
-      rss: {
-        url: 'http://showrss.info/other/all.rss',
-        other_fields: [
-          'tv:show_name'
-        ]},
-      manipulate: [{
-        series_name: {
-          from: 'tv:show_name'
-        }
-      }],
-      series: series,
+    showrss: {
+      all_series: true,
       transmission: {
         host:     transmissionConfig.get( 'transmission_host' ) || 'localhost',
         port:     parseInt( transmissionConfig.get( 'transmission_port' ) || 9091 ),
         username: transmissionConfig.get( 'transmission_user' ),
         password: transmissionConfig.get( 'transmission_pass' ),
-        path:     path.join( self.config.getUserSetting('rootDownloadPath'), self.config.getUserSetting('showsPath') )
+        path:     path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('showsPath') )
       }
     }
   }
+}
+
+
+ShowRssSource.prototype.flexgetTaskModel = function() {
+  var self               = this;
+  var seriesIds          = self.getEnabledSeriesIds();
+  var taskObject         = {};
+
+  if( _.isEmpty( seriesIds ) ) {
+    return {noop:{ manual: true }};
+  }
+
+  seriesIds.forEach(function( id ) {
+    taskObject[ util.format('showRssId%d', id) ] = {
+      rss: util.format( SHOW_HISTORY_DATA_URL, id ),
+      template: 'showrss'
+    };
+  });
+
+  return taskObject;
 }
 
 
