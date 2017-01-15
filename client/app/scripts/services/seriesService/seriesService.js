@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .factory('seriesService', function( $http, $interval ) {
+  .factory('seriesService', function( $http, $interval, $filter ) {
     var SERIES_URI = '/api/series';
 
     // current state of world
     var svc = {
       series:    [],
       interval:  null,
-      isLoading:   false
+      isLoading: false
     };
 
     svc.fetch = function() {
@@ -20,7 +20,7 @@ angular.module('kaptureApp')
         url:      SERIES_URI,
         timeout:  30 * 1000  // 30s
       }).then( function( resp ) {
-        svc.series = resp.data;
+        svc.series = $filter('orderBy')( resp.data, ['title'] );
         svc.isLoading = false;
 
         return svc.series;
