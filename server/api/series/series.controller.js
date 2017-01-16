@@ -8,7 +8,7 @@ var plugins = require('../../components/plugin_handler');
 
 
 // Get list of seriess
-exports.index = function(req, res) {
+exports.index = function( req, res, next ) {
   try {
     var series = plugins.getEnabledSeriesProviders().map(function(p) {
       return p.getEnabledSeries();
