@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if /usr/bin/id kapture; do
+if /usr/bin/id kapture; then
   /bin/chown -R kapture.kapture /var/kapture /etc/kapture /var/lib/kapture /var/lib/kapture/downloads
 fi
 
-if /sbin/iptables ; do
+if /sbin/iptables ; then
   /sbin/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 
   if [ -x /etc/init.d/netfilter-persistent ]; then
