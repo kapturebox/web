@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if /usr/bin/id kapture; then
+if /usr/bin/id kapture > /dev/null 2>&1; then
   /bin/chown -R kapture.kapture /var/kapture /etc/kapture /var/lib/kapture /var/lib/kapture/downloads
 fi
 
-if /sbin/iptables ; then
+if which /sbin/iptables > /dev/null 2>&1 ; then
   /sbin/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 
   if [ -x /etc/init.d/netfilter-persistent ]; then
@@ -26,7 +26,7 @@ fi
 
 /usr/bin/nodejs /var/kapture/server/node_modules/youtube-dl/scripts/download.js
 
-if systemctl; do
+if systemctl > /dev/null 2>&1; then
   /bin/systemctl enable kapture > /dev/null 2>&1
   /usr/sbin/service kapture start
 fi
