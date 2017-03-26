@@ -1,0 +1,54 @@
+version: "2"
+
+services:
+
+  kapture:
+    build: .
+    image: kapture:latest
+    links:
+      - transmission:transmission
+      - flexget:flexget
+    volumes:
+      - config:/config
+    environment:
+      TRANSMISSION_USER: admin
+      TRANSMISSION_PASS: password
+      # FLEXGET_API_TOKEN: 
+    ports:
+      - '8080:8080'
+
+  # kapture-iot:
+  #   build: ../kapture-iot
+  #   image: kapture-iot:latest
+    
+  
+  transmission:
+    image: dperson/transmission
+    network_mode: host
+    ports: 
+      - '9091'
+    environment:
+      TRUSER: admin
+      TRPASSWD: password
+    volumes:
+      - data:/var/lib/transmission-daemon/downloads
+
+  flexget:
+    image: toilal/flexget
+    links:
+      - transmission:transmission
+    volumes:
+      - /root/.flexget
+    command: daemon start
+    
+  plex:
+    image: plexinc/pms-docker
+    network_mode: host
+    ports: 
+      - '32400:32400'
+    volumes:
+      - data:/data
+    
+volumes:
+  config:
+  data:

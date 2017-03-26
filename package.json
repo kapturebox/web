@@ -8,7 +8,6 @@
     "body-parser": "~1.15.0",
     "composable-middleware": "^0.3.0",
     "compression": "~1.6.2",
-    "connect-mongo": "~1.1.0",
     "cookie-parser": "~1.4.1",
     "datejs": "^1.0.0-rc3",
     "debug": "^2.2.0",
@@ -65,12 +64,12 @@
     "grunt-mocha-test": "~0.12.7",
     "grunt-newer": "~1.2.0",
     "grunt-ng-annotate": "^2.0.2",
-    "grunt-node-inspector": "~0.4.1",
     "grunt-nodemon": "~0.4.0",
     "grunt-open": "~0.2.3",
-    "grunt-package-modules": "^0.1.3",
+    "grunt-package-modules": "^1.0.0",
     "grunt-protractor-runner": "^3.2.0",
     "grunt-rev": "~0.1.0",
+    "grunt-shell": "^2.1.0",
     "grunt-svgmin": "~3.2.0",
     "grunt-usemin": "~3.1.1",
     "grunt-wiredep": "~3.0.1",
@@ -97,7 +96,7 @@
     "time-grunt": "~1.3.0"
   },
   "engines": {
-    "node": ">=5.0.0"
+    "node": ">=7.0.0"
   },
   "scripts": {
     "start": "node server/app.js",

@@ -25,6 +25,8 @@ Vagrant.configure(2) do |config|
 
     # sets up remote nodejs apt repo
     curl -sL https://deb.nodesource.com/setup_7.x |  bash -
+    curl -sL get.docker.com | sudo bash
+    sudo usermod -aG docker vagrant
 
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
