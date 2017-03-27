@@ -12,7 +12,7 @@
 				</h1>
 
 				<div class="panel-body" ng-show="!isLoading()">
- 
+
 					<div class="query-filters container-fluid well well-sm">
 						<div class="row">
 							<div class="col-xs-2 col-lg-2">
@@ -22,7 +22,7 @@
 								<button class="btn btn-sm btn-primary filter-button" ng-repeat="filter in filters" uib-popover-template="'popoverTemplate.html'" popover-title="{{ filter.displayName }}" popover-placement="bottom" popover-trigger="'outsideClick'">
 									<span ng-if="_.some( filter.selected, Boolean )"><i class="fa fa-check" aria-hidden="true"></i></span>
 									{{ filter.displayName }}
-								</button>								
+								</button>
 							</div>
 						</div>
 						<script type="text/ng-template" id="popoverTemplate.html">
@@ -49,12 +49,12 @@
 							<tbody>
 								<tr ng-repeat="item in results | filter: {displayed: true} ">
 									<td>
-										
+
 										<div>
 											<media-icon type="{{ item.mediaType }}"></media-icon>
 											{{ item.title }}
 										</div>
-										<time am-time-ago="{{ getDate(item.uploaded) }}" class="text-left text-muted small"></time>
+										<time am-time-ago="item.uploaded" class="text-left text-muted small"></time>
 									</td>
 									<td>{{ item.category }}</td>
 									<td>{{ item.sourceName }}</td>
@@ -79,6 +79,5 @@
 			</div>
 		</div>
 	</div>
-		
-</div>
 
+</div>

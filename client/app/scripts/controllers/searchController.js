@@ -7,10 +7,10 @@
  * Controller of the search page
  */
 angular.module('kaptureApp')
-  .controller('SearchCtrl', ['$scope','$stateParams','searchService', 'downloadService', '$rootScope', 'DTOptionsBuilder', '$q', 
+  .controller('SearchCtrl', ['$scope','$stateParams','searchService', 'downloadService', '$rootScope', 'DTOptionsBuilder', '$q',
       function( $scope, $stateParams, searchService, downloadService, $rootScope, DTOptionsBuilder, $q ) {
 
-    
+
     $scope.query      = $stateParams.query;
     $scope.results    = [];
     $scope._          = _;
@@ -29,12 +29,12 @@ angular.module('kaptureApp')
     ];
 
 
-    // for all the results that are returned, get the unique entries to filter upon 
+    // for all the results that are returned, get the unique entries to filter upon
     function getFiltersAndValues( results ) {
       // gets list of keys in entire results array
       var keys = [];
-      results.forEach(function(k) { 
-        keys = _.union( keys, Object.keys(k) ); 
+      results.forEach(function(k) {
+        keys = _.union( keys, Object.keys(k) );
       });
 
       // finds the unique values of each key and store them in a way
@@ -75,7 +75,7 @@ angular.module('kaptureApp')
         // for each result, apply each of the filters to it, and if they match correctly
         // then mark the item in the results array with 'displayed' to filter based on
         $scope.results.forEach(function(r, r_idx, r_arr) {
-          
+
           var allFilterMatches = $scope.filters.map(function(f){
 
             // lets make sure there are actually selected values first
@@ -110,10 +110,6 @@ angular.module('kaptureApp')
       });
     }
 
-    $scope.getDate = function(arg) {
-      return moment(new Date(arg));
-    }
-
     // some table options for datatables
     $scope.dtTableOpts = DTOptionsBuilder.newOptions()
       .withDisplayLength(25)
@@ -127,7 +123,7 @@ angular.module('kaptureApp')
       $rootScope.$broadcast( 'clearSearchInput' );
     });
 
-    // init 
+    // init
     getResults();
 
 	}]);
