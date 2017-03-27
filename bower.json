@@ -3,15 +3,15 @@
   "version": "4.0.0",
   "dependencies": {
     "jquery": "3.1.1",
-    "angular": "1.5.8",
+    "angular": "^1.6.3",
     "json3": "^3.3.2",
     "es5-shim": "^4.5.9",
-    "angular-resource": "^1.5.8",
-    "angular-cookies": "^1.5.8",
-    "angular-sanitize": "^1.5.8",
-    "angular-animate": "1.5.9",
-    "angular-touch": "^1.5.8",
-    "angular-route": "^1.5.8",
+    "angular-resource": "^1.6.3",
+    "angular-cookies": "^1.6.3",
+    "angular-sanitize": "^1.6.3",
+    "angular-animate": "^1.6.3",
+    "angular-touch": "^1.6.3",
+    "angular-route": "^1.6.3",
     "font-awesome": "^4.6.3",
     "angular-bootstrap": "^2.2.0",
     "oclazyload": "^1.0.9",
@@ -24,7 +24,7 @@
     "angular-md": "^1.0.0",
     "marked": "^0.3.6",
     "angularjs-humanize": "^0.0.1",
-    "angular-moment": "^1.0.0",
+    "angular-moment": "^1.0.1",
     "angular-datatables": "^0.5.5",
     "lodash": "^4.16.5",
     "montserrat-webfont": "^1.0.3",
@@ -54,10 +54,11 @@
     }
   },
   "resolutions": {
-    "angular": ">=1.4.0",
+    "angular": "^1.6.3",
     "angular-mocks": "^1.5.8",
     "marked": "^0.3.6",
-    "jquery": "3.1.1"
+    "jquery": "3.1.1",
+    "angular-animate": "^1.6.3"
   },
   "appPath": "client"
 }

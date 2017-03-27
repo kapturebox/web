@@ -28,6 +28,8 @@ var TransmissionDownloader = function( options ) {
 
   TransmissionDownloader.super_.apply( this, arguments );
 
+  this.logger.debug( '[TODO] this needs to be fixed, should not be instanciated every time we need to use transmission' );
+
   this.mediaTypePathMap = {
     'movie'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('moviesPath') ),
     'video'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('moviesPath') ),
@@ -44,9 +46,9 @@ var TransmissionDownloader = function( options ) {
 
 
 TransmissionDownloader.prototype.getRpcUrl = function( item ) {
-  return util.format( 'http://%s:%s/transmission/rpc', 
-    this.get('transmission_host') || 'localhost', 
-    this.get('transmission_port') || 9091 
+  return util.format( 'http://%s:%s/transmission/rpc',
+    this.get('transmission_host') || 'localhost',
+    this.get('transmission_port') || 9091
   );
 }
 

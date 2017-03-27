@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "boxcutter/ubuntu1604"
   config.vm.hostname = "kapture-vagrant"
   config.vm.network "private_network", ip: "192.168.33.10"
-  config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
+  # config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
 
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provider "virtualbox" do |vb|
@@ -30,7 +30,10 @@ Vagrant.configure(2) do |config|
 
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
-    apt-get install -y python-pip devscripts debhelper ruby ruby-compass git iptables-persistent python-dev libffi-dev libssl-dev nodejs transmission-daemon netatalk vim
+    apt-get install -y python-pip devscripts debhelper ruby ruby-compass \
+                       git iptables-persistent python-dev libffi-dev httpie \
+                       libssl-dev nodejs transmission-daemon netatalk vim
+
     pip install --upgrade setuptools pip
     pip install ansible markupsafe
 
@@ -39,7 +42,7 @@ Vagrant.configure(2) do |config|
     usermod -aG vagrant debian-transmission
 
     # get code deps setup, and install kapture package locally
-    npm install -g grunt-cli npm bower
+    npm install -g --upgrade grunt-cli npm bower
     su vagrant -c 'cd /vagrant && npm install --no-bin-links || npm install --no-bin-links && bower install'
   SHELL
 end
