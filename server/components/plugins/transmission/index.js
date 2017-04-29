@@ -28,7 +28,7 @@ var TransmissionDownloader = function( options ) {
 
   TransmissionDownloader.super_.apply( this, arguments );
 
-  this.logger.debug( '[TODO] this needs to be fixed, should not be instanciated every time we need to use transmission' );
+  this.logger.debug( '[TODO] this needs to be fixed, should not be instantiated every time we need to use transmission' );
 
   this.mediaTypePathMap = {
     'movie'  : path.join( this.config.getUserSetting('rootDownloadPath'), this.config.getUserSetting('moviesPath') ),
@@ -216,11 +216,11 @@ TransmissionDownloader.prototype.getSessionID = function () {
       if( !err && resp.statusCode != 200 ) {
         resolve( resp.headers['x-transmission-session-id'] );
       } else {
-        var err = util.format( '[Transmission] cant get session id' );
+        var errMsg = util.format('[Transmission] cant get session id:', err );
         if( resp ) {
-          err = util.format( '[Transmission] cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, resp.body );
+          errMsg = util.format( '[Transmission] cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, resp.body );
         }
-        reject( new Error( err ));
+        reject( new Error( errMsg ));
       }
     });
   });

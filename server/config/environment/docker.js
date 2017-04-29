@@ -37,9 +37,11 @@ module.exports = {
       },
       'com.flexget': {
         enabled: true,
-        api_token: process.env.FLEXGET_API_TOKEN || 'password',
+        api_token: process.env.FLEXGET_API_TOKEN || 'api_token',
+        flexget_user: process.env.FLEXGET_USERNAME || 'flexget',
+        flexget_pass: process.env.FLEXGET_PASSWORD || 'my super password',
         flexget_host: process.env.FLEXGET_HOST || 'flexget',
-        flexget_port: process.env.FLEXGET_PORT || 3539
+        flexget_port: process.env.FLEXGET_PORT || 5050
       },
       'com.kapture.url': {
         enabled: true

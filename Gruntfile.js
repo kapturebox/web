@@ -16,7 +16,6 @@ module.exports = function (grunt) {
     express: 'grunt-express-server',
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     buildcontrol: 'grunt-build-control'
   });
@@ -132,7 +131,10 @@ module.exports = function (grunt) {
     // docker stuff
     shell: {
       dockerBuild: {
-        command: "docker build -t kapture:latest ."
+        command: "docker build -t kapture:${DOCKER_TAG:-devel} ."
+      },
+      dockerCompose: {
+        command: "docker-compose up -d"
       }
     },
 
@@ -745,7 +747,6 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
     'cssmin',
     'uglify',
     'rev',
@@ -762,7 +763,12 @@ module.exports = function (grunt) {
     'build:dist',
     'packageModules:dist',
     'shell:dockerBuild'
-  ])
+  ]);
+
+  grunt.registerTask('docker-compose',[
+    'docker',
+    'shell:dockerCompose'
+  ]);
 
   grunt.registerTask('default', [
     'newer:jshint',
