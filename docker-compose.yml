@@ -1,4 +1,4 @@
-version: "2"
+version: '3.1'
 
 services:
 
@@ -44,8 +44,6 @@ services:
 
   flexget:
     image: gaieges/flexget
-    links:
-      - transmission:transmission
     environment:
       FLEXGET_PASSWORD: my super password
     

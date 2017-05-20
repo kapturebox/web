@@ -23,7 +23,7 @@
     "request": "^2.69.0",
     "sanitize-filename": "^1.6.0",
     "serve-favicon": "~2.3.0",
-    "thepiratebay": "^1.1.12",
+    "thepiratebay": "~1.1.12",
     "winston": "^2.2.0",
     "xml2json-light": "~1.0.4",
     "xmldom": "^0.1.22",
