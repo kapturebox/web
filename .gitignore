@@ -18,3 +18,4 @@ db-config.sqlite
 flexget.log
 user_series_metadata.yml
 .vscode
+yarn.lock
