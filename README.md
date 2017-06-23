@@ -1,6 +1,8 @@
 kapture
 =======
 
+[![build status](https://gitlab.com/kapturebox/site/badges/master/build.svg)](https://gitlab.com/kapturebox/site/commits/master)
+
 > Goal is to make a device that provides simplified retrieval, storage, and redistribution of media
 
 Quickstart
