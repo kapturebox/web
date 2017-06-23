@@ -8,7 +8,7 @@ cache:
     - node_modules/
 
 before_script:
-  - apt-get update && apt-get install ruby -y
+  - apt-get update && apt-get install ruby devscripts -y
   - gem install sass
   - npm install --upgrade --global grunt-cli npm bower
 
