@@ -1,0 +1,23 @@
+image: node:latest
+
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+  - node_modules/
+
+before_script:
+  - npm install --upgrade --global grunt-cli npm bower
+
+stages:
+  - build
+  
+build:
+  stage: build
+  script:
+    - npm install
+    - bower install
+    - grunt clean dist package docker
+  
+
