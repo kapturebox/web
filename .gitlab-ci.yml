@@ -5,7 +5,7 @@ image: node:latest
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
   paths:
-  - node_modules/
+    - node_modules/
 
 before_script:
   - npm install --upgrade --global grunt-cli npm bower
@@ -16,7 +16,7 @@ stages:
 build:
   stage: build
   script:
-    - npm install
+    - yarn
     - bower install
     - grunt clean dist package docker
   
