@@ -1,11 +1,13 @@
-FROM partlab/ubuntu-arm-nodejs
+# FROM partlab/ubuntu-arm-nodejs
+FROM node:7
 
-COPY dist /app
+ADD dist /app
 
 WORKDIR /app/server
-ENV NODE_ENV=production
+ENV NODE_ENV=docker
 
 EXPOSE 8080
 VOLUME /config
+# VOLUME /media
 
-CMD ["nodejs","app.js"]
+ENTRYPOINT ["nodejs","app.js"]

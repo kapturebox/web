@@ -1,6 +1,8 @@
 // Generated on 2016-03-02 using generator-angular-material-fullstack 0.1.2
 'use strict';
 
+const fs = require('fs');
+
 module.exports = function (grunt) {
   var localConfig;
   try {
@@ -127,16 +129,12 @@ module.exports = function (grunt) {
     },
 
     // docker stuff
-    dock: {
-      options: {
-        docker: {
-         socketPath: '/var/run/docker.sock'
-        },
-        images: {
-          'kapture': {
-            dockerfile: '.'
-          }
-        }
+    shell: {
+      dockerBuild: {
+        command: "docker build -t kapture:${DOCKER_TAG:-devel} ."
+      },
+      dockerCompose: {
+        command: "docker-compose up -d"
       }
     },
 
@@ -764,8 +762,13 @@ module.exports = function (grunt) {
   grunt.registerTask('docker',[
     'build:dist',
     'packageModules:dist',
-    'dock:build'
-  ])
+    'shell:dockerBuild'
+  ]);
+
+  grunt.registerTask('docker-compose',[
+    'docker',
+    'shell:dockerCompose'
+  ]);
 
   grunt.registerTask('default', [
     'newer:jshint',
