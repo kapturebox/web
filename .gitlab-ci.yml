@@ -20,6 +20,6 @@ build:
   script:
     - yarn
     - bower install --allow-root
-    - grunt clean dist package docker
+    - grunt clean package docker
   
 
