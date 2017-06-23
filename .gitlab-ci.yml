@@ -8,6 +8,8 @@ cache:
     - node_modules/
 
 before_script:
+  - apt-get update && apt-get install ruby -y
+  - gem install sass
   - npm install --upgrade --global grunt-cli npm bower
 
 stages:
@@ -17,7 +19,7 @@ build:
   stage: build
   script:
     - yarn
-    - bower install
+    - bower install --allow-root
     - grunt clean dist package docker
   
 
