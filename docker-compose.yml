@@ -5,9 +5,6 @@ services:
   kapture:
     build: .
     image: kapture:devel
-    links:
-      - transmission:transmission
-      - flexget:flexget
     volumes:
       - config:/config
     environment:
@@ -30,9 +27,9 @@ services:
     image: dperson/transmission
     # network_mode: host
     ports:
-      - 51413:51413 
-      - 51413:51413/udp
-      - 9091:9091
+      - '51413:51413'
+      - '51413:51413/udp'
+      - '9091:9091'
     environment:
       TRUSER: admin
       TRPASSWD: password

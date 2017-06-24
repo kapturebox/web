@@ -750,7 +750,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'packageModules'
   ]);
 
   grunt.registerTask('package',[
