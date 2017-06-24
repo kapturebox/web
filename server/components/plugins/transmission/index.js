@@ -7,10 +7,6 @@ var _       = require('lodash');
 var path    = require('path');
 
 
-// CONFIG STUFF STILL HERE FOR THE URLS .. should be moved somewhere
-var config  = require('../../../config/environment');
-
-
 
 
 

@@ -8,9 +8,7 @@ var base    = require('./plugin_base');
 var config  = require('../../config/environment');
 
 var PLUGIN_PREFIX = path.join( 
-  process.cwd(), 
-  config.env === 'production' || 'docker' ? '' : 'server',    // needed because dev doesnt start within server folder
-  'components/plugins' 
+  __dirname, '..',  'plugins' 
 );
 
 

@@ -164,6 +164,8 @@ FlexgetDownloader.prototype.updateTask = function( taskConfig ) {
   });
 }
 
+// TODO: Dynamic way of getting authorization headers based on token or user / pass
+// details here: https://github.com/gaieges/docker-flexget
 
 // takes the item as generated in search, and removes from list (with delete option if present)
 FlexgetDownloader.prototype.remove = function( item, deleteOnDisk ) {

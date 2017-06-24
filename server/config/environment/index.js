@@ -27,6 +27,7 @@ var all = {
 
   // where the system lives
   kaptureHost: 'localhost',
+  
   // settings that will be used by ansible here
   settingsFileStore : 'system_settings.yml',
 
@@ -119,8 +120,7 @@ function setUserSetting( key, value ) {
   var orig = this.getUserSetting();
   var toSave = orig;
 
-  // this.logger.debug( 'setting: %s = %s', key, value || 'obj' );
-  // this.logger.debug( 'read file:', orig );
+  this.logger.debug( 'setting: %s = %s', key, value || 'obj' );
 
   if( typeof( key ) === 'object' ) {
     this.logger.debug( 'merging obj: ', key, orig );
@@ -129,7 +129,7 @@ function setUserSetting( key, value ) {
     toSave = _.set( orig, key, value );
   }
 
-  // this.logger.debug( 'writing setting:', toSave );
+  this.logger.debug( 'writing setting:', toSave );
 
   fs.writeFile( this.settingsFileStore, YAML.stringify( toSave, 8 ), function( err ) {
     if( err ) {

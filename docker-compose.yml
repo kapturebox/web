@@ -29,11 +29,10 @@ services:
   transmission:
     image: dperson/transmission
     # network_mode: host
-    # ports: 
-    #   - '9091'
     ports:
       - 51413:51413 
       - 51413:51413/udp
+      - 9091:9091
     environment:
       TRUSER: admin
       TRPASSWD: password
