@@ -756,7 +756,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('package',[
     'build:dist',
-    'packageModules:dist',
     'debian_package'
   ])
 
