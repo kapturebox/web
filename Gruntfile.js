@@ -751,7 +751,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'packageModules:dist'
+    'packageModules'
   ]);
 
   grunt.registerTask('package',[
