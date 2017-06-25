@@ -16,20 +16,14 @@ before_script:
 
 stages:
   - build
-  - deb
-  - docker
+  # - docker
   
 build:
   stage: build
   script:
     - yarn
     - bower install --allow-root
-    - grunt build:dist
-
-deb:
-  stage: build
-  script:
-    - grunt package
+    - grunt clean package
   
 # docker:
 #   stage: build
