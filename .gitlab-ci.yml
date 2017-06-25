@@ -31,10 +31,9 @@ deb:
   script:
     - grunt package
   
-docker:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - grunt docker
+# docker:
+#   stage: build
+#   services:
+#     - docker:dind
+#   script:
+#     - grunt docker
