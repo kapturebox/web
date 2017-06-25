@@ -14,7 +14,7 @@ services:
       FLEXGET_PASSWORD: my super password
       # FLEXGET_API_TOKEN: 
     ports:
-      - '8080:8080'
+      - '9000:9000'
 
 
   # kapture-iot:

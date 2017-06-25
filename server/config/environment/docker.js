@@ -5,7 +5,7 @@
 module.exports = {
   pluginStateStore: process.env.KAPTURE_PLUGIN_STORE || '/config/pluginStateStore',
 
-  port: process.env.PORT || 8080,
+  port: process.env.PORT || 9000,
 
   // some user setting stuff
   userSettingDefaults: {
