@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "boxcutter/ubuntu1604"
+  config.vm.box = "ubuntu/xenial64"
   config.vm.hostname = "kapture-vagrant"
   config.vm.network "private_network", ip: "192.168.33.10"
   # config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
@@ -24,9 +24,9 @@ Vagrant.configure(2) do |config|
     done;
 
     # sets up remote nodejs apt repo
-    curl -sL https://deb.nodesource.com/setup_7.x |  bash -
+    curl -sL https://deb.nodesource.com/setup_8.x |  bash -
     curl -sL get.docker.com | sudo bash
-    sudo usermod -aG docker vagrant
+    sudo usermod -aG docker ubuntu
 
     # install some tools for development on vagrant box, and ansible
     export DEBIAN_FRONTEND=noninteractive
@@ -39,10 +39,10 @@ Vagrant.configure(2) do |config|
 
     update-alternatives --install /usr/bin/node node /usr/bin/nodejs 50000
 
-    usermod -aG vagrant debian-transmission
+    usermod -aG ubuntu debian-transmission
 
     # get code deps setup, and install kapture package locally
-    npm install -g --upgrade grunt-cli npm bower
-    su vagrant -c 'cd /vagrant && npm install --no-bin-links || npm install --no-bin-links && bower install'
+    npm install -g --upgrade grunt-cli npm bower yarn
+    su ubuntu -c 'cd /vagrant && yarn && bower install'
   SHELL
 end

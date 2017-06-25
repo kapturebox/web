@@ -751,7 +751,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'packageModules'
+    'packageModules:dist'
   ]);
 
   grunt.registerTask('package',[
@@ -761,7 +761,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('docker',[
     'build:dist',
-    'packageModules:dist',
     'shell:dockerBuild'
   ]);
 
