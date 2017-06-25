@@ -8,8 +8,9 @@ cache:
     - node_modules/
 
 before_script:
+  - apt-get update && apt-get install curl -y
   - curl -sL https://deb.nodesource.com/setup_8.x |  bash -
-  - apt-get update && apt-get install ruby devscripts debhelper nodejs git -y
+  - apt-get install ruby devscripts debhelper nodejs git -y
   - gem install sass
   - npm install --upgrade --global grunt-cli npm bower yarn
 
