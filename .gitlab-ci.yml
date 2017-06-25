@@ -1,4 +1,4 @@
-image: node:latest
+image: ubuntu:xenial
 
 
 # This folder is cached between builds
@@ -8,9 +8,10 @@ cache:
     - node_modules/
 
 before_script:
-  - apt-get update && apt-get install ruby devscripts -y
+  - curl -sL https://deb.nodesource.com/setup_8.x |  bash -
+  - apt-get update && apt-get install ruby devscripts debhelper nodejs git -y
   - gem install sass
-  - npm install --upgrade --global grunt-cli npm bower
+  - npm install --upgrade --global grunt-cli npm bower yarn
 
 stages:
   - build
