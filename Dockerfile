@@ -10,4 +10,5 @@ EXPOSE 9000
 VOLUME /config
 # VOLUME /media
 
-ENTRYPOINT ["nodejs","app.js"]
+ENTRYPOINT ["node","app.js"]
+HEALTHCHECK CMD curl -I localhost:9000

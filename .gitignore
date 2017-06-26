@@ -18,4 +18,4 @@ db-config.sqlite
 flexget.log
 user_series_metadata.yml
 .vscode
-yarn.lock
+ubuntu-xenial-16.04-cloudimg-console.log
