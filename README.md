@@ -21,12 +21,27 @@ You can connect to the **packaged** instance that is in the apt repo on http://k
 Devel
 -----
 
-### Start server in development mode
+## Running locally without components
+
+This can be run on your local box for easier developing, however it won't have transmission to download files and flexget to auto-kapture stuff.  Everything else (searching, UI, settings, etc) should work fine:
+
+```bash
+npm install -g grunt-cli bower yarn
+yarn
+bower install
+grunt serve
+```
+
+You'll then have a server running at: http://localhost:9000
+
+### All components in vagrant
 
 ```
 vagrant ssh
 cd /vagrant ; grunt serve
 ```
+
+Then you will have a server running @ http://kapture-vagrant.local:9000
 
 ### Useful environment variables
 
@@ -47,9 +62,10 @@ Running
 
 ```
 grunt docker
+docker-compose up
 ```
 
-Will give you a new docker image meant for an ARM system (needs to be built on an ARM system as well), for use by other tools and services
+Will give you a new docker image meant for an ARM system (needs to be built on an ARM system as well), for use by other tools and services.  It will also give you the dependencies needed to download or auto-kapture (transmission and flexget)
 
 ### Building deb package
 

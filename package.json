@@ -99,7 +99,8 @@
   },
   "scripts": {
     "start": "node server/app.js",
-    "test": "grunt test"
+    "test": "echo 'tests dont exist'",
+    "grunt": "grunt serve"
   },
   "private": true
 }
