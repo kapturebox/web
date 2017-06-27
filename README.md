@@ -1,12 +1,12 @@
-kapture
-=======
+# kapture
 
 [![build status](https://gitlab.com/kapturebox/site/badges/master/build.svg)](https://gitlab.com/kapturebox/site/commits/master)
 
-> Goal is to make a device that provides simplified retrieval, storage, and redistribution of media
+> A cloud or pi-based device that provides simplified retrieval, storage, and redistribution of media.  Think a personalized netflix creator.
 
-Quickstart
-----------
+
+
+# Quickstart
 
 Start up whats intended to be a kapture box, including transmission, plex and the kapture app:
 
@@ -14,12 +14,13 @@ Start up whats intended to be a kapture box, including transmission, plex and th
 vagrant up
 ```
 
-Will start up a new xenial instance locally, set up the machine via ansible scripts in the ```ansible``` path, and then clean and build the npm project located in /vagrant
+Will start up a new xenial instance locally, set up the machine, and then clean and build the npm project located in /vagrant
 
 You can connect to the **packaged** instance that is in the apt repo on http://kapture-vagrant.local/
 
-Devel
------
+
+
+# Development
 
 ## Running locally without components
 
@@ -34,7 +35,7 @@ grunt serve
 
 You'll then have a server running at: http://localhost:9000
 
-### All components in vagrant
+## All components in vagrant
 
 ```
 vagrant ssh
@@ -43,7 +44,7 @@ cd /vagrant ; grunt serve
 
 Then you will have a server running @ http://kapture-vagrant.local:9000
 
-### Useful environment variables
+## Useful environment variables
 
 | Variable        | Default      | Options |
 | --------------- | ------------ | ------- |
@@ -54,9 +55,13 @@ If installed via package, can be configured via the following systemd file:
 
     /etc/systemd/system/kapture.service
 
-## Building
 
-### Docker image
+
+
+
+# Building
+
+## Docker image
 
 Running
 
@@ -67,7 +72,7 @@ docker-compose up
 
 Will give you a new docker image meant for an ARM system (needs to be built on an ARM system as well), for use by other tools and services.  It will also give you the dependencies needed to download or auto-kapture (transmission and flexget)
 
-### Building deb package
+## Building deb package
 
 ```bash
 # create package
@@ -77,10 +82,15 @@ grunt clean package
 sudo dpkg -i tmp/*.deb
 ```
 
-Misc
-----
 
-### Pulling updates material iconsets
+
+
+
+
+
+# Misc
+
+## Pulling updates material iconsets
 
 ```
 git clone https://github.com/nkoterba/material-design-iconsets.git /tmp
@@ -90,7 +100,6 @@ npm build
 cp -r iconsets/* ICONSET_DIR
 ```
 
-Docs
-----
+# References
 
 - [TransmissionRPC API spec](https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt)
