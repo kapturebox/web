@@ -10,4 +10,4 @@ env NODE_ENV=production
 setuid kapture
 chdir /var/kapture/server
 
-exec /usr/bin/nodejs app.js 2>&1 | logger -t frontend
+exec /usr/bin/node app.js 2>&1 | logger -t frontend

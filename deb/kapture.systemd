@@ -7,7 +7,7 @@ User=kapture
 Environment="NODE_ENV=production"
 Environment="LOG_LEVEL=info"
 WorkingDirectory=/var/kapture/server
-ExecStart=/usr/bin/nodejs app.js
+ExecStart=/usr/bin/node app.js
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

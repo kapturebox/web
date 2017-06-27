@@ -2,7 +2,7 @@
 
 [![build status](https://gitlab.com/kapturebox/site/badges/master/build.svg)](https://gitlab.com/kapturebox/site/commits/master)
 
-> A cloud or pi-based device that provides simplified retrieval, storage, and redistribution of media.  Think a personalized netflix creator.
+> A personalized netflix creator: A cloud or pi-based device that provides simplified retrieval, storage, and redistribution of media.  
 
 
 
