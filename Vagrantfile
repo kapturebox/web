@@ -48,7 +48,7 @@ Vagrant.configure(2) do |config|
     pip install --upgrade setuptools pip
     pip install ansible markupsafe
 
-    /usr/local/bin/kapture-setup
+    /usr/local/bin/kapture-setup -e systemname=kapture-vagrant
 
     # get code deps setup, and install kapture package locally
     npm install -g --upgrade grunt-cli npm bower yarn
