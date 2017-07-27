@@ -1,12 +1,11 @@
-# kapture
+# kapture web and api
 
-[![build status](https://gitlab.com/kapturebox/site/badges/master/build.svg)](https://gitlab.com/kapturebox/site/commits/master)
-
-> A personalized netflix creator: A cloud or pi-based device that provides simplified retrieval, storage, and redistribution of media.  
-
+> Kapture is a tool to create a "personalized netflix server":  A cloud or pi-based device that provides simplified retrieval, storage, and redistribution of any media.
 
 
 # Quickstart
+
+## Vagrant 
 
 Start up whats intended to be a kapture box, including transmission, plex and the kapture app:
 
@@ -17,6 +16,17 @@ vagrant up
 Will start up a new xenial instance locally, set up the machine, and then clean and build the npm project located in /vagrant
 
 You can connect to the **packaged** instance that is in the apt repo on http://kapture-vagrant.local/
+
+## Docker-compose
+
+This repo is also built into a docker image: `kapturebox/web`.  The docker-compose file will spin up all dependent services:
+
+```bash
+docker-compose up -d
+```
+
+This will spin up the kapture service running on port `:9000` wherever your docker environment lives (usually [http://localhost:9000](http://localhost:9000))
+
 
 
 
@@ -59,9 +69,9 @@ If installed via package, can be configured via the following systemd file:
 
 
 
-# Building
+## Building
 
-## Docker image
+### Docker image
 
 Running
 
@@ -72,7 +82,7 @@ docker-compose up
 
 Will give you a new docker image meant for an ARM system (needs to be built on an ARM system as well), for use by other tools and services.  It will also give you the dependencies needed to download or auto-kapture (transmission and flexget)
 
-## Building deb package
+### Building deb package
 
 ```bash
 # create package
