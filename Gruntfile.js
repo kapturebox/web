@@ -688,50 +688,28 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('server', function () {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve']);
+  grunt.registerTask('test', function(target) {
+    return grunt.task.run([
+      'clean',
+      'env:all',
+      'env:test',
+      // 'mochaTest',
+      'injector:sass',
+      'concurrent:test',
+      'injector',
+      'autoprefixer',
+      'wiredep',
+      'autoprefixer',
+      'express:dev',
+      // 'karma',
+      'e2e'
+    ]);
   });
 
-  grunt.registerTask('test', function(target) {
-    if (target === 'server') {
-      return grunt.task.run([
-        'env:all',
-        'env:test',
-        'mochaTest'
-      ]);
-    }
-
-    else if (target === 'client') {
-      return grunt.task.run([
-        'clean:server',
-        'env:all',
-        'injector:sass',
-        'concurrent:test',
-        'injector',
-        'autoprefixer',
-        'karma'
-      ]);
-    }
-
-    else if (target === 'e2e') {
-      return grunt.task.run([
-        'clean:server',
-        'env:all',
-        'env:test',
-        'injector:sass',
-        'concurrent:test',
-        'injector',
-        'wiredep',
-        'autoprefixer',
-        'express:dev',
-        'protractor'
-      ]);
-    }
-
-    else grunt.task.run([
-      'test:server',
-      'test:client'
+  grunt.registerTask('e2e', function(target) {
+    return grunt.task.run([
+      // 'shell:dockerCompose',
+      'protractor'    
     ]);
   });
 
