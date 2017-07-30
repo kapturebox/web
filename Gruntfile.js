@@ -70,7 +70,7 @@ module.exports = function (grunt) {
         tasks: ['injector:css']
       },
       mochaTest: {
-        files: ['server/**/*.spec.js'],
+        files: ['**/*.spec.js'],
         tasks: ['env:test', 'mochaTest']
       },
       jsTest: {
@@ -131,7 +131,7 @@ module.exports = function (grunt) {
     // docker stuff
     shell: {
       dockerBuild: {
-        command: "docker build -t kapture:${DOCKER_TAG:-devel} ."
+        command: "docker build -t kapturebox/web:${DOCKER_TAG:-devel} ."
       },
       dockerCompose: {
         command: "docker-compose up -d"
@@ -530,7 +530,7 @@ module.exports = function (grunt) {
       options: {
         reporter: 'spec'
       },
-      src: ['server/**/*.spec.js']
+      src: ['**/*.spec.js']
     },
 
     protractor: {
