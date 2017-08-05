@@ -6,6 +6,7 @@ services:
 
 env:
   - DOCKER_COMPOSE_VERSION=1.15.0
+  - BASE_URL=http://localhost:9000
 
 before_install:
   - apt-get update 
@@ -18,4 +19,4 @@ install:
 
 script:
   - docker-compose up -d --build
-  - npm run test
+  - node_modules/protractor/bin/protractor
