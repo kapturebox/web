@@ -11,8 +11,8 @@ env:
     - BASE_URL=http://localhost:9000
 
 before_install:
-  - apt-get update 
-  - apt-get install ruby-dev -y
+  - sudo apt-get update 
+  - sudo apt-get install ruby-dev -y
   - npm install -g yarn grunt-cli
   - gem install compass
 
