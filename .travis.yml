@@ -2,11 +2,12 @@ sudo: required
 language: node_js
 node_js: node
 
-services:
-  - docker
 addons:
   packages:
     - docker-ce
+
+services:
+  - docker
 
 env:
   global:
@@ -18,7 +19,9 @@ before_install:
   - sudo apt-get install ruby-dev -y
   - npm install -g yarn grunt-cli
   - gem install compass
-  - Xvfb :0 -ac -screen 0 1024x768x24 &
+  - sh -e /etc/init.d/xvfb start
+  - docker --version
+  - docker build -t test .
 
 install:
   - yarn
