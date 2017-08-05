@@ -1,0 +1,21 @@
+sudo: required
+language: javascript
+
+services:
+  - docker
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.15.0
+
+before_install:
+  - apt-get update 
+  - apt-get install ruby-dev -y
+  - npm install -g yarn grunt-cli
+  - gem install compass
+
+install:
+  - yarn
+
+script:
+  - docker-compose up -d --build
+  - npm run test
