@@ -4,6 +4,9 @@ node_js: node
 
 services:
   - docker
+addons:
+  packages:
+    - docker-ce
 
 env:
   global:
@@ -18,6 +21,7 @@ before_install:
 
 install:
   - yarn
+  - node_modules/.bin/webdriver-manager update
 
 script:
   - docker-compose up -d --build
