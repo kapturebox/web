@@ -7,6 +7,8 @@ module.exports = {
 
   port: process.env.PORT || 9000,
 
+  settingsFileStore : '/config/system_settings.yml',
+
   // some user setting stuff
   userSettingDefaults: {
     systemname              : 'kapture',

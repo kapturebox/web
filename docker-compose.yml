@@ -7,6 +7,8 @@ services:
     image: kapturebox/web
     volumes:
       - config:/config
+      - .:/app
+    command: grunt serve
     environment:
       TRANSMISSION_USER: admin
       TRANSMISSION_PASS: password      
@@ -16,16 +18,9 @@ services:
     ports:
       - '9000:9000'
 
-
-  # kapture-iot:
-  #   build: ../kapture-iot
-  #   image: kapture-iot:latest
-    
-
   
   transmission:
     image: dperson/transmission
-    # network_mode: host
     ports:
       - '51413:51413'
       - '51413:51413/udp'
@@ -47,7 +42,6 @@ services:
 
   plex:
     image: plexinc/pms-docker
-    # network_mode: host
     ports: 
       - '32400:32400'
     volumes:

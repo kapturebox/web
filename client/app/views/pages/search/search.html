@@ -49,7 +49,6 @@
 							<tbody>
 								<tr ng-repeat="item in results | filter: {displayed: true} ">
 									<td>
-
 										<div>
 											<media-icon type="{{ item.mediaType }}"></media-icon>
 											{{ item.title }}
@@ -62,10 +61,22 @@
 									<td>{{ item.size | humanizeFilesize }}</td>
 									<td>
 										<div class="btn-group btn-group-xs" role="group">
-											<button type="button" class="btn btn-success" ng-click="download( item )" ng-hide="item.sourceId=='info.showrss'"  uib-tooltip="Download now" tooltip-placement="left">
+											<button type="button" 
+													class="btn btn-success adhoc" 
+													ng-click="download( item )" 
+													ng-if="item.mediaType!=='series'" 
+													uib-tooltip="Download now" 
+													tooltip-placement="left"
+												>
 												<i class="fa fa-download"></i>
 											</button>
-											<button type="button" class="btn btn-success" ng-click="download( item )" ng-show="item.sourceId=='info.showrss'"  uib-tooltip="AutoKapture series" tooltip-placement="left">
+											<button type="button" 
+													class="btn btn-success series" 
+													ng-click="download( item )" 
+													ng-if="item.mediaType==='series'" 
+													uib-tooltip="AutoKapture series" 
+													tooltip-placement="left"
+												>
 												<i class="fa fa-refresh"></i>
 											</button>
 										</div>

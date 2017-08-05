@@ -93,7 +93,8 @@ angular.module('kaptureApp')
         popup.success( 'successfully removed: ' + item.title );
         return resp.data;
       }).catch(function( err ) {
-        popup.error( 'error: ' + err.data.error  );
+        var msg = _.get(err, 'data.error', 'server error');
+        return popup.error( `Can't delete item: ${msg}` );
       });
     };
 
@@ -126,7 +127,8 @@ angular.module('kaptureApp')
 
         return popup.success( msg );
       }, function( err ) {
-        return popup.error( 'Can\'t add: ' + err.data.error );
+        var msg = _.get(err, 'data.error', 'server error');
+        return popup.error( `Can't add item: ${msg}` );
       });
     }
 

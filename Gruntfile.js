@@ -4,12 +4,9 @@
 const fs = require('fs');
 
 module.exports = function (grunt) {
-  var localConfig;
-  try {
-    localConfig = require('./server/config/local.env');
-  } catch(e) {
-    localConfig = { NODE_ENV: 'development' };
-  }
+  var localConfig = { 
+    NODE_ENV: process.env.NODE_ENV || 'development' 
+  };
 
   // Load grunt tasks automatically, when needed
   require('jit-grunt')(grunt, {
@@ -95,12 +92,14 @@ module.exports = function (grunt) {
       },
       livereload: {
         files: [
-          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
-          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
-          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.md',
-          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
-          '!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
-          '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js',
+          '{<%= yeoman.client %>}/{app,components}/**/*.css',
+          '{<%= yeoman.client %>}/{app,components}/**/*.html',
+          '{<%= yeoman.client %>}/{app,components}/**/*.md',
+          '{<%= yeoman.client %>}/{app,components}/**/*.js',
+          '!{<%= yeoman.client %>}{app,components}/**/*.spec.js',
+          '!{<%= yeoman.client %>}{app,components}/**/*.spec.js',
+          '!{<%= yeoman.client %>}/{app,components}/**/*.mock.js',
+          '!{<%= yeoman.client %>}/app/app.css{,.map}',
           '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.client %>/assets/icons/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.client %>/assets/iconsets/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -236,7 +235,8 @@ module.exports = function (grunt) {
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/.openshift',
             '!<%= yeoman.dist %>/Procfile',
-            'tmp'
+            'tmp',
+            '<%= yeoman.client %>/client/app/app.{css,css.map}'
           ]
         }],
       },
@@ -299,7 +299,6 @@ module.exports = function (grunt) {
     wiredep: {
       target: {
         src: '<%= yeoman.client %>/index.html',
-        ignorePath: '<%= yeoman.client %>/',
         exclude: []
       }
     },
@@ -309,12 +308,12 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '<%= yeoman.dist %>/public/{,*/}*.js',
-            '<%= yeoman.dist %>/public/{,*/}*.css',
-            '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/public/assets/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/public/assets/iconsets/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/public/assets/fonts/*'
+            '<%= yeoman.dist %>/client/{,*/}*.js',
+            '<%= yeoman.dist %>/client/{,*/}*.css',
+            '<%= yeoman.dist %>/client/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/client/assets/icons/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/client/assets/iconsets/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/client/assets/fonts/*'
           ]
         }
       }
@@ -326,22 +325,22 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: ['<%= yeoman.client %>/index.html'],
       options: {
-        dest: '<%= yeoman.dist %>/public'
+        dest: '<%= yeoman.dist %>/client'
       }
     },
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/public/{,*/}*.js'],
+      html: ['<%= yeoman.dist %>/client/{,*/}*.html'],
+      css: ['<%= yeoman.dist %>/client/{,*/}*.css'],
+      js: ['<%= yeoman.dist %>/client/{,*/}*.js'],
       options: {
         assetsDirs: [
-          '<%= yeoman.dist %>/public',
-          '<%= yeoman.dist %>/public/assets/images',
-          '<%= yeoman.dist %>/public/assets/fonts',
-          '<%= yeoman.dist %>/public/assets/icons',
-          '<%= yeoman.dist %>/public/assets/iconsets'
+          '<%= yeoman.dist %>/client',
+          '<%= yeoman.dist %>/client/assets/images',
+          '<%= yeoman.dist %>/client/assets/fonts',
+          '<%= yeoman.dist %>/client/assets/icons',
+          '<%= yeoman.dist %>/client/assets/iconsets'
         ],
         // This is so we update image references in our ng-templates
         patterns: {
@@ -364,7 +363,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.client %>/assets/images',
           src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: '<%= yeoman.dist %>/public/assets/images'
+          dest: '<%= yeoman.dist %>/client/assets/images'
         }]
       }
     },
@@ -375,7 +374,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.client %>/assets/images',
           src: '{,*/}*.svg',
-          dest: '<%= yeoman.dist %>/public/assets/images'
+          dest: '<%= yeoman.dist %>/client/assets/images'
         }]
       }
     },
@@ -428,7 +427,7 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '<%= yeoman.client %>',
-          dest: '<%= yeoman.dist %>/public',
+          dest: '<%= yeoman.dist %>/client',
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
@@ -442,13 +441,13 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/public/assets/images',
+          dest: '<%= yeoman.dist %>/client/assets/images',
           src: ['generated/*']
         }, {
           expand: true,
           flatten: true,
           cwd: '<%= yeoman.client %>/bower_components',
-          dest: '<%= yeoman.dist %>/public/assets/fonts',
+          dest: '<%= yeoman.dist %>/client/assets/fonts',
           src: [
             '**/*.woff',
             '**/*.eot',
@@ -568,7 +567,7 @@ module.exports = function (grunt) {
           compass: false
         },
         files: {
-          '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.scss'
+          '<%= yeoman.client %>/app/app.css' : '<%= yeoman.client %>/app/app.scss'
         }
       }
     },
@@ -657,7 +656,15 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'open', 'express-keepalive']);
+      return grunt.task.run([
+        'build', 
+        'env:all', 
+        'env:prod', 
+        'express:prod', 
+        'wait', 
+        'open', 
+        'express-keepalive'
+      ]);
     }
 
     if (target === 'debug') {

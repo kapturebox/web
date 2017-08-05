@@ -12,6 +12,15 @@ var Dashboard = function() {
   this.filterPopover = element(by.css('.popover'));
 
   this.searchFilterPopupValues = element.all(by.repeater('filterVal in filter.values'));
+  this.searchResults = element.all(by.repeater('item in results'));
+
+  this.searchResultSeries = this.searchResults.filter( elem => {
+    return elem.evaluate('item.mediaType').then( type => {
+      return type === 'series';
+    });
+  });
+
+  this.toastPopup = element(by.css('.toast'));
 };
 
 module.exports = new Dashboard();

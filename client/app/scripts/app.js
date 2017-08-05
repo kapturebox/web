@@ -22,7 +22,7 @@ angular
     'datatables',
     'datatables.bootstrap'
   ])
-  .constant( 'mockSearchResults', false )
+  .constant( 'mockSearchResults', true )
   .constant( 'debugMode', false )
   .config( ['$uibTooltipProvider', function ($uibTooltipProvider) {
      var parser = new UAParser();
