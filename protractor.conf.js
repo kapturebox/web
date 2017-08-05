@@ -41,6 +41,10 @@ exports.config = {
   // assertion framework if working with mocha.
   framework: 'jasmine',
 
+  chromeOptions: {
+    args: ['--no-sandbox']
+  },
+  
   // ----- Options to be passed to minijasminenode -----
   //
   // See the full list at https://github.com/juliemr/minijasminenode
