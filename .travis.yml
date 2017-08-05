@@ -18,6 +18,7 @@ before_install:
   - sudo apt-get install ruby-dev -y
   - npm install -g yarn grunt-cli
   - gem install compass
+  - Xvfb :0 -ac -screen 0 1024x768x24 &
 
 install:
   - yarn
