@@ -1,7 +1,6 @@
 # FROM partlab/ubuntu-arm-nodejs
 FROM node:8 AS build
 LABEL builder=true
-RUN echo goat
 
 ## build portion that we need to add to multi-stage build
 COPY . /build
