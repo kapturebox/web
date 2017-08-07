@@ -2,6 +2,12 @@
   "name": "kapture",
   "version": "4.0.0",
   "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "test": "npm run e2e",
+    "e2e": "node_modules/.bin/webdriver-manager update && grunt e2e",
+    "serve": "grunt serve"
+  },
   "dependencies": {
     "asap": "^2.0.6",
     "bluebird": "^3.5.0",
@@ -99,12 +105,6 @@
   },
   "engines": {
     "node": ">=7.0.0"
-  },
-  "scripts": {
-    "start": "node server/app.js",
-    "test": "npm run e2e",
-    "e2e": "node ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update && grunt test",
-    "grunt": "grunt serve"
   },
   "private": true
 }

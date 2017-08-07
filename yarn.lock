@@ -2448,13 +2448,13 @@ grunt-contrib-sass@^1.0.0:
     dargs "^4.0.0"
     which "^1.0.5"
 
-grunt-contrib-uglify@^3.0.1:
+"grunt-contrib-uglify@https://github.com/gruntjs/grunt-contrib-uglify.git#harmony":
   version "3.0.1"
-  resolved "https://registry.yarnpkg.com/grunt-contrib-uglify/-/grunt-contrib-uglify-3.0.1.tgz#fdeb5f938a4c8042f8e86ae46f63554e8e9511cb"
+  resolved "https://github.com/gruntjs/grunt-contrib-uglify.git#c2ccee1b61a585c5f4fca00da8f79cc1db37048b"
   dependencies:
     chalk "^1.0.0"
     maxmin "^1.1.0"
-    uglify-js "~3.0.4"
+    uglify-es "~3.0.5"
     uri-path "^1.0.0"
 
 grunt-contrib-watch@^1.0.0:
@@ -6352,6 +6352,13 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
+uglify-es@~3.0.5:
+  version "3.0.27"
+  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.0.27.tgz#391790388f369196be23a49caeb0d5c424fa774e"
+  dependencies:
+    commander "~2.11.0"
+    source-map "~0.5.1"
+
 uglify-js@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.4.0.tgz#a5f2b6b1b817fb34c16a04234328c89ba1e77137"
@@ -6370,7 +6377,7 @@ uglify-js@2.6.x:
     uglify-to-browserify "~1.0.0"
     yargs "~3.10.0"
 
-uglify-js@3.0.x, uglify-js@~3.0.4:
+uglify-js@3.0.x:
   version "3.0.27"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.27.tgz#a97db8c8ba6b9dba4e2f88d86aa9548fa6320034"
   dependencies:

@@ -743,16 +743,6 @@ module.exports = function (grunt) {
     'debian_package'
   ])
 
-  grunt.registerTask('docker',[
-    'build:dist',
-    'shell:dockerBuild'
-  ]);
-
-  grunt.registerTask('docker-compose',[
-    'docker',
-    'shell:dockerCompose'
-  ]);
-
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
