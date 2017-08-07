@@ -16,18 +16,12 @@ env:
     - BASE_URL=http://localhost:9000
 
 before_install:
-  # - sudo apt-get update 
-  # - sudo apt-get install ruby-dev -y
-  # - npm install -g yarn grunt-cli
-  # - gem install compass
-  # - sh -e /etc/init.d/xvfb start
   - docker --version
 
 script:
   - docker-compose up -d --build
-  - docker images --filter "label=builder=true" -q | head -n1
   
-  - docker run \
+  - echo docker run \
     -e BASE_URL=http://web_web_1:9000 \
     -w /build \
     --network web_default \
