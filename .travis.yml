@@ -25,6 +25,7 @@ before_install:
 
 script:
   - docker-compose up -d --build
+  - docker images --filter "label=builder=true" -q | head -n1
   
   - docker run \
     -e BASE_URL=http://web_web_1:9000 \
