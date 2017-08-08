@@ -18,11 +18,6 @@ before_install:
   - docker version
 
 script:
-  - docker-compose up -d --build
+  - docker-compose -p web up -d --build
   
-  - echo docker run \
-    -e BASE_URL=http://web_web_1:9000 \
-    -w /build \
-    --network web_default \
-    $(docker images --filter "label=builder=true" -q | head -n1) \
-    npm run test
+  - docker run     -e BASE_URL=http://web_web_1:9000 -w /build     --network web_default     $(docker images --filter "label=builder=true" -q | head -n1)     npm run test
