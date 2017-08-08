@@ -20,4 +20,4 @@ before_install:
 script:
   - docker-compose -p web up -d --build
   
-  - docker run     -e BASE_URL=http://web_web_1:9000 -w /build     --network web_default     $(docker images --filter "label=builder=true" -q | head -n1)     npm run test
+  - docker run -it --privileged --rm --network=web_default -e BASE_URL=http://web_kapture_1:9000 -v /dev/shm:/dev/shm -v $(pwd):/protractor webnicer/protractor-headless

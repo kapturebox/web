@@ -23,7 +23,7 @@ describe('Dashboard View', function() {
     page.searchFilterPopupValues
       .map(e => e.getText())
       .then(function(sourceFilter){
-        expect(sourceFilter.length).toBeGreaterThanOrEqual(3);
+        // expect(sourceFilter.length).toBeGreaterThanOrEqual(3);
         expect(sourceFilter).toContain("ThePirateBay");
         expect(sourceFilter).toContain("ShowRss");
         expect(sourceFilter).toContain("Youtube");

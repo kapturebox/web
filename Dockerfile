@@ -4,17 +4,13 @@ LABEL builder=true
 
 ## build portion that we need to add to multi-stage build
 COPY . /build
-RUN echo "deb http://http.debian.net/debian jessie-backports main" | \
-      tee --append /etc/apt/sources.list.d/jessie-backports.list \
-  && apt-get update \
-  && apt-get install ruby ruby-dev chromedriver -y \
-  && apt-get install -t jessie-backports openjdk-8-jre-headless -y \
+RUN  apt-get update \
+  && apt-get install ruby ruby-dev -y \
   && npm install -g yarn grunt-cli bower \
   && gem install compass \
   && cd /build \
   && yarn \
   && bower install --allow-root \
-  && node_modules/.bin/webdriver-manager update \
   && grunt clean build:dist
 
 

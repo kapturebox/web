@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server/app.js",
     "test": "npm run e2e",
-    "e2e": "node_modules/.bin/webdriver-manager update && grunt e2e",
+    "e2e": "grunt e2e",
+    "e2e-setup": "node_modules/.bin/webdriver-manager update",
     "serve": "grunt serve"
   },
   "dependencies": {
