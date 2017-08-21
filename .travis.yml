@@ -18,7 +18,7 @@ before_install:
   - docker version
 
 script:
-  - docker-compose -p web up -d --build
+  - docker-compose -p web up -d --build && sleep 20
   - docker exec web_kapture_1 curl localhost:9000
   - docker-compose -p web logs
   
