@@ -17,7 +17,6 @@ describe('Dashboard View', function() {
     expect(page.header.getText()).toBe('Search Results: sunny');
 
     browser.wait(EC.visibilityOf($('.panel-body')), 5000);
-
     page.filterButtons.first().click();
 
     page.searchFilterPopupValues
@@ -51,6 +50,7 @@ describe('Dashboard View', function() {
     // // check that we have 'series' results and can start one
     // expect(page.searchResultSeries.count()).toBeGreaterThan(0);
 
+    // browser.pause();
 
 
   });
