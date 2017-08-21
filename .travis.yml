@@ -22,4 +22,5 @@ script:
   - docker exec web_kapture_1 curl localhost:9000
   - docker-compose -p web logs
   
+  - docker run -it --privileged --rm --network=web_default -e BASE_URL=http://web_kapture_1:9000 -v /dev/shm:/dev/shm -v $(pwd):/protractor export
   - docker run -it --privileged --rm --network=web_default -e BASE_URL=http://web_kapture_1:9000 -v /dev/shm:/dev/shm -v $(pwd):/protractor webnicer/protractor-headless
