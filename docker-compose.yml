@@ -7,7 +7,8 @@ services:
     image: kapturebox/web
     volumes:
       - config:/config
-      # - .:/app
+    #   - .:/build
+    # working_dir: /build
     # command: grunt serve
     environment:
       TRANSMISSION_USER: admin
