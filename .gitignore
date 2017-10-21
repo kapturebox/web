@@ -19,3 +19,5 @@ flexget.log
 user_series_metadata.yml
 .vscode
 ubuntu-xenial-16.04-cloudimg-console.log
+config
+media

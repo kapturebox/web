@@ -64,6 +64,9 @@ angular
       })
       .state( 'watch', {
         url: '/watch/:videoId',
+        params: {
+          videoId: null
+        },
         controller: 'WatchCtrl',
         templateUrl: 'app/views/pages/watch/watch.html'
       })

@@ -32,7 +32,7 @@ var all = {
   settingsFileStore : 'system_settings.yml',
 
   // where information about plugin download state is stored
-  pluginStateStore: 'pluginStateStore',
+  pluginStateStore: process.env.KAPTURE_PLUGIN_STORE || 'pluginStateStore',
 
   getUserSetting : getUserSetting,
   setUserSetting : setUserSetting,
@@ -47,7 +47,7 @@ var all = {
     systemname              : os.hostname(),
     flexget_check_frequency : 15,
     email                   : null,
-    rootDownloadPath        : '/var/lib/kapture/downloads',
+    rootDownloadPath        : process.env.KAPTURE_DOWNLOAD_PATH || '/var/lib/kapture/downloads',
     moviesPath              : 'movies',
     showsPath               : 'tvshows',
     musicPath               : 'music',
@@ -64,10 +64,22 @@ var all = {
         enabled: true
       },
       'com.transmissionbt': {
-        enabled: true
+        enabled: true,
+        transmission_host: process.env.TRANSMISSION_HOST || 'transmission',
+        transmission_port: process.env.TRANSMISSION_PORT || 9091,
+        transmission_user: process.env.TRANSMISSION_USER || 'admin',
+        transmission_pass: process.env.TRANSMISSION_PASS || 'password',
       },
       'com.flexget': {
-        enabled: true
+        enabled: true,
+        flexget_host: process.env.FLEXGET_HOST || 'flexget',
+        flexget_port: process.env.FLEXGET_PORT || 5050,
+
+        // API Token has precedence over the username / password
+        api_token:    process.env.FLEXGET_API_TOKEN || 'apiToken',
+
+        flexget_user: process.env.FLEXGET_USERNAME || 'flexget',
+        flexget_pass: process.env.FLEXGET_PASSWORD || 'mySuperPassword'
       },
       'com.kapture.url': {
         enabled: true
@@ -139,10 +151,9 @@ function setUserSetting( key, value ) {
   });
 }
 
-
-
-// Export the config object based on the NODE_ENV
 // ==============================================
+// Export the config object based on the NODE_ENV
 module.exports = _.merge(
   all,
-  require('./' + process.env.NODE_ENV + '.js') || {});
+  require('./' + process.env.NODE_ENV + '.js') || {});  
+  

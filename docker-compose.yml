@@ -1,25 +1,27 @@
-version: '3.1'
+version: '2.3'
 
 services:
 
   kapture:
-    build: .
+    build: 
+      context: .
+      target: build
     image: kapturebox/web
     volumes:
-      - config:/config
-    #   - .:/build
-    # working_dir: /build
-    # command: grunt serve
+      - ./config:/config
+      - ./media:/media
+      - .:/build
+    command: grunt serve
     environment:
       TRANSMISSION_USER: admin
       TRANSMISSION_PASS: password      
       FLEXGET_USERNAME: flexget
-      FLEXGET_PASSWORD: my super password
-      # FLEXGET_API_TOKEN: 
+      FLEXGET_PASSWORD: mySuperPassword
+      NODE_DEBUG: request
+      # FLEXGET_API_TOKEN:
     ports:
       - '9000:9000'
 
-  
   transmission:
     image: dperson/transmission
     ports:
@@ -30,24 +32,18 @@ services:
       TRUSER: admin
       TRPASSWD: password
     volumes:
-      - data:/var/lib/transmission-daemon/downloads
-
-
+      - ./media:/var/lib/transmission-daemon/downloads
 
   flexget:
     image: gaieges/flexget
     environment:
-      FLEXGET_PASSWORD: my super password
-    
-
+      FLEXGET_PASSWORD: mySuperPassword
+    ports:
+      - "5050:5050"
 
   plex:
     image: plexinc/pms-docker
     ports: 
       - '32400:32400'
     volumes:
-      - data:/data
-    
-volumes:
-  config:
-  data:
+      - ./media:/data
