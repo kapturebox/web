@@ -733,10 +733,10 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'packageModules'
   ]);
 
   grunt.registerTask('package',[
+    'packageModules',
     'build:dist',
     'debian_package'
   ])

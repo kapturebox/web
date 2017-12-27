@@ -19,14 +19,17 @@ RUN  apt-get update \
 
 # DIST IMAGE
 # FROM partlab/ubuntu-arm-nodejs  # (for arm systems)
-FROM node:8
+FROM node:8 AS dist
 
 COPY --from=build /build/dist /app
+COPY --from=build /build/package.json /app
 
 WORKDIR /app/server
 ENV NODE_ENV=production
 
 EXPOSE 9000
+
+RUN npm install --production
 
 CMD ["node","app.js"]
 HEALTHCHECK CMD curl -I localhost:9000

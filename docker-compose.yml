@@ -10,6 +10,7 @@ services:
     volumes:
       - ./config:/config
       - ./media:/media
+      - /build/node_modules
       - .:/build
     command: grunt serve
     environment:
@@ -17,7 +18,6 @@ services:
       TRANSMISSION_PASS: password      
       FLEXGET_USERNAME: flexget
       FLEXGET_PASSWORD: mySuperPassword
-      NODE_DEBUG: request
       # FLEXGET_API_TOKEN:
     ports:
       - '9000:9000'
