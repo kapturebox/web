@@ -21,3 +21,4 @@ user_series_metadata.yml
 ubuntu-xenial-16.04-cloudimg-console.log
 config
 media
+yarn.lock
