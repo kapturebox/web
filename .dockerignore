@@ -4,4 +4,3 @@ media
 client/bower_components
 system_settings.yml
 Dockerfile
-yarn.lock

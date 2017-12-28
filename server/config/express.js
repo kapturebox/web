@@ -40,9 +40,7 @@ module.exports = function(app) {
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', path.join(config.root, 'public'));
     app.set('x-powered-by', false);
-  }
-
-  if ('development' === env || 'test' === env) {
+  } else {
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));

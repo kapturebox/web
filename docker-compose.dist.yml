@@ -1,0 +1,11 @@
+version: '2.3'
+
+services:
+  kapture:
+    build:
+      context: .
+      target: dist
+    command: node app.js
+    volumes:
+      - /config
+      - /media

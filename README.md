@@ -5,6 +5,8 @@
 
 # Quickstart
 
+[![Build Status](https://travis-ci.org/kapturebox/web.svg?branch=master)](https://travis-ci.org/kapturebox/web)
+
 ## Vagrant 
 
 Start up whats intended to be a kapture box, including transmission, plex and the kapture app:

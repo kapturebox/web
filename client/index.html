@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" ng-app="kaptureApp">
   <head>
     <meta charset="utf-8">
     <title>kapture</title>
@@ -16,6 +16,7 @@
       <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
+      <link rel="stylesheet" href="bower_components/datatables.net-dt/css/jquery.dataTables.css" />
       <link rel="stylesheet" href="bower_components/angular-datatables/dist/css/angular-datatables.css" />
       <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css" />
       <link rel="stylesheet" href="bower_components/montserrat-webfont/css/montserrat-webfont.css" />
@@ -23,8 +24,8 @@
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
-      <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
+      <link rel="stylesheet" href="app/app.css">
       <!-- endinjector -->
     <!-- endbuild -->
 
@@ -75,7 +76,7 @@
 
     <!-- build:js({.tmp,client}) app/app.js -->
       <!-- injector:js -->
-      <script src="app/js/sb-admin-2.js"></script>
+      <script src="app/js/kapture.js"></script>
       <script src="app/scripts/app.js"></script>
       <script src="app/scripts/controllers/autokaptureController.js"></script>
       <script src="app/scripts/controllers/chartController.js"></script>
@@ -108,7 +109,7 @@
   </head>
   
   <body>
-    <div class="max-height" ng-app="kaptureApp">
+    <div class="max-height">
       <div class="max-height" ui-view></div>
     </div>
   </body>

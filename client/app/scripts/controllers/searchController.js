@@ -61,7 +61,7 @@ angular.module('kaptureApp')
         .then(function( results ){
           $scope.results = results;
           $scope.filters = getFiltersAndValues( results );
-          $scope.updateResultsFromFilters();
+          return $scope.updateResultsFromFilters();
         });
     }
 

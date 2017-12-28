@@ -74,7 +74,7 @@ TransmissionDownloader.prototype.download = function( item ) {
       }, function( err, resp, body ) {
         if( err || resp.statusCode !== 200 || body.result !== 'success' ) {
           reject( new Error(
-            util.format( '[Transmission] code: %s, body: %s', resp.statusCode, body )
+            util.format( '[Transmission] code: %s, body: %s', resp.statusCode, JSON.stringify(body) )
           ));
         } else {
           // TODO: Check to see if the hash from the response matches that
@@ -112,10 +112,10 @@ TransmissionDownloader.prototype.remove = function( item, deleteOnDisk ) {
       }, function( err, resp, body ) {
         if( err ) {
           reject( new Error(
-            util.format( '[Transmission] code: %s, body: %s', resp.statusCode, body )
+            util.format( '[Transmission] code: %s, body: %s', resp.statusCode, JSON.stringify(body) )
           ));
         } else {
-          self.logger.info( 'successfully removed: ', item.name );
+          self.logger.info( 'Successfully removed: ', item.name );
           resolve( body );
         }
       });
@@ -160,7 +160,7 @@ TransmissionDownloader.prototype.status = function( item ) {
       }, function( err, resp, body ) {
         if( err || resp.statusCode !== 200 || body.result !== 'success' ) {
           reject( new Error(
-            util.format( 'cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, resp.body )
+            util.format( 'cant parse output from transmission: (Resp code: %s): %s \n%s',  resp.statusCode, err, JSON.stringify(resp.body) )
           ));
         } else {
           var ret = body.arguments.torrents.map(function(obj) {

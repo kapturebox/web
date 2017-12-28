@@ -28,8 +28,8 @@ var FlexgetDownloader = function( options ) {
 
   this.flexgetConfig = {
     web_server: {
-      bind: this.config.env  === 'production' ? '127.0.0.1' : '0.0.0.0',
-      port: 3539,
+      bind: '0.0.0.0',
+      port: 5050,
       web_ui: this.config.env  === 'production' ? false : true
     },
   };
@@ -45,6 +45,8 @@ var FlexgetDownloader = function( options ) {
 
   // settings in plugin config file
   this.getApiToken      = this.get.bind( this, 'api_token' );
+  this.getUsername      = this.get.bind( this, 'flexget_user' );
+  this.getPassword      = this.get.bind( this, 'flexget_pass' );
   this.getFlexgetHost   = this.get.bind( this, 'flexget_host' );
   this.getFlexgetPort   = this.get.bind( this, 'flexget_port' );
   
@@ -53,6 +55,23 @@ var FlexgetDownloader = function( options ) {
       self.getFlexgetHost() || 'localhost', 
       self.getFlexgetPort() || '5050', 
       path || '' );
+  }
+
+  this.getAuthorization = function() {
+    if( self.getApiToken() ) {
+      return {
+        headers: { 
+          'Authorization': util.format( 'Token %s', self.getApiToken() ) 
+        }
+      }
+    } else {
+      return {
+        auth: {
+          user: self.getUsername(),
+          pass: self.getPassword()
+        }
+      }
+    }
   }
 
   return this;
@@ -96,24 +115,23 @@ FlexgetDownloader.prototype.updateConfig = function( fullFlexgetConfig ) {
 
     var base64yaml = new Buffer( YAML.stringify( fullFlexgetConfig, 8 ) ).toString('base64');
 
-    request({
-      url:     self.getFlexgetApiUrl( 'server/raw_config/' ),
-      method:  'POST',
-      json:    true,
-      timeout: 10 * 1000, // in ms
-      body:    {
-        raw_config: base64yaml
-      },
-      headers: { 
-        'Authorization': util.format( 'Token %s', self.getApiToken() ) 
-      }
-    }, function( err, resp, body ){
-      if( err || (resp.statusCode !== 200 && resp.statusCode !== 201) ) {
-        return reject( new Error( self.flexgetError( err, resp, body ) ) );
-      }
+    request(
+      Object.assign(
+        self.getAuthorization(), {
+          url:     self.getFlexgetApiUrl( 'server/raw_config/' ),
+          method:  'POST',
+          json:    true,
+          timeout: 10 * 1000, // in ms
+          body:    {
+            raw_config: base64yaml
+          }
+      }), function( err, resp, body ){
+        if( err || (resp.statusCode !== 200 && resp.statusCode !== 201) ) {
+          return reject( new Error( self.flexgetError( err, resp, body ) ) );
+        }
 
-      resolve( body );
-    });
+        resolve( body );
+      });
   });
 }
 
@@ -146,21 +164,22 @@ FlexgetDownloader.prototype.updateTask = function( taskConfig ) {
     // send request with updated task to flexget daemon
     self.logger.debug( 'updating flexget task with %s config', taskConfig.name, taskConfig )
 
-    request({
-      url:     self.getFlexgetApiUrl( 'tasks/' ),
-      method:  'POST',
-      json:    true,
-      body:    taskConfig,
-      headers: { 
-        'Authorization': util.format( 'Token %s', self.getApiToken() ) 
-      }
-    }, function( err, resp, body ){
-      if( err || (resp.statusCode !== 200 && resp.statusCode !== 201) ) {
-        return reject( new Error( self.flexgetError( err, resp, body ) ) );
-      }
+    request(
+      Object.assign(
+        self.getAuthorization(), 
+        {
+          url:     self.getFlexgetApiUrl( 'tasks/' ),
+          method:  'POST',
+          json:    true,
+          body:    taskConfig
+      }), 
+      function( err, resp, body ){
+        if( err || (resp.statusCode !== 200 && resp.statusCode !== 201) ) {
+          return reject( new Error( self.flexgetError( err, resp, body ) ) );
+        }
 
-      resolve( body );
-    });
+        resolve( body );
+      });
   });
 }
 
