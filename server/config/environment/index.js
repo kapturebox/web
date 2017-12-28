@@ -76,7 +76,7 @@ var all = {
         flexget_port: process.env.FLEXGET_PORT || 5050,
 
         // API Token has precedence over the username / password
-        api_token:    process.env.FLEXGET_API_TOKEN || 'apiToken',
+        api_token:    process.env.FLEXGET_API_TOKEN || null,
 
         flexget_user: process.env.FLEXGET_USERNAME || 'flexget',
         flexget_pass: process.env.FLEXGET_PASSWORD || 'mySuperPassword'

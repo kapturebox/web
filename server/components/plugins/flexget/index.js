@@ -28,8 +28,8 @@ var FlexgetDownloader = function( options ) {
 
   this.flexgetConfig = {
     web_server: {
-      bind: this.config.env  === 'production' ? '127.0.0.1' : '0.0.0.0',
-      port: 3539,
+      bind: '0.0.0.0',
+      port: 5050,
       web_ui: this.config.env  === 'production' ? false : true
     },
   };

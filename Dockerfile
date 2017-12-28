@@ -1,7 +1,7 @@
 # BUILD IMAGE
 FROM node:8 AS build
 LABEL builder=true
-ENV NODE_ENV=docker
+ENV NODE_ENV=development
 
 ## build portion that we need to add to multi-stage build
 WORKDIR /build
@@ -15,6 +15,7 @@ RUN  apt-get update \
   && bower install --allow-root \
   && grunt clean build:dist
 
+CMD ["grunt", "serve"]
 
 
 # DIST IMAGE

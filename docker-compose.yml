@@ -15,9 +15,10 @@ services:
     command: grunt serve
     environment:
       TRANSMISSION_USER: admin
-      TRANSMISSION_PASS: password      
+      TRANSMISSION_PASS: password
       FLEXGET_USERNAME: flexget
       FLEXGET_PASSWORD: mySuperPassword
+      # NODE_DEBUG: request
       # FLEXGET_API_TOKEN:
     ports:
       - '9000:9000'

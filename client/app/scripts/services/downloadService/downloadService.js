@@ -90,7 +90,7 @@ angular.module('kaptureApp')
           deleteFileOnDisk:  deleteFileOnDisk || false,
         }
       }).then(function( resp ) {
-        popup.success( 'successfully removed: ' + item.title );
+        popup.success( 'Successfully removed: ' + item.title );
         return resp.data;
       }).catch(function( err ) {
         var msg = _.get(err, 'data.error', 'server error');
