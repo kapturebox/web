@@ -25,7 +25,7 @@ COPY --from=build /build/dist /app
 COPY --from=build /build/package.json /app
 
 WORKDIR /app/server
-ENV NODE_ENV=production
+ENV NODE_ENV=docker
 
 EXPOSE 9000
 
