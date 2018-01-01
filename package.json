@@ -1,6 +1,6 @@
 {
   "name": "kapture",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "main": "server/app.js",
   "scripts": {
     "start": "node server/app.js",
