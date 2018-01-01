@@ -6,6 +6,7 @@
 # Quickstart
 
 [![Build Status](https://travis-ci.org/kapturebox/web.svg?branch=master)](https://travis-ci.org/kapturebox/web)
+[![Docker Build Status](https://img.shields.io/docker/build/kapturebox/web.svg)](https://hub.docker.com/r/kapturebox/web)
 
 ## Vagrant 
 
@@ -75,14 +76,14 @@ If installed via package, can be configured via the following systemd file:
 
 ### Docker image
 
-Running
+Run:
 
 ```
-grunt docker
 docker-compose up
 ```
 
-Will give you a new docker image meant for an ARM system (needs to be built on an ARM system as well), for use by other tools and services.  It will also give you the dependencies needed to download or auto-kapture (transmission and flexget)
+Then simply connect to http://localhost:9000
+
 
 ### Building deb package
 

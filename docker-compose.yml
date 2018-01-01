@@ -11,6 +11,7 @@ services:
       - ./config:/config
       - ./media:/media
       - /build/node_modules
+      - /build/client/bower_components
       - .:/build
     command: grunt serve
     environment:
