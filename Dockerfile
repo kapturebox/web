@@ -16,6 +16,8 @@ RUN  apt-get update \
   && grunt clean build:dist
 
 CMD ["grunt", "serve"]
+HEALTHCHECK CMD curl -I localhost:9000
+
 
 
 # DIST IMAGE
