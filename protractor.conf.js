@@ -32,7 +32,10 @@ exports.config = {
   // and
   // https://code.google.com/p/selenium/source/browse/javascript/webdriver/capabilities.js
   capabilities: {
-    'browserName': 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+      args: ['--no-sandbox']
+    }
   },
 
   // ----- The test framework -----
@@ -42,9 +45,6 @@ exports.config = {
   // assertion framework if working with mocha.
   framework: 'jasmine',
 
-  chromeOptions: {
-    args: ['--no-sandbox']
-  },
   
   // ----- Options to be passed to minijasminenode -----
   //

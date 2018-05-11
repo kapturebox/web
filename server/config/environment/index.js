@@ -1,10 +1,10 @@
 'use strict';
 
-var path  = require('path');
-var _     = require('lodash');
-var os    = require('os');
-var YAML  = require('yamljs');
-var fs    = require('fs');
+const path  = require('path');
+const _     = require('lodash');
+const os    = require('os');
+const YAML  = require('yamljs');
+const fs    = require('fs');
 
 // All configurations will extend these options
 // ============================================
@@ -29,10 +29,10 @@ var all = {
   kaptureHost: 'localhost',
   
   // settings that will be used by ansible here
-  settingsFileStore : 'system_settings.yml',
+  settingsFileStore : path.join(process.env.KAPTURE_CONFIG_PATH || '.', 'systemSettings.yml'),
 
   // where information about plugin download state is stored
-  pluginStateStore: process.env.KAPTURE_PLUGIN_STORE || 'pluginStateStore',
+  pluginStateStore: path.join(process.env.KAPTURE_PLUGIN_STORE || '.', 'pluginStateStore'),
 
   getUserSetting : getUserSetting,
   setUserSetting : setUserSetting,

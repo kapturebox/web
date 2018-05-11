@@ -1,5 +1,9 @@
 version: '2.3'
 
+volumes:
+  media:
+  config:
+
 services:
 
   kapture:
@@ -8,17 +12,19 @@ services:
       target: build
     image: kapturebox/web
     volumes:
-      - ./config:/config
-      - ./media:/media
+      - config:/config
+      - media:/media
       - /build/node_modules
       - /build/client/bower_components
       - .:/build
-    command: grunt serve
     environment:
       TRANSMISSION_USER: admin
       TRANSMISSION_PASS: password
       FLEXGET_USERNAME: flexget
       FLEXGET_PASSWORD: mySuperPassword
+      KAPTURE_DOWNLOAD_PATH: /media
+      KAPTURE_CONFIG_PATH: /config
+      KAPTURE_PLUGIN_STORE: /config/pluginStateStore
       # NODE_DEBUG: request
       # FLEXGET_API_TOKEN:
     ports:
@@ -33,8 +39,9 @@ services:
     environment:
       TRUSER: admin
       TRPASSWD: password
+      USERID: 0
     volumes:
-      - ./media:/var/lib/transmission-daemon/downloads
+      - media:/media
 
   flexget:
     image: gaieges/flexget
@@ -48,4 +55,4 @@ services:
     ports: 
       - '32400:32400'
     volumes:
-      - ./media:/data
+      - media:/media
