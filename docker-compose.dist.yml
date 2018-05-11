@@ -5,7 +5,6 @@ services:
     build:
       context: .
       target: dist
-    command: node app.js
     volumes:
       - /config
       - /media

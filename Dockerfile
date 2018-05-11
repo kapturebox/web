@@ -8,9 +8,8 @@ WORKDIR /build
 COPY . /build
 RUN  apt-get update \
   && apt-get install ruby ruby-dev devscripts debhelper build-essential -y \
-  && npm install -g yarn grunt-cli bower \
+  && npm install -g grunt-cli bower \
   && gem install compass \
-  && cd /build \
   && yarn \
   && bower install --allow-root \
   && grunt clean build:dist
@@ -32,7 +31,7 @@ ENV NODE_ENV=docker
 
 EXPOSE 9000
 
-RUN npm install --production
+RUN yarn --production
 
 CMD ["node","app.js"]
 HEALTHCHECK CMD curl -I localhost:9000
