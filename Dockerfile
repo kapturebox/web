@@ -1,5 +1,5 @@
 # BUILD IMAGE
-FROM node:8 AS build
+FROM node:9 AS build
 LABEL builder=true
 ENV NODE_ENV=development
 
@@ -22,7 +22,7 @@ HEALTHCHECK CMD curl -I localhost:9000
 
 # DIST IMAGE
 # FROM partlab/ubuntu-arm-nodejs  # (for arm systems)
-FROM node:8 AS dist
+FROM node:9 AS dist
 
 COPY --from=build /build/dist /app
 COPY --from=build /build/package.json /app
