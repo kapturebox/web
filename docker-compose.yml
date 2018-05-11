@@ -17,7 +17,6 @@ services:
       - /build/node_modules
       - /build/client/bower_components
       - .:/build
-    command: grunt serve
     environment:
       TRANSMISSION_USER: admin
       TRANSMISSION_PASS: password

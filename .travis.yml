@@ -18,8 +18,12 @@ before_install:
   - docker version
 
 script:
+  # spin up cluster
   - docker-compose -p web -f docker-compose.yml -f docker-compose.dist.yml up -d --build && sleep 20
+
+  # some quick checks to see if it's working as intended
   - docker exec web_kapture_1 curl localhost:9000
   - docker-compose -p web logs
   
+  # run protractor tests against spun up instance
   - docker run -it --privileged --rm --network=web_default -v /dev/shm:/dev/shm -v $(pwd):/protractor webnicer/protractor-headless --baseUrl=http://web_kapture_1:9000

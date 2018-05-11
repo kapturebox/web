@@ -5,6 +5,3 @@ services:
     build:
       context: .
       target: dist
-    volumes:
-      - /config
-      - /media
