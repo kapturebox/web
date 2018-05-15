@@ -127,6 +127,18 @@ module.exports = function (grunt) {
 
     // docker stuff
     shell: {
+      debBuild: {
+        command: "VERSION=$(jq .version package.json -r ) \
+        \
+        fpm -s dir -t deb -n kapture-unstable --verbose \
+          --version $VERSION \
+          --iteration $BUILD_NUMBER \
+          --force \
+          --architecture all \
+          --package tmp \
+          --depends 'nodejs>8' \
+          ./dist=/var/kapture"
+      },
       dockerBuild: {
         command: "docker build -t kapturebox/web:${DOCKER_TAG:-devel} ."
       },
@@ -155,7 +167,7 @@ module.exports = function (grunt) {
         // postfix: "-<%= meta.revision %>",
         build_number: process.env.BUILD_NUMBER ? process.env.BUILD_NUMBER : '1',
         category: "media",
-        dependencies: "nodejs (>= 6)",
+        dependencies: "nodejs (>= 8)",
         prerm: {
           src: 'deb/prerm.sh'
         },
@@ -738,7 +750,7 @@ module.exports = function (grunt) {
   grunt.registerTask('package',[
     'packageModules',
     'build:dist',
-    'debian_package'
+    'shell:debBuild'
   ])
 
   grunt.registerTask('default', [

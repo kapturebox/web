@@ -7,9 +7,9 @@ ENV NODE_ENV=development
 WORKDIR /build
 COPY . /build
 RUN  apt-get update \
-  && apt-get install ruby ruby-dev devscripts debhelper build-essential -y \
+  && apt-get install ruby ruby-dev devscripts debhelper build-essential jq -y \
   && npm install -g yarn grunt-cli bower \
-  && gem install compass \
+  && gem install compass fpm \
   && cd /build \
   && yarn \
   && bower install --allow-root \
