@@ -22,6 +22,14 @@ exports.config = {
     'e2e/**/*.spec.js'
   ],
 
+    // Spec patterns are relative to the location of the spec file. They may
+  // include glob patterns.
+  // suites: {
+  //   homepage: 'tests/e2e/homepage/**/*Spec.js',
+  //   search: ['tests/e2e/contact_search/**/*Spec.js',
+  //     'tests/e2e/venue_search/**/*Spec.js']
+  // },
+
   // Patterns to exclude.
   exclude: [],
 

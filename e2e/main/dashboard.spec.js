@@ -7,7 +7,7 @@ describe('Dashboard View', function() {
   beforeEach(function() {
     browser.manage().window().setSize(1600, 1000);
     browser.get('/');
-    page = require('./dashboard.po');
+    page = require('./app.po');
     EC = protractor.ExpectedConditions;
   });
 
@@ -26,18 +26,27 @@ describe('Dashboard View', function() {
         expect(sourceFilter).toContain("ThePirateBay");
         expect(sourceFilter).toContain("ShowRss");
         expect(sourceFilter).toContain("Youtube");
-      });
+    });
+
+
+    expect(page.searchResultSeries.count()).toBeGreaterThan(0);
 
     // check that we have normal downloadable results, and click one
     var tpb = page.searchFilterPopupValues.filter(fVals => {
       return fVals.getText().then(txt => {
         return txt === 'ThePirateBay';
       });
-    })
-    
-    expect(tpb.count()).toBeGreaterThan(0);
-    tpb.first().click();
+    });
 
+
+    // some quick checks
+    expect(tpb.count()).toBeGreaterThan(0);
+    
+    
+
+    // enable the tpb filter and get one
+    tpb.first().click();
+    // browser.pause();
     page.searchResults
       .get(0)
       .all(by.css('button.adhoc'))
@@ -46,12 +55,23 @@ describe('Dashboard View', function() {
 
     browser.wait(EC.visibilityOf(page.toastPopup), 5000);
     expect(page.toastPopup.getText()).toContain('Download started');
+    
+    // unselect tpb, select showrss
+    tpb.first().click();
 
-    // // check that we have 'series' results and can start one
-    // expect(page.searchResultSeries.count()).toBeGreaterThan(0);
 
-    // browser.pause();
+    
+    var showRss = page.searchFilterPopupValues.filter(fVals => {
+      return fVals.getText().then(txt => {
+        return txt === 'ShowRss';
+      });
+    })
 
+    showRss.first().click()
+    
+
+    
+    
 
   });
 });
