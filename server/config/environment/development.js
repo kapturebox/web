@@ -3,12 +3,12 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-  kaptureHost: '192.168.33.10',
+  // kaptureHost: '192.168.33.10',
 
-  pluginStateStore: '/tmp/pluginStateStore',
+  // pluginStateStore: '/tmp/pluginStateStore',
 
-  userSettingDefaults: {
-    rootDownloadPath: '/tmp/kaptureDownloads'
-  }
+  // userSettingDefaults: {
+  //   rootDownloadPath: '/tmp/kaptureDownloads'
+  // }
 
 };

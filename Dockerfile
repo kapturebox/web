@@ -1,5 +1,5 @@
 # BUILD IMAGE
-FROM node:8 AS build
+FROM node:9 AS build
 LABEL builder=true
 ENV NODE_ENV=development
 
@@ -8,19 +8,20 @@ WORKDIR /build
 COPY . /build
 RUN  apt-get update \
   && apt-get install ruby ruby-dev devscripts debhelper build-essential jq -y \
-  && npm install -g yarn grunt-cli bower \
+  && npm install -g grunt-cli bower \
   && gem install compass fpm \
-  && cd /build \
   && yarn \
   && bower install --allow-root \
   && grunt clean build:dist
 
 CMD ["grunt", "serve"]
+HEALTHCHECK CMD curl -I localhost:9000
+
 
 
 # DIST IMAGE
 # FROM partlab/ubuntu-arm-nodejs  # (for arm systems)
-FROM node:8 AS dist
+FROM node:9 AS dist
 
 COPY --from=build /build/dist /app
 COPY --from=build /build/package.json /app
@@ -30,7 +31,7 @@ ENV NODE_ENV=docker
 
 EXPOSE 9000
 
-RUN npm install --production
+RUN yarn --production
 
 CMD ["node","app.js"]
 HEALTHCHECK CMD curl -I localhost:9000
