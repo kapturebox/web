@@ -4,8 +4,8 @@
 const fs = require('fs');
 
 module.exports = function (grunt) {
-  var localConfig = { 
-    NODE_ENV: process.env.NODE_ENV || 'development' 
+  var localConfig = {
+    NODE_ENV: process.env.NODE_ENV || 'development'
   };
 
   // Load grunt tasks automatically, when needed
@@ -32,7 +32,7 @@ module.exports = function (grunt) {
     },
     express: {
       options: {
-        port: process.env.PORT || 9000
+        port: process.env.PORT || 8080
       },
       dev: {
         options: {
@@ -655,12 +655,12 @@ module.exports = function (grunt) {
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run([
-        'build', 
-        'env:all', 
-        'env:prod', 
-        'express:prod', 
-        'wait', 
-        'open', 
+        'build',
+        'env:all',
+        'env:prod',
+        'express:prod',
+        'wait',
+        'open',
         'express-keepalive'
       ]);
     }
@@ -714,7 +714,7 @@ module.exports = function (grunt) {
   grunt.registerTask('e2e', function(target) {
     return grunt.task.run([
       // 'shell:dockerCompose',
-      'protractor'    
+      'protractor'
     ]);
   });
 

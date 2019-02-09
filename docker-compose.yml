@@ -54,6 +54,12 @@ services:
     image: kapturebox/server:latest
     ports:
       - "8080:8080"
+    environment:
+      TRANSMISSION_USER: admin
+      TRANSMISSION_PASS: password
+      FLEXGET_USERNAME: flexget
+      FLEXGET_PASSWORD: mySuperPassword
+
 
   plex:
     image: plexinc/pms-docker:latest
