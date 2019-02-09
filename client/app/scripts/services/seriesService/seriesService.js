@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .factory('seriesService', function( $http, $interval, $filter ) {
-    var SERIES_URI = '/api/series';
+  .factory('seriesService', function( $http, $filter, serverEndpoint ) {
+    var SERIES_URI = `${serverEndpoint}/api/series`;
 
     // current state of world
     var svc = {
@@ -37,7 +37,7 @@ angular.module('kaptureApp')
         return {};
       }
 
-      var url = '/api/series/source/'+item.sourceId+'/series/'+item.id; 
+      var url = '/api/series/source/'+item.sourceId+'/series/'+item.id;
 
       return $http({
         method:   'GET',

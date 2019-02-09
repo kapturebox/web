@@ -1,5 +1,5 @@
 # BUILD IMAGE
-FROM node:9 AS build
+FROM node AS build
 LABEL builder=true
 ENV NODE_ENV=development
 

@@ -7,10 +7,10 @@ volumes:
 services:
 
   kapture:
-    build: 
+    build:
       context: .
       target: build
-    image: kapturebox/web
+    image: kapturebox/web:latest
     volumes:
       - config:/config
       - media:/media
@@ -31,7 +31,7 @@ services:
       - '9000:9000'
 
   transmission:
-    image: dperson/transmission
+    image: dperson/transmission:latest
     ports:
       - '51413:51413'
       - '51413:51413/udp'
@@ -44,15 +44,20 @@ services:
       - media:/media
 
   flexget:
-    image: gaieges/flexget
+    image: gaieges/flexget:latest
     environment:
       FLEXGET_PASSWORD: mySuperPassword
     ports:
       - "5050:5050"
 
+  server:
+    image: kapturebox/server:latest
+    ports:
+      - "8080:8080"
+
   plex:
-    image: plexinc/pms-docker
-    ports: 
+    image: plexinc/pms-docker:latest
+    ports:
       - '32400:32400'
     volumes:
       - media:/media

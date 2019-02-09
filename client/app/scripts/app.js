@@ -24,6 +24,7 @@ angular
   ])
   .constant( 'mockSearchResults', false )
   .constant( 'debugMode', false )
+  .constant( 'serverEndpoint', 'http://localhost:9000')
   .config( ['$uibTooltipProvider', function ($uibTooltipProvider) {
      var parser = new UAParser();
      var result = parser.getResult();
@@ -33,7 +34,7 @@ angular
      } else {
          $uibTooltipProvider.options({trigger: 'mouseenter'});
     }
-  }])  
+  }])
   .config(['$stateProvider','$urlRouterProvider','$locationProvider','cfpLoadingBarProvider',
         function ($stateProvider,$urlRouterProvider,$locationProvider, cfpLoadingBarProvider) {
 
@@ -94,4 +95,4 @@ angular
 
 }]);
 
-    
+
