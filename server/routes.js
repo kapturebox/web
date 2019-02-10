@@ -15,6 +15,7 @@ module.exports = function(app) {
 
       Object
         .keys(process.env)
+        .filter(e => ['SERVER_ENDPOINT'].includes(e))
         .forEach(e => ret[e] = process.env[e]);
 
       res.status(200).json(ret);

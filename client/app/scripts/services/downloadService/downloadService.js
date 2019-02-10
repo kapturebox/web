@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup, debugMode, configurator ) {
-    var DOWNLOAD_URI = `${configurator.SERVER_ENDPOINT}/api/download`;
+  .factory('downloadService', function( $http, $interval, $filter, $rootScope, popup, debugMode, serverEndpoint ) {
+    var DOWNLOAD_URI = `${serverEndpoint}/api/download`;
 
     var FETCH_DELAY_SLOW = 30 * 1000; // in ms
     var FETCH_DELAY_FAST = 2 * 1000;

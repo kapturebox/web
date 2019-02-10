@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('kaptureApp')
-  .service('searchService', function( $http, $filter, popup, mockSearchResults, configurator ) {
-    var SEARCH_URI = `${configurator.SERVER_ENDPOINT}/api/search`;
+  .service('searchService', function( $http, $filter, popup, mockSearchResults, serverEndpoint ) {
+    var SEARCH_URI = `${serverEndpoint}/api/search`;
+    console.log('using search uri', SEARCH_URI)
 
     if( mockSearchResults ) {
       SEARCH_URI = '/assets/mock/search/black.json';

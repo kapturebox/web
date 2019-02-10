@@ -7,9 +7,9 @@
  * Controller of the Settings page
  */
 angular.module('kaptureApp')
-  .controller('SettingsCtrl', ['$scope', '$http', 'config', function( $scope, $http, configurator ) {
-    var SETTINGS_URI = `${configurator.SERVER_ENDPOINT}/api/settings`;
-    var PLUGINS_URI  = `${configurator.SERVER_ENDPOINT}/api/plugin`;
+  .controller('SettingsCtrl', ['$scope', '$http', 'serverEndpoint', function( $scope, $http, serverEndpoint ) {
+    var SETTINGS_URI = `${serverEndpoint}/api/settings`;
+    var PLUGINS_URI  = `${serverEndpoint}/api/plugin`;
 
     $scope.plugins = [];
     $scope.settings = {};
