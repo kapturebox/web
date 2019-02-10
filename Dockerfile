@@ -5,17 +5,23 @@ ENV NODE_ENV=development
 
 ## build portion that we need to add to multi-stage build
 WORKDIR /build
-COPY . /build
+
 RUN  apt-get update \
   && apt-get install ruby ruby-dev devscripts debhelper build-essential -y \
   && npm install -g grunt-cli bower \
-  && gem install compass \
-  && yarn \
-  && bower install --allow-root \
-  && grunt clean build:dist
+  && gem install compass
 
-CMD ["grunt", "serve"]
-HEALTHCHECK CMD curl -I localhost:9000
+COPY package.json package-lock.json /build/
+RUN  npm install
+
+COPY bower.json .bowerrc /build/
+RUN  bower install --allow-root
+
+COPY . /build
+RUN grunt clean build:dist
+
+CMD ["npm", "run", "serve"]
+HEALTHCHECK CMD curl -I localhost:8080
 
 
 
@@ -29,9 +35,9 @@ COPY --from=build /build/package.json /app
 WORKDIR /app/server
 ENV NODE_ENV=docker
 
-EXPOSE 9000
+EXPOSE 8080
 
-RUN yarn --production
+RUN npm install --production
 
 CMD ["node","app.js"]
-HEALTHCHECK CMD curl -I localhost:9000
+HEALTHCHECK CMD curl -I localhost:8080

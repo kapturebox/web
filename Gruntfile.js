@@ -14,7 +14,8 @@ module.exports = function (grunt) {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     protractor: 'grunt-protractor-runner',
-    buildcontrol: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control',
+    uglify: 'grunt-contrib-uglify-es'
   });
 
   // Time how long tasks take. Can help when optimizing build times
