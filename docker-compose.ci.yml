@@ -1,0 +1,9 @@
+version: '2.3'
+
+services:
+  kapture:
+    build:
+      context: .
+      target: dist
+    environment:
+      SERVER_ENDPOINT: http://web_server_1:9000
