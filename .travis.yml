@@ -19,7 +19,7 @@ before_install:
 
 script:
   # spin up cluster
-  - docker-compose -p web -f docker-compose.yml -f docker-compose.dist.yml up -d --build && sleep 20
+  - docker-compose -p web -f docker-compose.yml -f docker-compose.dist.yml -e SERVER_ENDPOINT=http://server:9000 up -d --build && sleep 20
 
   # some quick checks to see if it's working as intended
   - docker exec web_kapture_1 curl localhost:8080

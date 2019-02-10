@@ -5,7 +5,8 @@ const fs = require('fs');
 
 module.exports = function (grunt) {
   var localConfig = {
-    NODE_ENV: process.env.NODE_ENV || 'development'
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    SERVER_ENDPOINT: process.env.SERVER_ENDPOINT || 'http://localhost:9000'
   };
 
   // Load grunt tasks automatically, when needed
