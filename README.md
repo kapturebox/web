@@ -8,7 +8,7 @@
 [![Build Status](https://travis-ci.org/kapturebox/web.svg?branch=master)](https://travis-ci.org/kapturebox/web)
 [![Docker Build Status](https://img.shields.io/docker/build/kapturebox/web.svg)](https://hub.docker.com/r/kapturebox/web)
 
-## Vagrant 
+## Vagrant
 
 Start up whats intended to be a kapture box, including transmission, plex and the kapture app:
 
@@ -41,7 +41,7 @@ This can be run on your local box for easier developing, however it won't have t
 
 ```bash
 npm install -g grunt-cli bower yarn
-yarn
+npm install
 bower install
 grunt serve
 ```

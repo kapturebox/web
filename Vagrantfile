@@ -51,8 +51,8 @@ Vagrant.configure(2) do |config|
     /usr/local/bin/kapture-setup -e systemname=kapture-vagrant
 
     # get code deps setup, and install kapture package locally
-    npm install -g --upgrade grunt-cli npm bower yarn
-    su ubuntu -c 'cd /vagrant && yarn && bower install'
+    npm install -g --upgrade grunt-cli npm bower
+    su ubuntu -c 'cd /vagrant && npm install && bower install'
   SHELL
 
 

@@ -34,12 +34,6 @@ angular
          $uibTooltipProvider.options({trigger: 'mouseenter'});
     }
   }])
-  .config(['$http', ($http) => {
-    $http.get('/config')
-      .then(config => {
-        Object.keys(config).forEach(e => app.constant(e, config[e]))
-      })
-  }])
   .config(['$stateProvider','$urlRouterProvider','$locationProvider','cfpLoadingBarProvider',
         function ($stateProvider,$urlRouterProvider,$locationProvider, cfpLoadingBarProvider) {
 
@@ -98,6 +92,22 @@ angular
         url:'/login'
       })
 
-}]);
+  }])
+  .provider('configurator', function() {
+    const self = this;
+
+    $.get('/config')
+      .then(config => {
+        Object.keys(config).forEach(e => {
+          self[e] = config[e];
+        })
+      })
+
+    this.$get = function () {
+      return this;
+    };
+
+  })
+;
 
 
