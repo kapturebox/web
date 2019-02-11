@@ -8,15 +8,18 @@ var errors = require('./components/errors');
 var path = require('path');
 
 module.exports = function(app) {
+  // config endpoint to allow for setting of vars via environment
+  app.route('/config')
+    .get((req, res) => {
+      var ret = {};
 
-  // Insert routes below
-  app.use('/api/remote',   require('./api/remote'));
-  app.use('/api/plugin',   require('./api/plugin'));
-  app.use('/api/ansible',  require('./api/ansible'));
-  app.use('/api/series',   require('./api/series'));
-  app.use('/api/download', require('./api/download'));
-  app.use('/api/search',   require('./api/search'));
-  app.use('/api/settings', require('./api/settings'));
+      Object
+        .keys(process.env)
+        .filter(e => ['SERVER_ENDPOINT'].includes(e))
+        .forEach(e => ret[e] = process.env[e]);
+
+      res.status(200).json(ret);
+    })
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')

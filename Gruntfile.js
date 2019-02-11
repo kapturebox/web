@@ -4,8 +4,9 @@
 const fs = require('fs');
 
 module.exports = function (grunt) {
-  var localConfig = { 
-    NODE_ENV: process.env.NODE_ENV || 'development' 
+  var localConfig = {
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    SERVER_ENDPOINT: process.env.SERVER_ENDPOINT || 'http://localhost:9000'
   };
 
   // Load grunt tasks automatically, when needed
@@ -14,7 +15,8 @@ module.exports = function (grunt) {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     protractor: 'grunt-protractor-runner',
-    buildcontrol: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control',
+    uglify: 'grunt-contrib-uglify-es'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -32,7 +34,7 @@ module.exports = function (grunt) {
     },
     express: {
       options: {
-        port: process.env.PORT || 9000
+        port: process.env.PORT || 8080
       },
       dev: {
         options: {
@@ -655,12 +657,12 @@ module.exports = function (grunt) {
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run([
-        'build', 
-        'env:all', 
-        'env:prod', 
-        'express:prod', 
-        'wait', 
-        'open', 
+        'build',
+        'env:all',
+        'env:prod',
+        'express:prod',
+        'wait',
+        'open',
         'express-keepalive'
       ]);
     }
@@ -714,7 +716,7 @@ module.exports = function (grunt) {
   grunt.registerTask('e2e', function(target) {
     return grunt.task.run([
       // 'shell:dockerCompose',
-      'protractor'    
+      'protractor'
     ]);
   });
 

@@ -27,17 +27,18 @@ HEALTHCHECK CMD curl -I localhost:8080
 
 # DIST IMAGE
 # FROM partlab/ubuntu-arm-nodejs  # (for arm systems)
-FROM node AS dist
+FROM balenalib/raspberry-pi-alpine-node AS dist
 
 COPY --from=build /build/dist /app
-COPY --from=build /build/package.json /app
 
 WORKDIR /app/server
 ENV NODE_ENV=docker
 
 EXPOSE 8080
 
+RUN [ "cross-build-start" ]
 RUN npm install --production
+RUN [ "cross-build-end" ]
 
 CMD ["node","app.js"]
 HEALTHCHECK CMD curl -I localhost:8080

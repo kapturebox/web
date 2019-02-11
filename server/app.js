@@ -16,7 +16,6 @@ var app = express();
 var server = require('http').createServer( app );
 
 require('./config/express')( app );
-require('./makedirs')(config);
 
 // Start server
 server.listen(config.port, config.ip, function () {

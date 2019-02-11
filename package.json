@@ -1,14 +1,14 @@
 {
   "name": "kapture",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "main": "server/app.js",
   "scripts": {
-    "start": "node server/app.js",
+    "start": "SERVER_ENDPOINT=http://localhost:9000 node server/app.js",
     "test": "npm run e2e",
     "e2e": "grunt e2e",
     "e2e-setup": "node_modules/.bin/webdriver-manager update",
     "protractor": "node_modules/protractor/bin/protractor",
-    "serve": "grunt serve"
+    "serve": "NODE_ENV=development grunt serve"
   },
   "dependencies": {
     "asap": "^2.0.6",
@@ -26,7 +26,6 @@
     "express-winston": "^2.4.0",
     "lodash": "^4.17.4",
     "method-override": "^2.3.9",
-    "ngrok": "^2.2.15",
     "node-persist": "^2.1.0",
     "request": "^2.81.0",
     "sanitize-filename": "^1.6.1",
@@ -37,7 +36,6 @@
     "xmldom": "^0.1.27",
     "xpath": "^0.0.24",
     "yamljs": "^0.3.0",
-    "youtube-dl": "^1.11.1",
     "youtube-sdk": "^0.2.0",
     "youtube-search": "^1.0.10"
   },
@@ -58,7 +56,7 @@
     "grunt-contrib-imagemin": "^2.0.1",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-uglify": "https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-debian-package": "^0.1.13",
     "grunt-dock": "^1.1.5",
@@ -92,7 +90,6 @@
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "karma-ng-jade2js-preprocessor": "^0.2.1",
     "karma-ng-scenario": "^1.0.0",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-requirejs": "^1.1.0",
     "karma-script-launcher": "^1.0.0",
     "mocha": "^4.1.0",

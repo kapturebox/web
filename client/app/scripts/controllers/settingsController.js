@@ -7,9 +7,9 @@
  * Controller of the Settings page
  */
 angular.module('kaptureApp')
-  .controller('SettingsCtrl', ['$scope', '$http', '$log', function( $scope, $http, $log ) {
-    var SETTINGS_URI = '/api/settings';
-    var PLUGINS_URI  = '/api/plugin';
+  .controller('SettingsCtrl', ['$scope', '$http', 'serverEndpoint', function( $scope, $http, serverEndpoint ) {
+    var SETTINGS_URI = `${serverEndpoint}/api/settings`;
+    var PLUGINS_URI  = `${serverEndpoint}/api/plugin`;
 
     $scope.plugins = [];
     $scope.settings = {};
@@ -30,7 +30,7 @@ angular.module('kaptureApp')
         return resp.data;
       })
     }
-    
+
     function getSettingState() {
       return $http({
         method: 'GET',
@@ -48,7 +48,7 @@ angular.module('kaptureApp')
       }).then(function( resp ) {
         $scope.plugins = resp.data;
         return resp.data;
-      });        
+      });
     }
 
     // init
