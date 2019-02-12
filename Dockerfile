@@ -7,7 +7,7 @@ ENV NODE_ENV=development
 WORKDIR /build
 
 RUN  apt-get update \
-  && apt-get install ruby ruby-dev devscripts debhelper build-essential -y \
+  && apt-get install ruby ruby-dev devscripts debhelper build-essential curl -y \
   && npm install -g grunt-cli bower \
   && gem install compass
 
@@ -21,7 +21,8 @@ COPY . /build
 RUN grunt clean build:dist
 
 CMD ["npm", "run", "serve"]
-HEALTHCHECK CMD curl -I localhost:8080
+HEALTHCHECK --start-period=5s \
+        CMD curl -I localhost:8080
 
 
 
@@ -37,7 +38,9 @@ ENV NODE_ENV=docker
 
 EXPOSE 8080
 
+RUN apt-get update && apt-get install curl -y
 RUN npm install --production
 
 CMD ["node","app.js"]
-HEALTHCHECK CMD curl -I localhost:8080
+HEALTHCHECK --start-period=5s \
+        CMD curl -I localhost:8080

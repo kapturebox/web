@@ -21,7 +21,8 @@ COPY . /build
 RUN grunt clean build:dist
 
 CMD ["npm", "run", "serve"]
-HEALTHCHECK CMD curl -I localhost:8080
+HEALTHCHECK --start-period=5s \
+        CMD curl -I localhost:8080
 
 
 
@@ -43,4 +44,5 @@ RUN npm install --production
 RUN [ "cross-build-end" ]
 
 CMD ["node","app.js"]
-HEALTHCHECK CMD curl -I localhost:8080
+HEALTHCHECK --start-period=5s \
+        CMD curl -I localhost:8080
