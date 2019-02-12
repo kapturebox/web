@@ -7,7 +7,7 @@ ENV NODE_ENV=development
 WORKDIR /build
 
 RUN  apt-get update \
-  && apt-get install ruby ruby-dev devscripts debhelper build-essential -y \
+  && apt-get install ruby ruby-dev devscripts debhelper build-essential curl -y \
   && npm install -g grunt-cli bower \
   && gem install compass
 
@@ -35,6 +35,8 @@ WORKDIR /app/server
 ENV NODE_ENV=docker
 
 EXPOSE 8080
+
+RUN apk update && apk add curl
 
 RUN [ "cross-build-start" ]
 RUN npm install --production
