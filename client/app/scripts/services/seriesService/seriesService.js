@@ -2,7 +2,7 @@
 
 angular.module('kaptureApp')
   .factory('seriesService', function( $http, $filter, serverEndpoint ) {
-    var SERIES_URI = `${serverEndpointT}/api/series`;
+    var SERIES_URI = `${serverEndpoint}/api/series`;
 
     // current state of world
     var svc = {
