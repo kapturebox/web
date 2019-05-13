@@ -6,7 +6,6 @@
 # Quickstart
 
 [![Build Status](https://travis-ci.org/kapturebox/web.svg?branch=master)](https://travis-ci.org/kapturebox/web)
-[![Docker Build Status](https://img.shields.io/docker/build/kapturebox/web.svg)](https://hub.docker.com/r/kapturebox/web)
 
 
 ## Docker-compose
