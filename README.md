@@ -8,17 +8,6 @@
 [![Build Status](https://travis-ci.org/kapturebox/web.svg?branch=master)](https://travis-ci.org/kapturebox/web)
 [![Docker Build Status](https://img.shields.io/docker/build/kapturebox/web.svg)](https://hub.docker.com/r/kapturebox/web)
 
-## Vagrant
-
-Start up whats intended to be a kapture box, including transmission, plex and the kapture app:
-
-```
-vagrant up
-```
-
-Will start up a new xenial instance locally, set up the machine, and then clean and build the npm project located in /vagrant
-
-You can connect to the **packaged** instance that is in the apt repo on http://kapture-vagrant.local/
 
 ## Docker-compose
 
@@ -30,6 +19,18 @@ docker-compose up -d
 
 This will spin up the kapture service running on port `:9000` wherever your docker environment lives (usually [http://localhost:9000](http://localhost:9000))
 
+
+## Vagrant (deprecated)
+
+Start up whats intended to be a kapture box, including transmission, plex and the kapture app:
+
+```
+vagrant up
+```
+
+Will start up a new xenial instance locally, set up the machine, and then clean and build the npm project located in /vagrant
+
+You can connect to the **packaged** instance that is in the apt repo on http://kapture-vagrant.local/
 
 
 
